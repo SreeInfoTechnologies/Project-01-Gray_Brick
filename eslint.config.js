@@ -7,8 +7,19 @@ import react from 'eslint-plugin-react'
 
 export default [
   { ignores: ['dist', 'node_modules'] },
+  // Build tooling runs in Node, not the browser.
+  {
+    files: ['vite.config.js', 'eslint.config.js', 'scripts/**/*.{js,mjs}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.node,
+    },
+    rules: { ...js.configs.recommended.rules },
+  },
   {
     files: ['**/*.{js,jsx}'],
+    ignores: ['vite.config.js', 'eslint.config.js', 'scripts/**'],
     languageOptions: {
       ecmaVersion: 'latest',
       globals: globals.browser,

@@ -300,16 +300,58 @@ stops sticking. The corridor band is deliberately un-clipped for that reason.
 
 ## Deployment
 
-The app is a client-rendered SPA, so the host **must** rewrite unknown paths to `index.html`.
-Without that, a hard refresh on `/warehouses/nelamangala-logistics-park` returns a 404 from the
-server instead of the facility page.
+Pushing to `main` builds and publishes to GitHub Pages via
+`.github/workflows/deploy.yml`. Pull requests run the same lint, build and
+verify steps without deploying.
 
-- **Netlify**: `/* /index.html 200` in `_redirects`
-- **Vercel**: `{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }`
-- **Nginx**: `try_files $uri $uri/ /index.html;`
-- **Apache**: `FallbackResource /index.html`
+**Live:** https://sreeinfotechnologies.github.io/Project-01-Gray_Brick/
 
-Hashed assets under `/assets/` are safe to cache immutably; `index.html` should not be.
+```
+npm run ci        # exactly what the workflow runs
+npm run verify:build
+```
+
+### Why this needs more than "upload dist"
+
+The app is a client-rendered SPA served from a project sub-path, and Pages has
+no rewrite rules. Three things follow from that, all handled in
+`vite.config.js`:
+
+| Problem | Handling |
+| --- | --- |
+| Assets resolve against the domain root | `base` comes from `VITE_BASE_PATH`; CI derives it from the repo name |
+| Router thinks it is at the root | `BrowserRouter basename` reads `import.meta.env.BASE_URL` |
+| A refresh on `/warehouses/<slug>` has no file behind it | A real `index.html` is emitted per route, so Pages returns **200** |
+
+The last one is the one that matters. The usual fix is a `404.html` copy of
+`index.html`: the SPA boots and renders the right route, but Pages serves it
+with a **404 status**, which is a poor trade for a site carrying per-page
+canonicals and structured data. So every route the router serves gets its own
+file and a 200, and `404.html` is kept for what it actually means, a path that
+does not exist. Facility routes are enumerated from `warehouses.js`, so adding
+a facility adds its page automatically.
+
+`.nojekyll` ships in `public/` because Pages otherwise runs Jekyll over the
+output and strips paths it treats as private.
+
+### Moving off Pages
+
+Set `VITE_BASE_PATH=/` and point the host at `dist/`. On a host with rewrites
+the per-route files are harmless, but you can also just send unknown paths to
+`index.html`:
+
+- **Netlify** — `/* /index.html 200` in `_redirects`
+- **Vercel** — `{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }`
+- **Nginx** — `try_files $uri $uri/ /index.html;`
+- **Apache** — `FallbackResource /index.html`
+
+Hashed assets under `/assets/` are safe to cache immutably; the HTML is not.
+
+### One caveat of a project sub-path
+
+`robots.txt` is served from `/Project-01-Gray_Brick/robots.txt`, but crawlers
+only look at the domain root, which belongs to the organisation account. A
+custom domain fixes this properly and is worth doing before any real SEO push.
 
 ## Architecture
 

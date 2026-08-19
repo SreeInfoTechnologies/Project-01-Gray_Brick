@@ -8,9 +8,13 @@ import './styles/globals.scss'
 
 import App from './App.jsx'
 
+// Vite injects the deploy base here. On GitHub Pages this is `/<repo>/`; on a
+// custom domain it is `/`. React Router wants it without the trailing slash.
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </StrictMode>,
