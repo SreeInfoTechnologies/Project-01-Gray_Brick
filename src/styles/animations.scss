@@ -1,0 +1,251 @@
+@use 'variables' as *;
+
+// ---------------------------------------------------------------------------
+// Motion system.
+//
+// Two rules govern everything here:
+//
+//  1. Reduced motion wins. Every animated state is defined so that with
+//     `prefers-reduced-motion: reduce` the element renders in its FINAL state.
+//     No content can be stranded behind an animation that never plays.
+//
+//  2. Never animate the observed element into nothing. IntersectionObserver
+//     accounts for an element's own clip-path and transform, so an element
+//     scaled or clipped to zero can never report as intersecting and would stay
+//     hidden forever. Anything that collapses to zero is applied to a CHILD.
+// ---------------------------------------------------------------------------
+
+@layer components {
+  .gb-reveal {
+    opacity: 1;
+  }
+
+  @include motion-safe {
+    .gb-reveal {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition:
+        opacity $dur-slow $ease,
+        transform $dur-slow $ease;
+      will-change: opacity, transform;
+    }
+
+    .gb-reveal--fade { transform: none; }
+    .gb-reveal--left { transform: translate3d(-28px, 0, 0); }
+    .gb-reveal--right { transform: translate3d(28px, 0, 0); }
+    .gb-reveal--rise { transform: translate3d(0, 42px, 0); }
+
+    // Settles in from very slightly oversized, used on panels and cards.
+    .gb-reveal--scale {
+      transform: translate3d(0, 18px, 0) scale(0.975);
+    }
+
+    // Architectural wipe. Clip lives on the child (see rule 2).
+    .gb-reveal--clip {
+      opacity: 1;
+      transform: none;
+    }
+
+    .gb-reveal--clip > * {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 1000ms $ease;
+    }
+
+    .gb-reveal--clip.is-visible > * {
+      clip-path: inset(0 0 0 0);
+    }
+
+    // Curtain from the left, for editorial images.
+    .gb-reveal--wipe {
+      opacity: 1;
+      transform: none;
+    }
+
+    .gb-reveal--wipe > * {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1100ms $ease;
+    }
+
+    .gb-reveal--wipe.is-visible > * {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .gb-reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
+
+    .gb-stagger > .gb-reveal {
+      @for $i from 1 through 12 {
+        &:nth-child(#{$i}) { transition-delay: #{($i - 1) * 80}ms; }
+      }
+    }
+
+    @for $i from 1 through 8 {
+      .gb-delay-#{$i} { transition-delay: #{$i * 90}ms; }
+    }
+  }
+
+  // -- Word-by-word reveal --------------------------------------------------
+  .gb-words__word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.06em;
+  }
+
+  .gb-words__word > span {
+    display: inline-block;
+  }
+
+  @include motion-safe {
+    .gb-words__word > span {
+      transform: translate3d(0, 110%, 0);
+      opacity: 0;
+      transition:
+        transform 900ms $ease,
+        opacity 700ms $ease;
+    }
+
+    .gb-words.is-visible .gb-words__word > span {
+      transform: none;
+      opacity: 1;
+    }
+
+    .gb-words .gb-words__word {
+      @for $i from 1 through 16 {
+        &:nth-of-type(#{$i}) > span { transition-delay: #{($i - 1) * 55}ms; }
+      }
+    }
+  }
+
+  // -- Gold rule that draws itself -----------------------------------------
+  .gb-rule {
+    display: block;
+    overflow: hidden;
+  }
+
+  .gb-rule > span {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: var(--color-gb-gold);
+    transform-origin: left center;
+  }
+
+  @include motion-safe {
+    .gb-rule > span {
+      transform: scaleX(0);
+      transition: transform 900ms $ease;
+    }
+
+    .gb-rule.is-visible > span { transform: scaleX(1); }
+  }
+
+  // -- Hero media ------------------------------------------------------------
+  @include motion-safe {
+    .gb-kenburns {
+      animation: gb-settle 2000ms $ease both;
+    }
+  }
+
+  // While the splash in index.html is up, the page behind it has already
+  // rendered. Hold the entrance animations at their first frame and release
+  // them when the loader lifts, otherwise they play to an empty room and the
+  // hero is just sitting there when the splash clears.
+  html.gbl-loading .gb-intro > *,
+  html.gbl-loading .gb-page {
+    animation-play-state: paused;
+  }
+
+  // One-time entrance for above-the-fold content. Triggered by page load, not
+  // by scrolling. It plays once when the page arrives and never again.
+  @include motion-safe {
+    .gb-intro > * {
+      animation: gb-intro 850ms $ease both;
+    }
+
+    @for $i from 1 through 8 {
+      .gb-intro > *:nth-child(#{$i}) {
+        animation-delay: #{60 + ($i - 1) * 85}ms;
+      }
+    }
+  }
+
+  // Parallax offset is written to --gb-py by useParallax; keeping the transform
+  // in CSS means the JS only ever touches a custom property.
+  .gb-parallax {
+    transform: translate3d(0, var(--gb-py, 0px), 0);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-parallax { transform: none; }
+  }
+
+  // -- Scroll progress -------------------------------------------------------
+  .gb-progress {
+    transform: scaleX(var(--gb-progress, 0));
+    transform-origin: left center;
+  }
+
+  // -- Page entrance ---------------------------------------------------------
+  @include motion-safe {
+    .gb-page { animation: gb-page-in 460ms $ease both; }
+  }
+
+  // -- Utility animations ----------------------------------------------------
+  .gb-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.06) 40%,
+      rgb(255 255 255 / 0.06) 55%,
+      transparent 75%
+    );
+    background-size: 220% 100%;
+    background-repeat: no-repeat;
+  }
+
+  @include motion-safe {
+    .gb-shimmer { animation: gb-shimmer 1500ms linear infinite; }
+  }
+
+  .gb-spin { animation: gb-spin 700ms linear infinite; }
+}
+
+@keyframes gb-settle {
+  from { transform: scale(1.1); }
+  to { transform: scale(1); }
+}
+
+@keyframes gb-intro {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gb-page-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes gb-shimmer {
+  from { background-position: 180% 0; }
+  to { background-position: -80% 0; }
+}
+
+@keyframes gb-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gb-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

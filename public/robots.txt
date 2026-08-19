@@ -1,0 +1,6 @@
+# Gray Brick Infra Pvt. Ltd.
+User-agent: *
+Allow: /
+
+# Add an absolute Sitemap line here once the production domain is confirmed:
+# Sitemap: https://your-domain.example/sitemap.xml

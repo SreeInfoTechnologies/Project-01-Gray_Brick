@@ -1,0 +1,113 @@
+@use '../variables' as *;
+
+// Stacking and fixed-position concerns live here so the z-index scale in
+// variables.scss stays the only place these numbers are written down.
+@layer components {
+  .gb-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: $z-header;
+  }
+
+  .gb-header__inner {
+    height: $header-height;
+
+    @include from(lg) {
+      height: $header-height-lg;
+    }
+  }
+
+  .gb-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: $z-overlay;
+  }
+
+  @include motion-safe {
+    .gb-overlay {
+      animation: gb-fade-in $dur $ease both;
+    }
+  }
+
+  // The drawer stays mounted so it can animate in both directions.
+  //
+  // `visibility` is deliberately handled here rather than with utility classes:
+  // opening must flip it to `visible` immediately (otherwise the focus trap
+  // calls .focus() on a still-hidden element and focus never enters the
+  // drawer), while closing must hold `visible` until the slide-out finishes.
+  // That asymmetry needs a per-property delay, which utilities cannot express.
+  .gb-drawer {
+    position: fixed;
+    inset-block: 0;
+    right: 0;
+    z-index: $z-drawer;
+    visibility: hidden;
+    transform: translate3d(100%, 0, 0);
+    transition:
+      transform $dur $ease,
+      visibility 0s linear $dur;
+  }
+
+  .gb-drawer[data-open='true'] {
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition:
+      transform $dur $ease,
+      visibility 0s linear 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-drawer {
+      transition: visibility 0s;
+    }
+  }
+
+}
+
+@layer components {
+  // Social buttons fill with gold from the bottom on hover; the icon flips to
+  // graphite so the mark stays legible against it.
+  .gb-social::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--color-gb-gold);
+    transform: translateY(101%);
+    transition: transform $dur $ease;
+  }
+
+  .gb-social:hover::before,
+  .gb-social:focus-visible::before {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-social::before {
+      transition: none;
+    }
+  }
+}
+
+@layer components {
+  // Accordion panels animate on grid-template-rows, so the open height is the
+  // content's natural height with no JS measurement and no inline styles.
+  .gb-acc__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 420ms $ease;
+  }
+
+  .gb-acc__panel > div {
+    overflow: hidden;
+  }
+
+  .gb-acc[data-open='true'] .gb-acc__panel {
+    grid-template-rows: 1fr;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-acc__panel { transition: none; }
+  }
+}

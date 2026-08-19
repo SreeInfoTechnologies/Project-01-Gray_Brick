@@ -1,0 +1,116 @@
+@use '../variables' as *;
+
+@layer components {
+  // Buttons fill from the bottom edge on hover rather than swapping colour.
+  // The fill sits behind the label via a stacking context on the button itself.
+  .gb-btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .gb-btn > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .gb-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transform: translateY(101%);
+    transition: transform $dur $ease;
+  }
+
+  .gb-btn:hover::before,
+  .gb-btn:focus-visible::before {
+    transform: translateY(0);
+  }
+
+  .gb-btn--gold::before { background-color: var(--color-gb-gold); }
+  .gb-btn--dark::before { background-color: var(--color-gb-graphite); }
+  .gb-btn--light::before { background-color: var(--color-gb-white); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-btn::before { transition: none; }
+  }
+
+  // Quiet arrow links get an underline that draws from the left instead.
+  .gb-textlink {
+    position: relative;
+  }
+
+  .gb-textlink::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.3rem;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform $dur $ease;
+  }
+
+  .gb-textlink:hover::after,
+  .gb-textlink:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+@layer components {
+  // Circular arrow pill on cards: gold sweeps up behind the arrow on hover.
+  .gb-arrow-pill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--color-gb-gold);
+    transform: translateY(101%);
+    transition: transform $dur $ease;
+  }
+
+  .group:hover .gb-arrow-pill::before,
+  .group:focus-visible .gb-arrow-pill::before {
+    transform: translateY(0);
+  }
+
+  // Corner ticks that appear on hover, echoing a drawing's crop marks.
+  .gb-ticks-hover::before,
+  .gb-ticks-hover::after {
+    content: '';
+    position: absolute;
+    width: 0.75rem;
+    height: 0.75rem;
+    pointer-events: none;
+    border-color: var(--color-gb-gold);
+    opacity: 0;
+    transition: opacity $dur $ease;
+  }
+
+  .gb-ticks-hover::before {
+    top: 0.625rem;
+    left: 0.625rem;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+
+  .gb-ticks-hover::after {
+    right: 0.625rem;
+    bottom: 0.625rem;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+  }
+
+  .group:hover .gb-ticks-hover::before,
+  .group:hover .gb-ticks-hover::after {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-arrow-pill::before { transition: none; }
+  }
+}

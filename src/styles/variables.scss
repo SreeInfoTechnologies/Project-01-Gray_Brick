@@ -1,0 +1,59 @@
+// ---------------------------------------------------------------------------
+// SCSS-only project constants.
+//
+// Colours are NOT duplicated here. They live in styles/tailwind.css as
+// @theme tokens and are read from SCSS as var(--color-gb-*). This file holds
+// the things Tailwind has no opinion about: stacking order, layout constants
+// and breakpoint helpers.
+// ---------------------------------------------------------------------------
+
+@use 'sass:map';
+
+// Stacking order. Every fixed/absolute element in the app pulls from here so
+// we never end up with a z-index: 9999 arms race.
+$z-base: 1;
+$z-raised: 10;
+$z-sticky: 40;
+$z-header: 60;
+$z-overlay: 70;
+$z-drawer: 80;
+$z-skip-link: 100;
+
+// Layout
+$header-height: 4.5rem; // 72px on mobile
+$header-height-lg: 5.5rem; // 88px on desktop
+
+// Motion
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+$dur-fast: 160ms;
+$dur: 280ms;
+$dur-slow: 620ms;
+
+// Breakpoints: mirror Tailwind's defaults so SCSS and utilities agree.
+$bp: (
+  sm: 40rem,
+  md: 48rem,
+  lg: 64rem,
+  xl: 80rem,
+  '2xl': 96rem,
+);
+
+@mixin from($name) {
+  @media (min-width: map.get($bp, $name)) {
+    @content;
+  }
+}
+
+@mixin to($name) {
+  @media (max-width: calc(#{map.get($bp, $name)} - 0.0625rem)) {
+    @content;
+  }
+}
+
+// Honour the user's motion preference in one place.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}

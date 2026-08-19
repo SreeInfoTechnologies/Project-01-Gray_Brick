@@ -1,0 +1,261 @@
+@use 'variables' as *;
+@use 'animations';
+@use 'components/layout';
+@use 'components/buttons';
+
+// ---------------------------------------------------------------------------
+// Global base + shared architectural detailing.
+// Everything is wrapped in @layer so Tailwind utilities applied in JSX always
+// win over these defaults, which is what a utility-first codebase expects.
+// ---------------------------------------------------------------------------
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    // Reserve the scrollbar gutter permanently: locking body scroll for the
+    // mobile drawer then no longer shifts the layout.
+    scrollbar-gutter: stable;
+    scroll-padding-top: calc(#{$header-height} + 1.5rem);
+
+    @include from(lg) {
+      scroll-padding-top: calc(#{$header-height-lg} + 2rem);
+    }
+  }
+
+  @include motion-safe {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-gb-white);
+    color: var(--color-gb-graphite);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    // `clip` rather than `hidden` so position: sticky keeps working.
+    overflow-x: clip;
+  }
+
+  body.gb-scroll-locked {
+    overflow: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gb-gold);
+    outline-offset: 3px;
+    border-radius: var(--radius-gb-xs);
+  }
+
+  ::selection {
+    background-color: var(--color-gb-gold);
+    color: var(--color-gb-graphite);
+  }
+
+  // Native controls inherit the brand rather than the OS.
+  :root {
+    accent-color: var(--color-gb-gold);
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  // -- Skip link ------------------------------------------------------------
+  .gb-skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: $z-skip-link;
+    transform: translateY(-200%);
+    padding: 0.75rem 1.25rem;
+    background-color: var(--color-gb-graphite);
+    color: var(--color-gb-white);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-gb-gold);
+    border-radius: var(--radius-gb-sm);
+    transition: transform $dur $ease;
+
+    &:focus-visible {
+      transform: translateY(0);
+    }
+  }
+
+  // -- Surface textures -----------------------------------------------------
+  // Fine photographic grain. Keeps large dark areas from banding and gives the
+  // hero the "printed" feel of architectural photography.
+  .gb-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.32;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  // Blueprint-style vertical rules. Deliberately faint: structure, not decor.
+  .gb-gridlines {
+    position: relative;
+  }
+
+  .gb-gridlines::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(
+      to right,
+      var(--color-gb-line-dark) 0 1px,
+      transparent 1px 100%
+    );
+    background-size: 25% 100%;
+  }
+
+  // Top-to-bottom legibility scrim for text sitting over photography.
+  .gb-scrim::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      // Top band: the fixed header sits on this, so it is never optional.
+      linear-gradient(to bottom, rgb(9 9 9 / 0.78) 0%, rgb(9 9 9 / 0.42) 12%, transparent 26%),
+      linear-gradient(
+        to right,
+        rgb(9 9 9 / 0.82) 0%,
+        rgb(9 9 9 / 0.6) 40%,
+        rgb(9 9 9 / 0.22) 74%,
+        rgb(9 9 9 / 0.3) 100%
+      ),
+      linear-gradient(to top, rgb(9 9 9 / 0.62) 0%, transparent 48%);
+  }
+
+  .gb-scrim--even::before {
+    background:
+      linear-gradient(to bottom, rgb(9 9 9 / 0.8) 0%, rgb(9 9 9 / 0.44) 12%, transparent 26%),
+      linear-gradient(to top, rgb(9 9 9 / 0.86) 0%, rgb(9 9 9 / 0.5) 46%, rgb(9 9 9 / 0.34) 100%);
+  }
+
+  // Lighter veil for sections where a solid panel already carries the content,
+  // so the photograph behind it stays readable instead of going to mud.
+  .gb-scrim--soft::before {
+    background:
+      linear-gradient(to bottom, rgb(9 9 9 / 0.84) 0%, rgb(9 9 9 / 0.46) 12%, rgb(9 9 9 / 0.22) 26%),
+      // Weighted toward the text side so the copy stays legible while the
+      // photograph is still readable on the open side of the frame.
+      linear-gradient(to right, rgb(9 9 9 / 0.7) 0%, rgb(9 9 9 / 0.52) 48%, rgb(9 9 9 / 0.3) 100%);
+  }
+
+  // -- Editorial helpers ----------------------------------------------------
+  .gb-measure {
+    max-width: 62ch;
+  }
+
+  .gb-measure-tight {
+    max-width: 48ch;
+  }
+
+  // Corner ticks: architectural drawing detail used on key panels.
+  .gb-ticks {
+    position: relative;
+  }
+
+  .gb-ticks::before,
+  .gb-ticks::after {
+    content: '';
+    position: absolute;
+    width: 0.875rem;
+    height: 0.875rem;
+    pointer-events: none;
+    border-color: var(--color-gb-gold);
+  }
+
+  .gb-ticks::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+
+  .gb-ticks::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  // -- Link + arrow micro-interactions --------------------------------------
+  .gb-underline {
+    position: relative;
+  }
+
+  .gb-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.375rem;
+    height: 1px;
+    background-color: var(--color-gb-gold);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform $dur $ease;
+  }
+
+  .gb-underline:hover::after,
+  .gb-underline:focus-visible::after,
+  .gb-underline[data-active='true']::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .gb-arrow {
+    display: inline-block;
+    transition: transform $dur $ease;
+  }
+
+  .group:hover .gb-arrow,
+  .gb-arrow-host:hover .gb-arrow,
+  .gb-arrow-host:focus-visible .gb-arrow {
+    transform: translateX(0.28rem);
+  }
+
+  // -- Card image zoom ------------------------------------------------------
+  .gb-zoom {
+    transition: transform 900ms $ease;
+  }
+
+  .group:hover .gb-zoom {
+    transform: scale(1.055);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-zoom,
+    .group:hover .gb-zoom {
+      transform: none;
+    }
+  }
+}

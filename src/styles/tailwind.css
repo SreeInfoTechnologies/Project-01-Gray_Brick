@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   GRAY BRICK DESIGN TOKENS
+   Single source of truth. Tailwind generates utilities from these, and SCSS
+   consumes the same custom properties via var(--color-gb-*), so there is
+   never a second, drifting copy of the palette.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Neutrals: the 85% of the page */
+  --color-gb-graphite: #111111;
+  --color-gb-charcoal: #181818;
+  --color-gb-dark: #292929;
+  --color-gb-industrial: #4d4d4d;
+  --color-gb-concrete: #6d6c6c;
+  /* Tertiary text on dark surfaces, because gb-concrete only reaches 3.6:1 on
+     graphite; this clears 4.5:1 on graphite, charcoal and dark alike. */
+  --color-gb-concrete-light: #909090;
+  --color-gb-silver: #b5b5b5;
+  --color-gb-silver-light: #d5d5d5;
+  --color-gb-white: #f7f7f5;
+  --color-gb-pure: #ffffff;
+
+  /* Brand gold: accent only, ~5% of surface area */
+  --color-gb-gold: #b19260;
+  --color-gb-gold-light: #c5a56f;
+  --color-gb-gold-dark: #80683f;
+  --color-gb-gold-soft: #d5bc91;
+
+  /* Hairlines: the architectural grid detailing */
+  --color-gb-line-dark: rgb(255 255 255 / 0.12);
+  --color-gb-line-dark-strong: rgb(255 255 255 / 0.22);
+  --color-gb-line-light: rgb(17 17 17 / 0.12);
+  --color-gb-line-light-strong: rgb(17 17 17 / 0.24);
+
+  /* Feedback: brick red, dark enough to clear 4.5:1 on both light surfaces */
+  --color-gb-error: #b04a36;
+
+  /* Type */
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Fluid display sizes: scale from 320px to 1920px without a single overflow */
+  --text-display-xl: clamp(2.5rem, 1.3rem + 4.4vw, 5rem);
+  --text-display-xl--line-height: 0.96;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-xl--font-weight: 700;
+
+  --text-display: clamp(2rem, 1.15rem + 3.4vw, 3.75rem);
+  --text-display--line-height: 1.03;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 700;
+
+  --text-display-sm: clamp(1.625rem, 1.15rem + 1.9vw, 2.5rem);
+  --text-display-sm--line-height: 1.1;
+  --text-display-sm--letter-spacing: -0.022em;
+  --text-display-sm--font-weight: 700;
+
+  --text-lead: clamp(1rem, 0.94rem + 0.28vw, 1.1875rem);
+  --text-lead--line-height: 1.65;
+
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.18em;
+  --text-eyebrow--font-weight: 600;
+
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0.09em;
+  --text-meta--font-weight: 500;
+
+  /* Radius: architectural, never pill-shaped */
+  --radius-gb-xs: 1px;
+  --radius-gb-sm: 2px;
+  --radius-gb: 3px;
+  --radius-gb-lg: 6px;
+
+  /* Restrained elevation */
+  --shadow-gb-card: 0 1px 2px rgb(17 17 17 / 0.05), 0 8px 24px -14px rgb(17 17 17 / 0.22);
+  --shadow-gb-lift: 0 2px 4px rgb(17 17 17 / 0.06), 0 22px 48px -22px rgb(17 17 17 / 0.34);
+  --shadow-gb-panel: 0 30px 70px -40px rgb(0 0 0 / 0.75);
+
+  /* Motion */
+  --ease-gb: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-gb-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Extra breakpoint so 1920px+ screens get a wider, still-controlled measure */
+  --breakpoint-3xl: 1800px;
+}
+
+/* Utility-layer helpers that are genuinely reusable across pages. */
+@utility gb-hairline-x {
+  border-inline-start: 1px solid var(--color-gb-line-dark);
+}

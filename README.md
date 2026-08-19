@@ -1,0 +1,370 @@
+# Gray Brick Infra: Corporate Website
+
+Production frontend for **Gray Brick Infra Pvt. Ltd.** Ready-to-move and built-to-suit
+warehousing, fulfillment centers, distribution centers and end-to-end supply chain support.
+
+---
+
+## Stack
+
+| Concern    | Choice                                                        |
+| ---------- | ------------------------------------------------------------- |
+| Framework  | React 19 (JavaScript, no TypeScript)                          |
+| Build      | Vite 8                                                         |
+| Styling    | Tailwind CSS v4 utilities + SCSS for effects and theme tokens |
+| Routing    | React Router 7                                                 |
+| Fonts      | Inter Variable, self-hosted via `@fontsource-variable/inter`  |
+| Metadata   | React 19 native document metadata (no helmet dependency)      |
+| Animation  | In-house IntersectionObserver + CSS system (no GSAP/Framer)   |
+
+## Getting started
+
+```bash
+npm install
+npm run dev       # http://localhost:5173
+npm run build     # production build into dist/
+npm run preview   # serve the production build
+npm run lint      # eslint, including jsx-a11y and the no-inline-styles rule
+```
+
+---
+
+## Before this goes live
+
+Three content items are deliberately left empty rather than filled with invented data.
+All three are single-line changes.
+
+### 1. Phone and email (`src/data/company.js`)
+
+```js
+contact: {
+  phone: null,   // e.g. '+91 80 0000 0000'
+  email: null,   // e.g. 'enquiries@graybrickinfra.com'
+},
+```
+
+While these are `null` the footer, contact page and mobile drawer omit the rows entirely and
+route visitors through the enquiry form. Filling them in makes them appear everywhere,
+including in the `LocalBusiness` structured data.
+
+### 2. Enquiry endpoint (`.env`)
+
+**Until this is set, submitted enquiries are not delivered anywhere.** The form completes and
+shows its success state so the experience can be demonstrated, and a warning is logged to the
+console with the payload. Copy `.env.example` to `.env` and point it at whatever receives
+submissions (a form service, an API route, a serverless function):
+
+```
+VITE_ENQUIRY_ENDPOINT=https://example.com/api/enquiries
+```
+
+The request is a `POST` with a JSON body containing the form fields plus `submittedAt` and,
+on facility pages, `facility`. See `src/lib/enquiry.js`.
+
+Optionally also set `VITE_SITE_URL=https://graybrickinfra.com` so canonical and Open Graph
+URLs are absolute in the build rather than derived from `window.location`.
+
+### 3. Sitemap and robots (`public/robots.txt`)
+
+`robots.txt` ships allowing full crawling. Once the production domain is
+confirmed, add the absolute `Sitemap:` line to it and publish a `sitemap.xml`
+covering the eight static routes plus one URL per facility. Setting
+`VITE_SITE_URL` at the same time makes canonical and Open Graph URLs absolute.
+
+### 4. Leadership designation (`src/data/company.js`)
+
+The About page carries a leadership block: portrait, name and title.
+
+```js
+leadership: {
+  name: 'B Y Jayanth Reddy',
+  title: 'Chief Executive Officer',   // <- confirm this
+  message: null,
+},
+```
+
+**Confirm the designation.** The supplied portrait was named
+`Ceo-Gray-Brick.png`, so Chief Executive Officer is used. In an Indian private
+limited company, Managing Director and Director are distinct roles, so if that
+is the correct title change this one string. It also feeds the image alt text.
+
+`message` is null on purpose. A sentence in his own words would carry real
+weight in that space, but writing one for him would mean attributing invented
+words to a named real person. Add it and the paragraph renders; leave it and
+the block shows name and title only.
+
+Once the title is confirmed it is also worth adding him to the `LocalBusiness`
+structured data in `StructuredData.jsx` as `founder` or `employee`, whichever
+is accurate.
+
+### 5. Social profile URLs (`src/data/company.js`)
+
+The footer and mobile drawer now render LinkedIn, Instagram, X, Facebook and
+YouTube icons. **Each `href` is currently the platform's home page, not Gray
+Brick's profile.** Replace them, and delete any platform the company does not
+actually maintain:
+
+```js
+social: [
+  { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/…' },
+  { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/…' },
+],
+```
+
+An empty array hides the block entirely. The same list feeds the `sameAs`
+property in the structured data, so fixing it here fixes it everywhere.
+
+---
+
+## Content rules
+
+### Voice
+
+The copy is written for a Bengaluru operations lead who is busy. Short sentences, specific
+nouns, Indian business English, and a claim only where there is something to back it. Sections
+lead with the reader's problem ("Moving into a new market?") rather than our capabilities, and
+CTAs say what happens next: *Explore warehouses*, *Check availability*, *Find my warehouse*,
+*Request a call*. Never *Learn more* or *Submit*.
+
+The marketing copy says **Bengaluru**. "Bangalore" appears nowhere; the registered address uses
+the official wording.
+
+**No em dashes.** The site contains none, in the copy or the code. An em dash used as a
+sentence-level pause is one of the strongest tells that text was machine-written, so clauses are
+joined with a full stop, a comma or a colon instead. Ranges and the postal address keep their en
+dash, which is ordinary Indian address typography.
+
+A few other patterns are avoided for the same reason: the "X, not Y" rhetorical flip (kept to
+two deliberate uses), "that is where…", "whether X or Y", and the usual vocabulary tells
+(*seamless*, *leverage*, *robust*, *elevate*, *unlock*, *streamline*, *holistic*, *bespoke*).
+
+If you extend the site, the test for any new sentence is: could five hundred other companies
+publish it unchanged? If yes, it is not specific enough yet.
+
+### Honesty
+
+The site states capabilities, never metrics. There are no invented warehouse counts, areas,
+clear heights, certifications, client names, logos, testimonials, years of operation or
+performance figures anywhere in the codebase, and no personal identification information.
+
+**There is no customer logo strip and no testimonials.** Both were deliberately left out.
+Gray Brick has not published a verified customer list, and a fabricated one is the fastest way
+to lose a serious enquiry. The homepage proves relevance by naming the *sectors* it is built
+for instead. When real, publicly approvable customer relationships exist, `TrustBand.jsx` is
+the component to extend, and the heading should describe the actual relationship (tenant,
+operating partner, customer) rather than a vague "Trusted by".
+
+- `src/data/warehouses.js` is **placeholder inventory**. Facilities are described by real
+  Bengaluru industrial corridors, and every measurable field resolves to the shared
+  `ON_REQUEST` constant, which the UI renders as *"Available on request"* in a muted style.
+- Replacing it with live data means changing one function: `loadWarehouses()` in
+  `src/hooks/useWarehouses.js`. Every consumer already handles loading, error, empty-inventory
+  and no-results states.
+- The map link uses Google's documented Maps URL API against the real office address, with no
+  fabricated place ID and no API key required.
+
+## Imagery
+
+`src/assets/images/` holds 22 Unsplash-licensed photographs, converted to WebP and sized for
+their largest on-screen use (≈3.7M total, no single page loading more than a fraction of it).
+
+They were selected for an **Indian** context: Eicher and Tata goods carriers, Indian Railways
+container freight, an Indian container port, stacked crates, and industrial elevations of the
+kind found on the Bengaluru corridors. Photographs carrying obvious non-Indian cues (European
+solar-roof logistics parks, US trailer yards, snow-covered industrial estates) were
+deliberately excluded. The remaining warehouse interiors (racking, clear floors, steel trusses)
+carry no geographic markers at all, which is why they sit comfortably alongside the rest.
+
+**Replace them with Gray Brick's own facility photography when it is available:** keep the
+filenames and every reference updates itself.
+
+## The loading splash
+
+`index.html` carries a self-contained splash: the brick wall, the mark rising
+out of its own baseline, the wordmark settling beneath it, and a gold progress
+rule. It shows on a full page load only. Route changes are client-side, so it
+never reappears while someone is browsing.
+
+Three things about it are deliberate:
+
+- **Its CSS, markup and controller are inline.** The splash exists to cover the
+  wait for the stylesheet and the JS bundle, so it cannot wait for them itself.
+  It paints on the first chunk of HTML with no stylesheet, font or image
+  request of its own.
+- **The mark is the real traced logo**, generated from `logoPaths.js` by
+  `node scripts/build-loader-svg.mjs`. Regenerate and paste into `index.html`
+  if the logo ever changes. Showing an approximation of your own logo, one
+  second before the real one appears in the header, would be worse than no
+  splash at all.
+- **Everything is namespaced `gbl-`.** The first draft used `gb-` and its
+  `.gb-progress` collided with the site's own scroll-progress rule, which sets
+  `transform: scaleX(0)` and silently flattened the loader's bar to zero width.
+
+Safety rails, because a splash that will not leave is worse than none:
+
+| Guard | Behaviour |
+| --- | --- |
+| `MIN_VISIBLE` 4000ms | The display window. The bar is paced to fill across exactly this span |
+| `PENDING_CEILING` 92% | If the page genuinely takes longer than the window, the bar waits here rather than sitting full and lying about it |
+| `HARD_LIMIT` 12000ms | Dismisses regardless of what stalled |
+| `<noscript>` | Hides the splash entirely; the site is never blocked |
+| Monotonic progress | Module scripts defer `DOMContentLoaded` until after they run, so naive milestones arrive out of order; the bar can never go backwards |
+
+Progress is paced against the display window rather than guessed from
+milestones. On a fast connection the page is ready in a few hundred
+milliseconds, so a milestone-driven bar would jump to 100% and then sit there
+for the rest of the window, which reads as broken. Change `MIN_VISIBLE` to
+change the duration; the bar follows it automatically.
+
+The handoff is on the real `load` event, not a timer. While `html.gbl-loading`
+is set the hero and page entrance animations are held at their first frame
+(`animations.scss`) so they play *to* the visitor as the splash lifts, rather
+than to an empty room behind it.
+
+## The logo
+
+`src/components/common/logoPaths.js` holds the Gray Brick mark and wordmark as
+vector paths **traced from the supplied artwork** (`Gray-brick-new-logo.jpeg`),
+not redrawn by hand. The photograph was illumination-corrected against a local
+background, thresholded, cleaned with a morphological open/close, boundary
+traced, simplified, and fitted to cubic curves with the hard architectural
+corners preserved, so the G, the tower with its gold column, the B and the
+sweep are the real letterforms.
+
+`Logo.jsx` composes them into three lockups:
+
+| `layout`     | Used for                        |
+| ------------ | ------------------------------- |
+| `horizontal` | Header and mobile drawer        |
+| `stacked`    | Footer, matches the artwork     |
+| `mark`       | Compact placements, favicon     |
+
+The neutral letterforms use `currentColor`, so the lockup is silver on graphite
+and graphite on paper from one set of paths; only the gold column and rules are
+pinned, and they shift to the darker gold on light surfaces for contrast.
+
+`public/favicon.svg` is the mark on a graphite tile, generated from the same
+paths. `src/assets/brand/gray-brick-logo.svg` is the full lockup as a standalone
+file for decks, signage and email signatures.
+
+If a proper vector original ever turns up, replacing `logoPaths.js` is the only
+change needed.
+
+## Motion
+
+Everything is CSS transitions driven by IntersectionObserver, with no animation
+library. `src/styles/animations.scss` holds the whole system.
+
+### The homepage is deliberately still
+
+**Nothing on the homepage animates in on scroll.** The page is fully composed
+the moment it renders; the work of holding attention is done by typography,
+layout, section numbering and hover states instead. The only motion is the
+hero's one-time load-in, which is a CSS animation (`.gb-intro`), not a scroll
+effect.
+
+This is implemented with a context rather than a second set of components:
+
+```jsx
+// src/pages/Home.jsx
+<MotionContext.Provider value={false}>…</MotionContext.Provider>
+```
+
+`Reveal`, `AnimatedWords`, `GoldRule` and `useParallax` all read
+`useMotionEnabled()` (`src/lib/motion.js`). Where it is `false` they render
+their finished state directly: no observer is created, no reveal classes are
+emitted, and `AnimatedWords` renders the heading as a single text node instead
+of masked per-word spans. The homepage therefore contains **zero** `.gb-reveal`
+nodes, not hidden ones.
+
+Interior pages keep their scroll reveals. To make any other page still, wrap it
+the same way; to make the whole site still, change the context default.
+
+### Two rules for anything added to the system
+
+1. **Reduced motion wins.** Every animated state is authored so that with
+   `prefers-reduced-motion: reduce` the element renders in its *final* state.
+   No content can be stranded behind an animation that never plays.
+2. **Never animate the observed element into nothing.** IntersectionObserver
+   accounts for a target's own `clip-path` and `transform`, so an element
+   clipped or scaled to zero can never report as intersecting and would stay
+   invisible forever. Anything that collapses to zero is applied to a *child*.
+
+Components: `Reveal` (eight variants), `AnimatedWords`, `AnimatedHeading`,
+`GoldRule`, plus `useParallax` and `useScrollProgress`, which only ever write
+CSS custom properties so no element carries an inline transform.
+
+One layout trap worth knowing: a section with `overflow: hidden` becomes the
+scroll container for any `position: sticky` descendant, which then silently
+stops sticking. The corridor band is deliberately un-clipped for that reason.
+
+## Deployment
+
+The app is a client-rendered SPA, so the host **must** rewrite unknown paths to `index.html`.
+Without that, a hard refresh on `/warehouses/nelamangala-logistics-park` returns a 404 from the
+server instead of the facility page.
+
+- **Netlify**: `/* /index.html 200` in `_redirects`
+- **Vercel**: `{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }`
+- **Nginx**: `try_files $uri $uri/ /index.html;`
+- **Apache**: `FallbackResource /index.html`
+
+Hashed assets under `/assets/` are safe to cache immutably; `index.html` should not be.
+
+## Architecture
+
+```
+src/
+  assets/images/      photography (imported, hashed and served by Vite)
+  components/
+    common/           Button, Container, Icon, ImageFrame, Logo, Seo, Reveal, Field, …
+    layout/           Navbar, MobileMenu, Footer, Layout, ScrollToTop
+    home/             Hero, ValueStrip, AboutPreview, SolutionsPreview, WarehouseFinder, …
+    warehouses/       WarehouseCard, WarehouseFilters, WarehouseGallery, WarehouseSpecs
+    solutions/        SolutionSection, ProcessFlow
+    industries/       IndustryCard
+    contact/          EnquiryForm, ContactDetails
+  data/               company, navigation, solutions, industries, warehouses
+  hooks/              useInView, useScrolled, useLockBodyScroll, useFocusTrap, useWarehouses
+  lib/                cn, enquiry, validation
+  pages/              one file per route
+  styles/             tailwind.css (tokens), variables.scss, globals.scss, animations.scss
+```
+
+### Design tokens
+
+Colours, type scale, radii, shadows and easing live **once**, in the `@theme` block of
+`src/styles/tailwind.css`. Tailwind generates utilities from them (`bg-gb-graphite`,
+`text-gb-gold`, `text-display-xl`) and SCSS reads the same custom properties via
+`var(--color-gb-*)`. There is no second copy of the palette to drift.
+
+`src/styles/variables.scss` holds only what Tailwind has no opinion about: the z-index scale,
+header heights, motion constants and breakpoint mixins.
+
+### Styling rules enforced in CI
+
+- **No inline styles.** `style={{ … }}` is a lint *error*, not a convention, see the
+  `no-restricted-syntax` rule in `eslint.config.js`. Animation delays are SCSS classes, and
+  every dynamic value routes through a class name.
+- SCSS is wrapped in `@layer base` / `@layer components` so Tailwind utilities written in JSX
+  always win the cascade.
+
+### Motion
+
+See the [Motion](#motion) section above. In short: interior pages reveal on
+scroll, the homepage does not, and the switch is `MotionContext`.
+
+### Accessibility
+
+Semantic landmarks, a skip link, one `<h1>` per page, visible gold focus rings on every
+interactive element, `aria-current` on active navigation, a focus-trapped mobile drawer with
+Escape-to-close and body scroll locking, labelled form fields with `aria-invalid` /
+`aria-describedby` error wiring, and meaningful `alt` text on every photograph.
+`eslint-plugin-jsx-a11y` runs on every lint.
+
+### Performance
+
+Route-level code splitting, WebP imagery at display size, `loading="lazy"` +
+`decoding="async"` below the fold, `fetchPriority="high"` on the LCP hero, fixed aspect-ratio
+frames so no image can shift layout, a two-crop `<picture>` hero so phones do not download the
+desktop frame, and `scrollbar-gutter: stable` so opening the drawer cannot reflow the page.
