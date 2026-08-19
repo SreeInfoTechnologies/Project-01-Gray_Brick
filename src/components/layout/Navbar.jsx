@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 
 import { MobileMenu } from './MobileMenu'
+import { NavDropdown } from './NavDropdown'
 import { Button } from '@/components/common/Button'
 import { Container } from '@/components/common/Container'
 import { Icon } from '@/components/common/Icon'
@@ -19,6 +20,10 @@ import { cn } from '@/lib/cn'
  */
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  // Which submenu is open, by label. Held here rather than inside each item so
+  // opening one closes the last, and so a route change closes whatever is open
+  // in a single place.
+  const [openMenu, setOpenMenu] = useState(null)
   const scrolled = useScrolled(24)
   const progressRef = useScrollProgress()
   const { pathname } = useLocation()
@@ -30,6 +35,7 @@ export function Navbar() {
   if (pathname !== lastPath) {
     setLastPath(pathname)
     setMenuOpen(false)
+    setOpenMenu(null)
   }
 
   return (
@@ -52,27 +58,38 @@ export function Navbar() {
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-8 xl:gap-10">
-              {primaryNav.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end={item.to === '/'}
-                    className={({ isActive }) =>
-                      cn(
-                        'relative inline-block py-2 text-[0.8125rem] font-medium tracking-[0.04em] transition-colors duration-200',
-                        isActive ? 'text-gb-silver-light' : 'text-gb-silver hover:text-gb-silver-light',
-                      )
-                    }
-                  >
-                    {({ isActive }) => (
-                      <span data-active={isActive} className="gb-underline">
-                        {item.label}
-                      </span>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
+            <ul className="flex items-center gap-7 xl:gap-9">
+              {primaryNav.map((item) =>
+                item.menu ? (
+                  <NavDropdown
+                    key={item.to}
+                    item={item}
+                    isActive={pathname.startsWith(item.to)}
+                    open={openMenu === item.label}
+                    onOpen={() => setOpenMenu(item.label)}
+                    onClose={() => setOpenMenu((current) => (current === item.label ? null : current))}
+                  />
+                ) : (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.to === '/'}
+                      className={({ isActive }) =>
+                        cn(
+                          'relative inline-block py-2 text-[0.8125rem] font-medium tracking-[0.04em] transition-colors duration-200',
+                          isActive ? 'text-gb-silver-light' : 'text-gb-silver hover:text-gb-silver-light',
+                        )
+                      }
+                    >
+                      {({ isActive }) => (
+                        <span data-active={isActive} className="gb-underline">
+                          {item.label}
+                        </span>
+                      )}
+                    </NavLink>
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
 

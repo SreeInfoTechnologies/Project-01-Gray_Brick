@@ -479,6 +479,40 @@ neutral swap but carries prominent Hapag-Lloyd and Evergreen markings; incidenta
 gallery thumbnail, but fronting a facility card it starts to read as a stated client
 relationship, which this site does not claim.
 
+### Navigation
+
+`src/data/navigation.js` is the only place a header, drawer or footer link is
+written down. The header submenus are **derived** from the data that already
+drives the pages they point at, so a new solution, industry, facility type or
+corridor appears in the navigation without anyone remembering to add it twice.
+The warehouse links use `?type=` and `?location=`, which the listing page
+already reads and reflects in its own filter controls.
+
+Three things about the dropdown are deliberate:
+
+- **The label and the toggle are separate controls.** Making one element both
+  navigate and disclose is the usual shortcut and it breaks touch: with no
+  hover, the first tap has to open the menu, so the parent page becomes
+  unreachable without a second tap somewhere else. Here the label always
+  navigates and the chevron always toggles, on every input.
+- **It is a disclosure, not a `role="menu"` widget.** Menu roles promise
+  arrow-key navigation and a focus model that belongs to application menus. A
+  list of links should stay a list of links, so Tab walks them as usual.
+- **Hover is an enhancement, not the mechanism.** Hover handlers are gated on
+  `(hover: hover)` and carry an open/close intent delay, with a bridging
+  pseudo-element across the gap so the pointer can travel down into the panel
+  without crossing dead space. Everything works without a pointer.
+
+Panels are centred on their trigger and clamped back inside the viewport on
+open, measured once and written as a CSS custom property through a ref, the
+same way `useScrollProgress` and `useParallax` do it, so no element ever
+carries an inline style.
+
+The drawer mirrors the same links in collapsible sections. Those use `inert`
+rather than only clipping: the panels collapse by animating
+`grid-template-rows`, and `overflow: hidden` on its own leaves the links inside
+focusable, so tabbing through a closed section would walk into invisible links.
+
 ### Styling rules enforced in CI
 
 - **No inline styles.** `style={{ … }}` is a lint *error*, not a convention, see the

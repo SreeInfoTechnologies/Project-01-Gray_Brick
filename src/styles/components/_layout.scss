@@ -18,6 +18,65 @@
     }
   }
 
+  // Header submenu. Kept mounted so it can animate in both directions, with
+  // `visibility` carrying the same asymmetric delay as the drawer: it must turn
+  // visible immediately on open, and hold visible until the fade-out finishes.
+  // While hidden it is also untabbable, which is what keeps the closed panels
+  // out of the tab order.
+  //
+  // Centred with the `translate` property rather than with a transform, so the
+  // transform stays free for the animation and the two never fight.
+  .gb-dropdown {
+    // Nudged by NavDropdown when centring would put the panel off-screen.
+    --gb-shift: 0px;
+
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    translate: calc(-50% + var(--gb-shift)) 0;
+    z-index: $z-raised;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(0, -0.375rem, 0);
+    transition:
+      opacity $dur-fast $ease,
+      transform $dur $ease,
+      visibility 0s linear $dur-fast;
+  }
+
+  // Bridges the gap between the label and the panel. Without it the pointer
+  // crosses dead space on the way down, which fires mouseleave and closes the
+  // menu the user is reaching for.
+  .gb-dropdown::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 100%;
+    height: 0.75rem;
+  }
+
+  .gb-dropdown[data-open='true'] {
+    visibility: visible;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity $dur-fast $ease,
+      transform $dur $ease,
+      visibility 0s linear 0s;
+  }
+
+  .gb-dropdown > * {
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gb-dropdown {
+      transform: none;
+      transition: visibility 0s;
+    }
+  }
+
   .gb-overlay {
     position: fixed;
     inset: 0;

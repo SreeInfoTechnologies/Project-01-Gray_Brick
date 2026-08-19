@@ -112,6 +112,8 @@ for (const file of files) {
   // Only class positions count. The same `gb-` naming is used for element ids
   // that aria-controls and htmlFor point at, and those are not classes.
   const NOT_A_CLASS = /(?:\bid|aria-controls|aria-labelledby|aria-describedby|htmlFor)=["'{`]?$/
+  // `const panelId = \`gb-nav-${…}\`` builds an element id, not a class name.
+  const ID_BINDING = /\b(?:const|let|var)\s+\w*[Ii]d\s*=/
 
   for (const file of files) {
     if (!file.endsWith('.jsx')) continue
@@ -120,6 +122,7 @@ for (const file of files) {
       .split('\n')
       .forEach((line, i) => {
         for (const m of line.matchAll(/(?:^|[\s'"`])(gb-[a-z0-9-]+)/g)) {
+          if (ID_BINDING.test(line)) continue
           if (NOT_A_CLASS.test(line.slice(0, m.index + m[0].length - m[1].length))) continue
           if (!known(m[1])) {
             problems.push(`${rel}:${i + 1}  class "${m[1]}" is used but defined in no stylesheet`)

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { Button } from '@/components/common/Button'
@@ -18,6 +18,19 @@ import { cn } from '@/lib/cn'
  */
 export function MobileMenu({ open, onClose }) {
   const panelRef = useRef(null)
+  // Which section is expanded, by label. One at a time keeps a drawer that is
+  // already scrollable from turning into a wall of links.
+  const [expanded, setExpanded] = useState(null)
+
+  // Collapse everything on close, so reopening the drawer is always the same
+  // view rather than whatever was left over. Adjusting state during render is
+  // the documented pattern for deriving from a prop and matches how Navbar
+  // closes this drawer on a route change.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (open !== wasOpen) {
+    setWasOpen(open)
+    if (!open) setExpanded(null)
+  }
 
   useLockBodyScroll(open)
   useFocusTrap(open, panelRef)
@@ -67,26 +80,97 @@ export function MobileMenu({ open, onClose }) {
 
         <nav aria-label="Primary" className="px-5 py-6">
           <ul className="flex flex-col">
-            {primaryNav.map((item, index) => (
-              <li key={item.to} className="border-b border-gb-line last:border-b-0">
-                <NavLink
-                  to={item.to}
-                  end={item.to === '/'}
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                    cn(
-                      'flex items-baseline gap-4 py-4 text-xl font-semibold tracking-tight transition-colors duration-200',
-                      isActive ? 'text-gb-gold' : 'text-gb-silver-light hover:text-gb-gold-light',
-                    )
-                  }
+            {primaryNav.map((item, index) => {
+              const isOpen = expanded === item.label
+              const sectionId = `gb-drawer-${item.label.toLowerCase().replace(/[^a-z]+/g, '-')}`
+
+              return (
+                <li
+                  key={item.to}
+                  data-open={isOpen}
+                  className="gb-acc border-b border-gb-line last:border-b-0"
                 >
-                  <span className="text-[0.625rem] font-medium tracking-[0.2em] text-gb-silver-dark">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  {item.label}
-                </NavLink>
-              </li>
-            ))}
+                  <div className="flex items-center justify-between gap-2">
+                    <NavLink
+                      to={item.to}
+                      end={item.to === '/'}
+                      onClick={onClose}
+                      className={({ isActive }) =>
+                        cn(
+                          'flex flex-1 items-baseline gap-4 py-4 text-xl font-semibold tracking-tight transition-colors duration-200',
+                          isActive ? 'text-gb-gold' : 'text-gb-silver-light hover:text-gb-gold-light',
+                        )
+                      }
+                    >
+                      <span className="text-[0.625rem] font-medium tracking-[0.2em] text-gb-silver-dark">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      {item.label}
+                    </NavLink>
+
+                    {item.menu ? (
+                      <button
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={sectionId}
+                        onClick={() => setExpanded(isOpen ? null : item.label)}
+                        className={cn(
+                          'flex h-10 w-10 shrink-0 items-center justify-center rounded-gb-sm border transition-colors duration-200',
+                          isOpen
+                            ? 'border-gb-gold text-gb-gold'
+                            : 'border-gb-line text-gb-silver hover:border-gb-gold hover:text-gb-gold',
+                        )}
+                      >
+                        <Icon
+                          name="chevronDown"
+                          className={cn(
+                            'h-4 w-4 transition-transform duration-300 ease-[var(--ease-gb)]',
+                            isOpen && 'rotate-180',
+                          )}
+                        />
+                        <span className="sr-only">
+                          {isOpen ? 'Hide' : 'Show'} {item.label} links
+                        </span>
+                      </button>
+                    ) : null}
+                  </div>
+
+                  {item.menu ? (
+                    // `inert` rather than only clipping: the panel collapses by
+                    // animating grid-template-rows, and overflow: hidden leaves
+                    // the links inside it focusable. Without this, tabbing
+                    // through a closed drawer section walks into invisible
+                    // links.
+                    <div id={sectionId} className="gb-acc__panel" inert={!isOpen}>
+                      <div>
+                        <div className="flex flex-col gap-4 pb-5">
+                          {item.menu.groups.map((group) => (
+                            <div key={group.title}>
+                              <p className="text-eyebrow uppercase text-gb-silver-dark">
+                                {group.title}
+                              </p>
+                              <ul className="mt-2 flex flex-col">
+                                {group.links.map((link) => (
+                                  <li key={link.to}>
+                                    <NavLink
+                                      to={link.to}
+                                      onClick={onClose}
+                                      className="block py-2 text-[0.9375rem] text-gb-silver transition-colors duration-200 hover:text-gb-gold"
+                                    >
+                                      {link.label}
+                                    </NavLink>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                </li>
+              )
+            })}
           </ul>
         </nav>
 
