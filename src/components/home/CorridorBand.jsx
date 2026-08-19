@@ -32,14 +32,13 @@ export function CorridorBand() {
   // make it the scroll container for the sticky heading column, which would
   // then never stick.
   return (
-    <section className="relative isolate bg-gb-graphite py-20 sm:py-24 lg:py-32">
+    <section className="relative isolate bg-gb-black py-20 sm:py-24 lg:py-32">
       <div className="gb-gridlines absolute inset-0 -z-10 opacity-50" aria-hidden="true" />
 
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="min-w-0 lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
             <SectionHeading
-              tone="light"
               eyebrow="Bengaluru"
               index="05"
               title="Built around Bengaluru business"
@@ -54,14 +53,14 @@ export function CorridorBand() {
           </div>
 
           <div className="min-w-0 lg:col-span-7">
-            <ul className="gb-stagger border-t border-gb-line-dark">
+            <ul className="gb-stagger border-t border-gb-line">
               {locations.map((location, index) => {
                 const count = counts[location.value] ?? 0
                 return (
                   <Reveal as="li" key={location.value} variant="fade">
                     <Link
                       to={`/warehouses?location=${location.value}`}
-                      className="group relative flex items-center gap-4 border-b border-gb-line-dark py-5 transition-colors duration-300 hover:bg-gb-charcoal/70 sm:gap-6 sm:py-6"
+                      className="group relative flex items-center gap-4 border-b border-gb-line py-5 transition-colors duration-300 hover:bg-gb-slate/70 sm:gap-6 sm:py-6"
                     >
                       {/* Gold marker that grows out of the left edge on hover */}
                       <span
@@ -69,15 +68,15 @@ export function CorridorBand() {
                         className="absolute top-0 bottom-0 left-0 w-0.5 origin-top scale-y-0 bg-gb-gold transition-transform duration-500 ease-[var(--ease-gb)] group-hover:scale-y-100"
                       />
 
-                      <span className="w-8 shrink-0 pl-1 text-[0.6875rem] font-semibold tracking-[0.18em] text-gb-concrete-light transition-colors duration-300 group-hover:text-gb-gold sm:pl-3">
+                      <span className="w-8 shrink-0 pl-1 text-[0.6875rem] font-semibold tracking-[0.18em] text-gb-silver-dark transition-colors duration-300 group-hover:text-gb-gold sm:pl-3">
                         {String(index + 1).padStart(2, '0')}
                       </span>
 
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-lg font-bold tracking-tight text-gb-white transition-transform duration-500 ease-[var(--ease-gb)] group-hover:translate-x-1 sm:text-xl">
+                        <span className="block truncate text-lg font-bold tracking-tight text-gb-silver-light transition-transform duration-500 ease-[var(--ease-gb)] group-hover:translate-x-1 sm:text-xl">
                           {location.label}
                         </span>
-                        <span className="mt-1 block truncate text-[0.8125rem] text-gb-concrete-light">
+                        <span className="mt-1 block truncate text-[0.8125rem] text-gb-silver-dark">
                           {location.corridor}
                         </span>
                       </span>
@@ -85,19 +84,19 @@ export function CorridorBand() {
                       <span className="shrink-0 text-right">
                         {status === 'ready' ? (
                           <span className="block text-[0.8125rem] whitespace-nowrap text-gb-silver">
-                            <span className="font-semibold text-gb-white">{count}</span>
+                            <span className="font-semibold text-gb-silver-light">{count}</span>
                             <span className="hidden sm:inline">
                               {count === 1 ? ' facility' : ' facilities'}
                             </span>
                           </span>
                         ) : (
-                          <Skeleton className="h-3.5 w-16 bg-gb-industrial/60" />
+                          <Skeleton className="h-3.5 w-16 bg-gb-slate" />
                         )}
                       </span>
 
                       <Icon
                         name="arrowRight"
-                        className="gb-arrow h-4 w-4 shrink-0 text-gb-concrete-light transition-colors duration-300 group-hover:text-gb-gold"
+                        className="gb-arrow h-4 w-4 shrink-0 text-gb-silver-dark transition-colors duration-300 group-hover:text-gb-gold"
                       />
                     </Link>
                   </Reveal>

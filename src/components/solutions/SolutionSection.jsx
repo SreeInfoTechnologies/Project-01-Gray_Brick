@@ -11,8 +11,7 @@ import { cn } from '@/lib/cn'
  * wide screens and collapse to a single column, text first, image second, on
  * narrow ones.
  */
-export function SolutionSection({ solution, reversed = false, tone = 'light' }) {
-  const onDark = tone === 'dark'
+export function SolutionSection({ solution, reversed = false }) {
   // Supply chain support is not a facility type, so it points at the team
   // rather than at a filtered listing that would return nothing.
   const isSupportOnly = solution.id === 'supply-chain'
@@ -23,7 +22,9 @@ export function SolutionSection({ solution, reversed = false, tone = 'light' }) 
       aria-labelledby={`${solution.id}-title`}
       className={cn(
         'scroll-mt-24 py-16 sm:py-20 lg:py-24',
-        onDark ? 'bg-gb-charcoal' : 'bg-gb-white',
+        // Rows already alternate their image side; alternating the surface with
+        // it keeps a long page from reading as one flat field.
+        reversed ? 'bg-gb-black' : 'bg-gb-charcoal',
       )}
     >
       <Container>
@@ -34,20 +35,20 @@ export function SolutionSection({ solution, reversed = false, tone = 'light' }) 
                 <span
                   className={cn(
                     'text-[2.5rem] leading-none font-bold tracking-tight',
-                    onDark ? 'text-gb-industrial' : 'text-gb-silver',
+                    'text-gb-silver',
                   )}
                   aria-hidden="true"
                 >
                   {solution.index}
                 </span>
-                <Eyebrow tone={onDark ? 'light' : 'dark'}>{solution.category}</Eyebrow>
+                <Eyebrow>{solution.category}</Eyebrow>
               </div>
             </Reveal>
 
             <Reveal>
               <h2
                 id={`${solution.id}-title`}
-                className={cn('text-display', onDark ? 'text-gb-white' : 'text-gb-graphite')}
+                className={cn('text-display', 'text-gb-silver-light')}
               >
                 {solution.title}
               </h2>
@@ -57,7 +58,7 @@ export function SolutionSection({ solution, reversed = false, tone = 'light' }) 
               <p
                 className={cn(
                   'text-lead gb-measure',
-                  onDark ? 'text-gb-silver' : 'text-gb-industrial',
+                  'text-gb-silver',
                 )}
               >
                 {solution.description}
@@ -68,19 +69,19 @@ export function SolutionSection({ solution, reversed = false, tone = 'light' }) 
               <ul
                 className={cn(
                   'flex flex-col gap-3.5 border-t pt-6',
-                  onDark ? 'border-gb-line-dark' : 'border-gb-line-light',
+                  'border-gb-line',
                 )}
               >
                 {solution.points.map((point) => (
                   <li key={point} className="flex items-start gap-3">
                     <Icon
                       name="check"
-                      className={cn('mt-0.5 h-4 w-4 shrink-0', onDark ? 'text-gb-gold' : 'text-gb-gold-dark')}
+                      className={cn('mt-0.5 h-4 w-4 shrink-0', 'text-gb-gold')}
                     />
                     <span
                       className={cn(
                         'text-[0.9375rem] leading-relaxed',
-                        onDark ? 'text-gb-silver-light' : 'text-gb-industrial',
+                        'text-gb-silver-light',
                       )}
                     >
                       {point}
@@ -93,7 +94,7 @@ export function SolutionSection({ solution, reversed = false, tone = 'light' }) 
             <Reveal variant="fade" delay={3} className="mt-2">
               <Button
                 to={isSupportOnly ? '/contact' : `/warehouses?type=${solution.id}`}
-                variant={onDark ? 'outlineLight' : 'outline'}
+                variant="secondary"
                 withArrow
               >
                 {isSupportOnly ? 'Talk to our team' : 'See matching facilities'}

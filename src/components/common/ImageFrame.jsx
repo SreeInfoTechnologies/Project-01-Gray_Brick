@@ -33,7 +33,7 @@ export function ImageFrame({
   const [loaded, setLoaded] = useState(false)
 
   return (
-    <div className={cn('relative overflow-hidden bg-gb-dark', ratios[ratio], className)}>
+    <div className={cn('relative overflow-hidden bg-gb-graphite', ratios[ratio], className)}>
       <img
         src={src}
         alt={alt}
@@ -42,7 +42,7 @@ export function ImageFrame({
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setLoaded(true)}
         className={cn(
-          'h-full w-full object-cover transition-opacity duration-700 ease-[var(--ease-gb)]',
+          'gb-photo h-full w-full object-cover transition-opacity duration-700 ease-[var(--ease-gb)]',
           zoom && 'gb-zoom',
           loaded ? 'opacity-100' : 'opacity-0',
           imgClassName,

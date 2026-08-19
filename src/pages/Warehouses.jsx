@@ -91,7 +91,7 @@ export default function Warehouses() {
         ]}
       />
 
-      <section className="bg-gb-white py-14 sm:py-16 lg:py-20">
+      <section className="bg-gb-charcoal py-14 sm:py-16 lg:py-20">
         <Container>
           <WarehouseFilters
             filters={filters}
@@ -103,15 +103,15 @@ export default function Warehouses() {
           />
 
           {hasCarriedCriteria ? (
-            <div className="mt-8 flex flex-col gap-4 rounded-gb-sm border border-gb-gold/40 bg-gb-pure p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-              <p className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-gb-industrial">
-                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold-dark" />
+            <div className="mt-8 flex flex-col gap-4 rounded-gb-sm border border-gb-gold/40 bg-gb-graphite p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+              <p className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-gb-silver">
+                <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
                 <span>
                   Noted from your search
                   {carried.space ? (
                     <>
                       {': '}
-                      <span className="font-semibold text-gb-graphite">
+                      <span className="font-semibold text-gb-silver-light">
                         {labelFor(spaceBands, carried.space)}
                       </span>
                     </>
@@ -119,7 +119,7 @@ export default function Warehouses() {
                   {carried.requirement ? (
                     <>
                       {carried.space ? ' for ' : ': '}
-                      <span className="font-semibold text-gb-graphite">
+                      <span className="font-semibold text-gb-silver-light">
                         {labelFor(businessRequirements, carried.requirement)}
                       </span>
                     </>
@@ -208,8 +208,8 @@ export default function Warehouses() {
             ) : null}
           </div>
 
-          <p className="mt-10 flex items-start gap-2 border-t border-gb-line-light pt-6 text-[0.8125rem] leading-relaxed text-gb-concrete">
-            <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold-dark" />
+          <p className="mt-10 flex items-start gap-2 border-t border-gb-line pt-6 text-[0.8125rem] leading-relaxed text-gb-silver-dark">
+            <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
             <span>
               We confirm measured specifications during site evaluation rather than publishing
               them in a listing. That covers built-up area, clear height, dock configuration and

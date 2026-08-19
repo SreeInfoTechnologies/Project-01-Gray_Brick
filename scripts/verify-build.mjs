@@ -67,6 +67,32 @@ const assets = existsSync(join(DIST, 'assets')) ? readdirSync(join(DIST, 'assets
 must(assets.some((f) => f.endsWith('.js')), 'no JS emitted')
 must(assets.some((f) => f.endsWith('.css')), 'no CSS emitted')
 
+// -- Design system --------------------------------------------------------
+// Tailwind only emits the theme variables a generated utility references, so a
+// token used solely from SCSS via var() can be tree-shaken out of the bundle.
+// The rule then becomes invalid at computed-value time and the element quietly
+// inherits its parent's colour: no build error, no console warning, and on a
+// dark ground it often still *looks* plausible. Verified on the artifact.
+const cssFile = assets.find((f) => f.endsWith('.css'))
+if (cssFile) {
+  const css = readFileSync(join(DIST, 'assets', cssFile), 'utf8')
+  const declared = new Set([...css.matchAll(/(--color-gb-[a-z0-9-]+)\s*:/g)].map((m) => m[1]))
+  const referenced = new Set(
+    [...css.matchAll(/var\(\s*(--color-gb-[a-z0-9-]+)/g)].map((m) => m[1]),
+  )
+  for (const name of referenced) {
+    must(declared.has(name), `CSS references ${name} but never declares it (theme var was tree-shaken)`)
+  }
+  must(declared.size > 20, `only ${declared.size} design tokens in the bundle; expected the full palette`)
+
+  // The refactor's whole point: the page ground must be the brand black.
+  must(
+    /body\s*{[^}]*background-color:\s*var\(--color-gb-surface-page\)/.test(css) ||
+      /background-color:\s*var\(--color-gb-surface-page\)/.test(css),
+    'body no longer paints the brand page surface',
+  )
+}
+
 if (problems.length) {
   console.error('verify-build FAILED\n' + problems.map((p) => `  - ${p}`).join('\n'))
   process.exit(1)

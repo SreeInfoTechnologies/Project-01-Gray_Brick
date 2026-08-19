@@ -31,19 +31,19 @@ const indent = (s) => s.map((l) => `        ${l}`).join('\n')
 const svg = `<svg class="gbl-mark" viewBox="0 0 832 714" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="gblSteel" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#f4f7f9"/>
-          <stop offset=".18" stop-color="#aeb5bb"/>
-          <stop offset=".38" stop-color="#eef1f3"/>
-          <stop offset=".57" stop-color="#7c838a"/>
-          <stop offset=".79" stop-color="#c8ced3"/>
-          <stop offset="1" stop-color="#868d94"/>
+          <stop offset="0" stop-color="#f2f2f0"/>
+          <stop offset=".18" stop-color="#b3b3b1"/>
+          <stop offset=".38" stop-color="#e6e6e3"/>
+          <stop offset=".57" stop-color="#7f8081"/>
+          <stop offset=".79" stop-color="#cbcbc9"/>
+          <stop offset="1" stop-color="#8a8c8d"/>
         </linearGradient>
         <linearGradient id="gblGold" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#f6e1a8"/>
-          <stop offset=".22" stop-color="#c79a3c"/>
-          <stop offset=".48" stop-color="#f2ce79"/>
-          <stop offset=".74" stop-color="#967023"/>
-          <stop offset="1" stop-color="#e0bc6a"/>
+          <stop offset="0" stop-color="#e3c894"/>
+          <stop offset=".22" stop-color="#b19260"/>
+          <stop offset=".48" stop-color="#d2b47e"/>
+          <stop offset=".74" stop-color="#8b7045"/>
+          <stop offset="1" stop-color="#c5a56f"/>
         </linearGradient>
         <clipPath id="gblBase"><rect x="-40" y="-40" width="912" height="620"/></clipPath>
       </defs>

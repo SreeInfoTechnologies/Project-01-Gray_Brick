@@ -9,7 +9,7 @@ export function SolutionsPreview() {
   const [featured, ...rest] = homeSolutions
 
   return (
-    <section className="bg-gb-pure py-20 sm:py-24 lg:py-32">
+    <section className="bg-gb-black py-20 sm:py-24 lg:py-32">
       <Container>
         <SectionHeading
           eyebrow="What we provide"

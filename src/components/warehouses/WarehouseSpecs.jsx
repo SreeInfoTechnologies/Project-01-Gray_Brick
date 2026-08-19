@@ -14,19 +14,19 @@ export function WarehouseSpecs({ warehouse }) {
 
   return (
     <div>
-      <dl className="grid grid-cols-1 border-t border-l border-gb-line-light sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="grid grid-cols-1 border-t border-l border-gb-line sm:grid-cols-2 lg:grid-cols-4">
         {specifications.map((spec) => {
           const onRequest = spec.value === ON_REQUEST
           return (
             <div
               key={spec.label}
-              className="flex flex-col gap-2 border-r border-b border-gb-line-light bg-gb-pure p-5"
+              className="flex flex-col gap-2 border-r border-b border-gb-line bg-gb-graphite p-5"
             >
-              <dt className="text-meta uppercase text-gb-concrete">{spec.label}</dt>
+              <dt className="text-meta uppercase text-gb-silver-dark">{spec.label}</dt>
               <dd
                 className={cn(
                   'text-[0.9375rem] leading-snug',
-                  onRequest ? 'text-gb-concrete italic' : 'font-semibold text-gb-graphite',
+                  onRequest ? 'text-gb-silver-dark italic' : 'font-semibold text-gb-silver-light',
                 )}
               >
                 {spec.value}
@@ -36,8 +36,8 @@ export function WarehouseSpecs({ warehouse }) {
         })}
       </dl>
 
-      <p className="mt-5 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-gb-concrete">
-        <Icon name="ruler" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold-dark" />
+      <p className="mt-5 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-gb-silver-dark">
+        <Icon name="ruler" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
         <span>
           Measured figures are shared during site evaluation, once the requirement is understood and
           the facility has been walked.

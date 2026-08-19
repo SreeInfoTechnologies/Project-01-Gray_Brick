@@ -4,8 +4,7 @@ import { Icon } from './Icon'
 import { cn } from '@/lib/cn'
 
 /** Trail for interior pages. The current page is marked, not linked. */
-export function Breadcrumbs({ items, tone = 'light', className }) {
-  const onDark = tone === 'light'
+export function Breadcrumbs({ items, className }) {
 
   return (
     <nav aria-label="Breadcrumb" className={className}>
@@ -17,7 +16,7 @@ export function Breadcrumbs({ items, tone = 'light', className }) {
               {index > 0 ? (
                 <Icon
                   name="chevronRight"
-                  className={cn('h-3 w-3', onDark ? 'text-gb-concrete-light' : 'text-gb-silver')}
+                  className="h-3 w-3 text-gb-silver-dark"
                 />
               ) : null}
 
@@ -26,7 +25,7 @@ export function Breadcrumbs({ items, tone = 'light', className }) {
                   aria-current={isLast ? 'page' : undefined}
                   className={cn(
                     'text-meta uppercase',
-                    onDark ? 'text-gb-gold' : 'text-gb-gold-dark',
+                    'text-gb-gold',
                   )}
                 >
                   {item.label}
@@ -36,7 +35,7 @@ export function Breadcrumbs({ items, tone = 'light', className }) {
                   to={item.to}
                   className={cn(
                     'text-meta uppercase transition-colors duration-200',
-                    onDark ? 'text-gb-silver hover:text-gb-white' : 'text-gb-concrete hover:text-gb-graphite',
+                    'text-gb-silver hover:text-gb-silver-light',
                   )}
                 >
                   {item.label}

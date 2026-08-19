@@ -49,12 +49,12 @@ export function WarehouseFinder() {
   }
 
   return (
-    <section className="relative isolate overflow-hidden bg-gb-graphite py-20 sm:py-24 lg:py-32">
+    <section className="relative isolate overflow-hidden bg-gb-black py-20 sm:py-24 lg:py-32">
       <img
         src={backdrop}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 -z-20 h-full w-full object-cover opacity-70"
+        className="gb-photo gb-photo--backdrop absolute inset-0 -z-20 h-full w-full object-cover opacity-70"
         loading="lazy"
         decoding="async"
       />
@@ -62,7 +62,6 @@ export function WarehouseFinder() {
 
       <Container className="relative">
         <SectionHeading
-          tone="light"
           eyebrow="Warehouse finder"
           index="04"
           title="Looking for warehouse space in Bengaluru?"
@@ -72,7 +71,7 @@ export function WarehouseFinder() {
         <Reveal variant="fade" delay={1} className="mt-10 lg:mt-14">
           <form
             onSubmit={onSubmit}
-            className="gb-ticks rounded-gb-sm border border-gb-line-light bg-gb-pure p-6 shadow-gb-panel sm:p-8"
+            className="gb-ticks rounded-gb-sm gb-card p-6 shadow-gb-panel sm:p-8"
           >
             <fieldset className="border-0 p-0">
               <legend className="sr-only">Search criteria</legend>
@@ -136,8 +135,8 @@ export function WarehouseFinder() {
               </div>
             </fieldset>
 
-            <p className="mt-6 flex items-start gap-2 border-t border-gb-line-light pt-5 text-[0.8125rem] leading-relaxed text-gb-concrete">
-              <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold-dark" />
+            <p className="mt-6 flex items-start gap-2 border-t border-gb-line pt-5 text-[0.8125rem] leading-relaxed text-gb-silver-dark">
+              <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
               <span>
                 Your space and use case travel with the enquiry, so the team can come back with
                 something useful instead of a brochure.

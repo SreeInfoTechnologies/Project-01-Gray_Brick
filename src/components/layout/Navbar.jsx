@@ -38,7 +38,7 @@ export function Navbar() {
         className={cn(
           'gb-header transition-[background-color,border-color,box-shadow] duration-500 ease-[var(--ease-gb)]',
           scrolled
-            ? 'border-b border-gb-line-dark bg-gb-graphite/95 backdrop-blur-md'
+            ? 'border-b border-gb-line bg-gb-black/95 backdrop-blur-md'
             : 'border-b border-transparent bg-transparent',
         )}
       >
@@ -48,7 +48,7 @@ export function Navbar() {
             className="shrink-0 rounded-gb-xs"
             aria-label={`${company.legalName}, home page`}
           >
-            <Logo variant="light" className="h-7 sm:h-8" />
+            <Logo className="h-7 sm:h-8" />
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
@@ -61,7 +61,7 @@ export function Navbar() {
                     className={({ isActive }) =>
                       cn(
                         'relative inline-block py-2 text-[0.8125rem] font-medium tracking-[0.04em] transition-colors duration-200',
-                        isActive ? 'text-gb-white' : 'text-gb-silver hover:text-gb-white',
+                        isActive ? 'text-gb-silver-light' : 'text-gb-silver hover:text-gb-silver-light',
                       )
                     }
                   >
@@ -91,7 +91,7 @@ export function Navbar() {
               onClick={() => setMenuOpen(true)}
               aria-expanded={menuOpen}
               aria-controls="gb-mobile-menu"
-              className="flex h-11 w-11 items-center justify-center rounded-gb-sm border border-gb-line-dark-strong text-gb-white transition-colors duration-200 hover:border-gb-gold hover:text-gb-gold lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-gb-sm border border-gb-line-strong text-gb-silver-light transition-colors duration-200 hover:border-gb-gold hover:text-gb-gold lg:hidden"
             >
               <Icon name="menu" className="h-5 w-5" />
               <span className="sr-only">Open navigation</span>
@@ -104,7 +104,7 @@ export function Navbar() {
         <span
           aria-hidden="true"
           className={cn(
-            'absolute inset-x-0 bottom-0 h-px bg-gb-line-dark transition-opacity duration-500',
+            'absolute inset-x-0 bottom-0 h-px bg-gb-line transition-opacity duration-500',
             scrolled ? 'opacity-100' : 'opacity-0',
           )}
         >

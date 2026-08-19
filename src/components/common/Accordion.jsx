@@ -3,16 +3,15 @@ import { useId, useState } from 'react'
 import { Icon } from './Icon'
 import { cn } from '@/lib/cn'
 
-function AccordionItem({ item, index, open, onToggle, tone }) {
+function AccordionItem({ item, index, open, onToggle }) {
   const id = useId()
-  const onDark = tone === 'light'
 
   return (
     <div
       data-open={open}
       className={cn(
         'gb-acc border-b',
-        onDark ? 'border-gb-line-dark' : 'border-gb-line-light',
+        'border-gb-line',
       )}
     >
       <h3>
@@ -27,14 +26,7 @@ function AccordionItem({ item, index, open, onToggle, tone }) {
           <span
             className={cn(
               'mt-1 shrink-0 text-[0.6875rem] font-semibold tracking-[0.18em] transition-colors duration-300',
-              // The lighter gold only clears AA on dark surfaces.
-              open
-                ? onDark
-                  ? 'text-gb-gold'
-                  : 'text-gb-gold-dark'
-                : onDark
-                  ? 'text-gb-concrete-light'
-                  : 'text-gb-concrete',
+              open ? 'text-gb-gold' : 'text-gb-silver-dark',
             )}
           >
             {String(index + 1).padStart(2, '0')}
@@ -43,13 +35,7 @@ function AccordionItem({ item, index, open, onToggle, tone }) {
           <span
             className={cn(
               'flex-1 text-[1.0625rem] leading-snug font-semibold transition-colors duration-300 sm:text-lg',
-              onDark
-                ? open
-                  ? 'text-gb-gold'
-                  : 'text-gb-white group-hover:text-gb-gold-light'
-                : open
-                  ? 'text-gb-gold-dark'
-                  : 'text-gb-graphite group-hover:text-gb-gold-dark',
+              open ? 'text-gb-gold' : 'text-gb-silver-light group-hover:text-gb-gold-light',
             )}
           >
             {item.question}
@@ -59,8 +45,7 @@ function AccordionItem({ item, index, open, onToggle, tone }) {
             className={cn(
               'mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-gb-sm border transition-[transform,border-color,color] duration-400 ease-[var(--ease-gb)]',
               open ? 'rotate-45 border-gb-gold text-gb-gold' : null,
-              !open && onDark ? 'border-gb-line-dark text-gb-silver' : null,
-              !open && !onDark ? 'border-gb-line-light text-gb-industrial' : null,
+              !open ? 'border-gb-line text-gb-silver' : null,
             )}
           >
             <Icon name="plus" className="h-4 w-4" />
@@ -73,7 +58,7 @@ function AccordionItem({ item, index, open, onToggle, tone }) {
           <p
             className={cn(
               'gb-measure pr-4 pb-7 pl-[calc(2rem+1rem)] text-[0.9375rem] leading-relaxed sm:pl-[calc(2rem+1.5rem)]',
-              onDark ? 'text-gb-silver' : 'text-gb-industrial',
+              'text-gb-silver',
             )}
           >
             {item.answer}
@@ -85,17 +70,16 @@ function AccordionItem({ item, index, open, onToggle, tone }) {
 }
 
 /** Single-open accordion. Keyboard and screen-reader wiring is standard. */
-export function Accordion({ items, tone = 'dark', className }) {
+export function Accordion({ items, className }) {
   const [openIndex, setOpenIndex] = useState(0)
 
   return (
-    <div className={cn('border-t', tone === 'light' ? 'border-gb-line-dark' : 'border-gb-line-light', className)}>
+    <div className={cn('border-t border-gb-line', className)}>
       {items.map((item, index) => (
         <AccordionItem
           key={item.question}
           item={item}
           index={index}
-          tone={tone}
           open={openIndex === index}
           onToggle={() => setOpenIndex(openIndex === index ? -1 : index)}
         />

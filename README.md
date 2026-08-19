@@ -239,11 +239,11 @@ sweep are the real letterforms.
 | `stacked`    | Footer, matches the artwork     |
 | `mark`       | Compact placements, favicon     |
 
-The neutral letterforms use `currentColor`, so the lockup is silver on graphite
-and graphite on paper from one set of paths; only the gold column and rules are
-pinned, and they shift to the darker gold on light surfaces for contrast.
+The neutral letterforms use `currentColor` and the gold column is pinned to the
+brand accent. The site has a single dark ground, so the lockup carries one
+treatment rather than a light and a dark copy of the artwork.
 
-`public/favicon.svg` is the mark on a graphite tile, generated from the same
+`public/favicon.svg` is the mark on a brand-black tile, generated from the same
 paths. `src/assets/brand/gray-brick-logo.svg` is the full lockup as a standalone
 file for decks, signage and email signatures.
 
@@ -376,12 +376,108 @@ src/
 ### Design tokens
 
 Colours, type scale, radii, shadows and easing live **once**, in the `@theme` block of
-`src/styles/tailwind.css`. Tailwind generates utilities from them (`bg-gb-graphite`,
+`src/styles/tailwind.css`. Tailwind generates utilities from them (`bg-gb-charcoal`,
 `text-gb-gold`, `text-display-xl`) and SCSS reads the same custom properties via
 `var(--color-gb-*)`. There is no second copy of the palette to drift.
 
+Note the block is `@theme static`, not `@theme`. By default Tailwind only emits the theme
+variables that some generated utility happens to reference, so a token used **only** from
+SCSS via `var()` gets tree-shaken out of the bundle. The rule then becomes invalid at
+computed-value time and the element quietly inherits its parent's colour: no build error, no
+console warning. `static` forces the whole palette into the output. `npm run check:tokens`
+and `npm run verify:build` both assert this, the latter against the built CSS.
+
 `src/styles/variables.scss` holds only what Tailwind has no opinion about: the z-index scale,
 header heights, motion constants and breakpoint mixins.
+
+### The palette
+
+Every value is sampled from the logo artwork, not invented. Running a luminance-bucketed
+average over `src/assets/brand/gray-brick-logo-source.jpeg` gives `#0d0d0b`, `#191917`,
+`#282828`, `#393939`, `#585858`, `#a8a8a9`, `#d8d8d9` across the neutrals and `#886e45`,
+`#b29361`, `#c8a771` across the gold. Those measurements are what ship, nudged to an even
+step.
+
+| Role                   | Token                  | Value     |
+| ---------------------- | ---------------------- | --------- |
+| Page ground, footer    | `gb-black`             | `#0d0e0f` |
+| Section surface        | `gb-charcoal`          | `#171819` |
+| Card surface           | `gb-graphite`          | `#242526` |
+| Raised / hover surface | `gb-slate`             | `#2e2f30` |
+| Borders, dividers      | `gb-concrete`          | `#3b3c3d` |
+| Strong border          | `gb-steel`             | `#5a5c5d` |
+| Muted text             | `gb-silver-dark`       | `#8a8c8d` |
+| Secondary text         | `gb-silver`            | `#a9aaab` |
+| Primary text, headings | `gb-silver-light`      | `#d1d1cf` |
+| Deliberate max contrast| `gb-white`             | `#f2f2f0` |
+| Accent                 | `gb-gold`              | `#b19260` |
+| Accent hover           | `gb-gold-light`        | `#c5a56f` |
+| Gold fills and borders | `gb-gold-dark`         | `#8b7045` |
+
+Two rules that are not obvious from the table:
+
+- **`gb-gold-dark` is never a text colour.** It reaches 3.29:1 on the card surface, so it is
+  a fill, a border and a gradient stop only. `gb-gold` (5.23:1) and `gb-gold-soft` are the
+  gold values that may carry text.
+- **Every text token clears 4.5:1 on black, charcoal *and* graphite.** `gb-silver-dark` is
+  the floor at 4.55:1; nothing dimmer is a text colour in this system. That means a text
+  token can be moved between surfaces without silently failing.
+
+Semantic aliases (`--color-gb-surface`, `--color-gb-surface-card`, `--color-gb-text`,
+`--color-gb-border`, `--color-gb-accent`, …) map the ramp onto roles. The role mapping lives
+on the **tokens**, which is what a utility-first codebase can actually consume; only the two
+roles that remove real repetition are also classes, `.gb-page` and `.gb-card` in
+`src/styles/components/_surfaces.scss`. A `.gb-text-secondary` that just restated
+`text-gb-silver` would be a second name for one thing, so there isn't one.
+
+### Surfaces
+
+The site has **one ground**. There is no light mode and no light/dark variant of any
+component: the `tone` / `onDark` props that used to thread polarity through the tree are
+gone, along with the paired button variants (`outline` vs `outlineLight`).
+
+Surfaces step in one direction only, and each level has a job:
+
+```
+gb-black      page ground, footer, alternating bands
+gb-charcoal   section surface
+gb-graphite   cards, inputs, panels        <- never a <section>
+gb-slate      hover / raised state
+```
+
+A `<section>` painted with the card surface leaves every card inside it sitting on its own
+colour with no edge between them, which reads as a rendering bug. `check:tokens` fails the
+build on it. Sections alternate black and charcoal down the page so a long page does not read
+as one flat field.
+
+Hover moves **toward** the light (`gb-graphite` → `gb-slate`) and the border warms toward
+gold. On a dark ground the drop shadow does almost nothing, so colour and a small lift carry
+the interaction instead.
+
+### Photography
+
+Stock warehousing and freight photography arrives in whatever colour it was shot in, and
+several of the rail and port frames are a hard cyan that belongs to no part of this palette.
+Two grades pull them into the brand, both applied through `ImageFrame` or directly on the
+backdrop `<img>`:
+
+- `.gb-photo` — card and editorial imagery. Mild, so the photograph stays realistic.
+- `.gb-photo--backdrop` — full-bleed frames sitting behind text under a scrim. Firmer,
+  because they carry no detail the reader is asked to study.
+
+The grades were chosen by running every file in `src/assets/images` through the filter matrix
+and measuring the result, not by taste. Under the card grade all but one image drops below
+14% of pixels in the cyan band while the warehouse interiors keep enough saturation to still
+read as photographs; under the backdrop grade the Solutions hero goes from 0.394 mean
+saturation and 58% cyan to 0.119 and 22%.
+
+One photograph resisted any grade a realistic image can take: `rail-container-freight.webp`
+is teal to the bone and still measured 50% cyan at settings that flattened everything else.
+It stays in the galleries, where it is one frame of four, and the Doddaballapur card now
+fronts `container-truck-dusk.webp` instead. Note that `container-yard.webp` was the obvious
+neutral swap but carries prominent Hapag-Lloyd and Evergreen markings; incidental in a
+gallery thumbnail, but fronting a facility card it starts to read as a stated client
+relationship, which this site does not claim.
 
 ### Styling rules enforced in CI
 
@@ -390,6 +486,13 @@ header heights, motion constants and breakpoint mixins.
   every dynamic value routes through a class name.
 - SCSS is wrapped in `@layer base` / `@layer components` so Tailwind utilities written in JSX
   always win the cascade.
+- **`npm run check:tokens`** fails the build on: a `gb-*` class used in markup but defined in
+  no stylesheet, a `var(--color-gb-*)` naming a token that does not exist, a raw Tailwind
+  palette colour (`bg-blue-500`), a hardcoded hex outside the token file, and a `<section>`
+  painted with a card surface. Each of these fails *silently* at runtime, which is why they
+  are checked rather than left to review.
+- **`npm run verify:build`** re-checks the design system against the built CSS, so a token
+  that survives source review but gets tree-shaken out of the bundle still fails CI.
 
 ### Motion
 

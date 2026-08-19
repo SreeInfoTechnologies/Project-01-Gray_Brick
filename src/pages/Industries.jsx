@@ -30,7 +30,7 @@ export default function Industries() {
         ]}
       />
 
-      <section className="bg-gb-white py-16 sm:py-20 lg:py-28">
+      <section className="bg-gb-charcoal py-16 sm:py-20 lg:py-28">
         <Container>
           <ul className="gb-stagger grid gap-6 lg:grid-cols-2 lg:gap-8">
             {industries.map((industry) => (
@@ -40,8 +40,8 @@ export default function Industries() {
             ))}
           </ul>
 
-          <Reveal variant="fade" className="mt-12 border-t border-gb-line-light pt-8">
-            <p className="gb-measure text-[0.9375rem] leading-relaxed text-gb-concrete">
+          <Reveal variant="fade" className="mt-12 border-t border-gb-line pt-8">
+            <p className="gb-measure text-[0.9375rem] leading-relaxed text-gb-silver-dark">
               Not on this list? Most requirements come down to the same three questions. What
               arrives, where it sits, and how it goes out. Tell us those and we can work out the
               rest.

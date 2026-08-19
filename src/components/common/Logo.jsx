@@ -26,13 +26,11 @@ const LOCKUPS = {
 /**
  * The Gray Brick logo.
  *
- * The neutral letterforms inherit `currentColor`, so the lockup reads silver on
- * graphite and graphite on paper without a second copy of the artwork; only the
- * gold column and rules are pinned, and they shift to the darker gold on light
- * surfaces to hold contrast.
+ * The neutral letterforms inherit `currentColor` and the gold column is pinned
+ * to the brand accent. The site has a single dark ground, so the lockup no
+ * longer carries a light and a dark treatment: there is one, and it is this.
  */
-export function Logo({ variant = 'dark', layout = 'horizontal', className, title }) {
-  const onDark = variant === 'light'
+export function Logo({ layout = 'horizontal', className, title }) {
   const lockup = LOCKUPS[layout] ?? LOCKUPS.horizontal
   const labelled = Boolean(title)
 
@@ -44,7 +42,7 @@ export function Logo({ variant = 'dark', layout = 'horizontal', className, title
       focusable="false"
       className={cn(
         'block w-auto',
-        onDark ? 'text-gb-silver-light' : 'text-gb-graphite',
+        'text-gb-silver-light',
         className,
       )}
     >
@@ -56,7 +54,7 @@ export function Logo({ variant = 'dark', layout = 'horizontal', className, title
             <path key={d.slice(0, 24)} d={d} />
           ))}
         </g>
-        <g className={onDark ? 'fill-gb-gold' : 'fill-gb-gold-dark'} fillRule="evenodd">
+        <g className={'fill-gb-gold'} fillRule="evenodd">
           {LOGO_MARK.gold.map((d) => (
             <path key={d.slice(0, 24)} d={d} />
           ))}
@@ -70,7 +68,7 @@ export function Logo({ variant = 'dark', layout = 'horizontal', className, title
               <path key={d.slice(0, 24)} d={d} />
             ))}
           </g>
-          <g className={onDark ? 'fill-gb-gold' : 'fill-gb-gold-dark'} fillRule="evenodd">
+          <g className={'fill-gb-gold'} fillRule="evenodd">
             {LOGO_WORDMARK.gold.map((d) => (
               <path key={d.slice(0, 24)} d={d} />
             ))}

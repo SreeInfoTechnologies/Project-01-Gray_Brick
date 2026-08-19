@@ -10,12 +10,12 @@ const year = new Date().getFullYear()
 
 export function Footer() {
   return (
-    <footer className="border-t border-gb-line-dark bg-gb-graphite">
+    <footer className="gb-brick relative border-t border-gb-line bg-gb-black">
       <Container className="py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="flex flex-col gap-6 lg:col-span-3">
             <Link to="/" className="inline-flex w-fit rounded-gb-xs" aria-label={`${company.legalName}, home page`}>
-              <Logo variant="light" layout="stacked" className="h-24" />
+              <Logo layout="stacked" className="h-24" />
             </Link>
 
             <p className="gb-measure-tight text-[0.9375rem] leading-relaxed text-gb-silver">
@@ -24,7 +24,7 @@ export function Footer() {
 
             {company.social.length > 0 ? (
               <div className="mt-1">
-                <p className="text-eyebrow uppercase text-gb-concrete-light">Follow Gray Brick</p>
+                <p className="text-eyebrow uppercase text-gb-silver-dark">Follow Gray Brick</p>
                 <ul className="mt-4 flex flex-wrap items-center gap-2.5">
                   {company.social.map((profile) => (
                     <li key={profile.label}>
@@ -33,7 +33,7 @@ export function Footer() {
                         target="_blank"
                         rel="noreferrer noopener"
                         aria-label={`${company.shortName} on ${profile.label}`}
-                        className="gb-social group/social relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-gb-sm border border-gb-line-dark text-gb-silver transition-[color,border-color,transform] duration-300 ease-[var(--ease-gb)] hover:-translate-y-0.5 hover:border-gb-gold hover:text-gb-graphite focus-visible:-translate-y-0.5"
+                        className="gb-social group/social relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-gb-sm border border-gb-line text-gb-silver transition-[color,border-color,transform] duration-300 ease-[var(--ease-gb)] hover:-translate-y-0.5 hover:border-gb-gold hover:text-gb-black focus-visible:-translate-y-0.5"
                       >
                         <Icon name={profile.icon} className="relative z-10 h-[18px] w-[18px]" />
                       </a>
@@ -53,7 +53,7 @@ export function Footer() {
                     <li key={link.label}>
                       <Link
                         to={link.to}
-                        className="text-[0.875rem] leading-snug text-gb-silver transition-colors duration-200 hover:text-gb-white"
+                        className="text-[0.875rem] leading-snug text-gb-silver transition-colors duration-200 hover:text-gb-silver-light"
                       >
                         {link.label}
                       </Link>
@@ -113,9 +113,9 @@ export function Footer() {
         </div>
       </Container>
 
-      <div className="border-t border-gb-line-dark">
+      <div className="border-t border-gb-line">
         <Container className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[0.8125rem] text-gb-concrete-light">
+          <p className="text-[0.8125rem] text-gb-silver-dark">
             © {year} {company.legalName} All rights reserved.
           </p>
 
@@ -124,7 +124,7 @@ export function Footer() {
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className="text-[0.8125rem] text-gb-concrete-light transition-colors duration-200 hover:text-gb-silver-light"
+                  className="text-[0.8125rem] text-gb-silver-dark transition-colors duration-200 hover:text-gb-silver-light"
                 >
                   {item.label}
                 </Link>

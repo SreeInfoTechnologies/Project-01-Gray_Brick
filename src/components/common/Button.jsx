@@ -9,26 +9,36 @@ const base =
   'focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gb-gold ' +
   'active:translate-y-px disabled:pointer-events-none disabled:opacity-45'
 
+// One ground, one set of variants. The app used to carry a light and a dark
+// copy of every button ("outline" vs "outlineLight"); on an all-dark site that
+// second copy was just a second thing to keep in sync, so it is gone.
 const variants = {
-  // Dark CTA for light surfaces; fills gold from the bottom on hover.
+  // The loudest signal on the page: gold fill, near-black label at 6.58:1.
+  // Hover warms the fill to gold-light rather than swapping to another hue.
   primary:
-    'gb-btn gb-btn--gold bg-gb-graphite text-gb-white border border-gb-graphite shadow-gb-card ' +
-    'hover:border-gb-gold hover:text-gb-graphite hover:-translate-y-0.5 hover:shadow-gb-lift',
-  // Gold CTA for dark surfaces: the loudest signal on the page, used sparingly.
-  gold:
-    'gb-btn gb-btn--light bg-gb-gold text-gb-graphite border border-gb-gold ' +
-    'hover:border-gb-white hover:-translate-y-0.5 hover:shadow-gb-lift',
-  // Outline for light surfaces; fills graphite.
-  outline:
-    'gb-btn gb-btn--dark bg-transparent text-gb-graphite border border-gb-line-light-strong ' +
-    'hover:border-gb-graphite hover:text-gb-white hover:-translate-y-0.5',
-  // Outline for dark surfaces; fills gold.
-  outlineLight:
-    'gb-btn gb-btn--gold bg-transparent text-gb-white border border-gb-line-dark-strong ' +
-    'hover:border-gb-gold hover:text-gb-graphite hover:-translate-y-0.5',
-  // Quiet arrow links.
-  text: 'gb-textlink bg-transparent border-0 px-0 text-gb-graphite hover:text-gb-gold-dark',
-  textLight: 'gb-textlink bg-transparent border-0 px-0 text-gb-white hover:text-gb-gold',
+    'gb-btn gb-btn--gold-light bg-gb-gold text-gb-black border border-gb-gold ' +
+    'hover:border-gb-gold-light hover:-translate-y-0.5 hover:shadow-gb-gold',
+  // Quiet companion. Reads as a steel outline at rest; on hover gold sweeps up
+  // from the bottom edge and the label flips to near-black against it.
+  secondary:
+    'gb-btn gb-btn--gold bg-transparent text-gb-silver-light border border-gb-steel ' +
+    'hover:border-gb-gold hover:text-gb-black hover:-translate-y-0.5',
+  // For the rare button sitting on gold or on a bright patch of photography,
+  // where a gold-on-gold primary would disappear.
+  contrast:
+    'gb-btn gb-btn--gold bg-gb-black text-gb-silver-light border border-gb-black ' +
+    'hover:border-gb-gold hover:text-gb-black hover:-translate-y-0.5',
+  // Quiet arrow link.
+  text: 'gb-textlink bg-transparent border-0 px-0 text-gb-silver-light hover:text-gb-gold',
+}
+
+// Legacy polarity-specific names still used at a few call sites map onto the
+// variant that now carries that role.
+const aliases = {
+  gold: 'primary',
+  outline: 'secondary',
+  outlineLight: 'secondary',
+  textLight: 'text',
 }
 
 const sizes = {
@@ -56,11 +66,14 @@ export function Button({
   children,
   ...rest
 }) {
-  const isText = variant === 'text' || variant === 'textLight'
+  // Unknown variants fall through to primary rather than rendering an
+  // unstyled button.
+  const resolved = variants[variant] ? variant : (aliases[variant] ?? 'primary')
+  const isText = resolved === 'text'
 
   const classes = cn(
     base,
-    variants[variant],
+    variants[resolved],
     isText ? textSizes[size] : sizes[size],
     className,
   )

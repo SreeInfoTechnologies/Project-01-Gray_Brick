@@ -15,23 +15,23 @@ export default function NotFound() {
         path="/404"
       />
 
-      <section className="relative isolate flex min-h-[70svh] items-center overflow-hidden bg-gb-graphite">
+      <section className="relative isolate flex min-h-[70svh] items-center overflow-hidden bg-gb-black">
         <img
           src={backdrop}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 -z-20 h-full w-full object-cover opacity-30"
+          className="gb-photo gb-photo--backdrop absolute inset-0 -z-20 h-full w-full object-cover opacity-30"
         />
         <div className="gb-scrim gb-scrim--even gb-grain absolute inset-0 -z-10" aria-hidden="true" />
 
         <Container className="relative py-28 lg:py-36">
           <div className="flex max-w-2xl flex-col gap-6">
             <Reveal variant="fade">
-              <Eyebrow tone="light">Error 404</Eyebrow>
+              <Eyebrow>Error 404</Eyebrow>
             </Reveal>
 
             <Reveal>
-              <h1 className="text-display text-gb-white">This page is not on the plan</h1>
+              <h1 className="text-display text-gb-silver-light">This page is not on the plan</h1>
             </Reveal>
 
             <Reveal delay={1}>
@@ -50,8 +50,8 @@ export default function NotFound() {
               </Button>
             </Reveal>
 
-            <Reveal variant="fade" delay={3} className="mt-6 border-t border-gb-line-dark pt-6">
-              <p className="text-meta uppercase text-gb-concrete-light">Or go straight to</p>
+            <Reveal variant="fade" delay={3} className="mt-6 border-t border-gb-line pt-6">
+              <p className="text-meta uppercase text-gb-silver-dark">Or go straight to</p>
               <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
                 {primaryNav.slice(1).map((item) => (
                   <li key={item.to}>

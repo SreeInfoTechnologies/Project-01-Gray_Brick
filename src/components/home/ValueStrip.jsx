@@ -17,14 +17,14 @@ const STRIP = {
 
 export function ValueStrip() {
   return (
-    <section aria-label="What Gray Brick provides" className="bg-gb-charcoal">
+    <section aria-label="What Gray Brick provides" className="gb-concrete bg-gb-charcoal">
       <Container>
-        <ul className="grid grid-cols-2 border-t border-l border-gb-line-dark sm:grid-cols-3 lg:grid-cols-5">
+        <ul className="grid grid-cols-2 border-t border-l border-gb-line sm:grid-cols-3 lg:grid-cols-5">
           {solutions.map((solution, index) => (
             <li
               key={solution.id}
               className={cn(
-                'border-r border-b border-gb-line-dark',
+                'border-r border-b border-gb-line',
                 // The fifth cell stretches to close the row at each breakpoint,
                 // so the grid never ends on a half-empty line.
                 index === solutions.length - 1 && 'col-span-2 sm:col-span-2 lg:col-span-1',
@@ -36,7 +36,7 @@ export function ValueStrip() {
               >
                 <span
                   aria-hidden="true"
-                  className="absolute inset-0 origin-bottom scale-y-0 bg-gb-dark transition-transform duration-500 ease-[var(--ease-gb)] group-hover:scale-y-100"
+                  className="absolute inset-0 origin-bottom scale-y-0 bg-gb-graphite transition-transform duration-500 ease-[var(--ease-gb)] group-hover:scale-y-100"
                 />
 
                 <span className="relative flex items-start justify-between gap-3">
@@ -44,16 +44,16 @@ export function ValueStrip() {
                     name={solution.icon}
                     className="h-6 w-6 text-gb-gold transition-transform duration-500 ease-[var(--ease-gb)] group-hover:-translate-y-1 sm:h-7 sm:w-7"
                   />
-                  <span className="text-[0.625rem] font-semibold tracking-[0.18em] text-gb-concrete-light transition-colors duration-300 group-hover:text-gb-gold">
+                  <span className="text-[0.625rem] font-semibold tracking-[0.18em] text-gb-silver-dark transition-colors duration-300 group-hover:text-gb-gold">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </span>
 
-                <span className="relative mt-1 block text-[0.9375rem] font-semibold tracking-[0.02em] text-gb-white">
+                <span className="relative mt-1 block text-[0.9375rem] font-semibold tracking-[0.02em] text-gb-silver-light">
                   {STRIP[solution.id].label}
                 </span>
 
-                <span className="relative block text-[0.8125rem] leading-snug text-gb-concrete-light transition-colors duration-500 group-hover:text-gb-silver">
+                <span className="relative block text-[0.8125rem] leading-snug text-gb-silver-dark transition-colors duration-500 group-hover:text-gb-silver">
                   {STRIP[solution.id].note}
                 </span>
 

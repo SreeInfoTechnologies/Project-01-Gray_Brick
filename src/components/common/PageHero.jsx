@@ -26,12 +26,12 @@ export function PageHero({
   const parallaxRef = useParallax(52)
 
   return (
-    <section className={cn('relative isolate overflow-hidden bg-gb-graphite', className)}>
+    <section className={cn('relative isolate overflow-hidden bg-gb-black', className)}>
       <img
         ref={parallaxRef}
         src={image}
         alt={imageAlt}
-        className="gb-parallax absolute inset-x-0 -top-[9%] -z-20 h-[118%] w-full object-cover"
+        className="gb-photo gb-photo--backdrop gb-parallax absolute inset-x-0 -top-[9%] -z-20 h-[118%] w-full object-cover"
         loading="eager"
         decoding="async"
         fetchPriority="high"
@@ -49,11 +49,11 @@ export function PageHero({
         <div className="flex max-w-4xl flex-col gap-5">
           {eyebrow ? (
             <Reveal variant="fade">
-              <Eyebrow tone="light">{eyebrow}</Eyebrow>
+              <Eyebrow>{eyebrow}</Eyebrow>
             </Reveal>
           ) : null}
 
-          <AnimatedWords as="h1" text={title} className="text-display text-gb-white" />
+          <AnimatedWords as="h1" text={title} className="text-display text-gb-silver-light" />
 
           {lead ? (
             <Reveal delay={3}>
@@ -70,7 +70,7 @@ export function PageHero({
       </Container>
 
       {rail?.length ? (
-        <div className="relative border-t border-gb-line-dark bg-gb-graphite/70 backdrop-blur-[2px]">
+        <div className="relative border-t border-gb-line bg-gb-black/70 backdrop-blur-[2px]">
           <Container>
             <ul className="gb-stagger flex flex-wrap items-center gap-x-8 gap-y-3 py-4 sm:gap-x-12">
               {rail.map((item) => (

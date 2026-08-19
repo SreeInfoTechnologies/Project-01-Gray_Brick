@@ -38,6 +38,13 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Tailwind silently drops a theme variable nothing references, and an
+      # undefined CSS class is not an error to any tool in the chain: the
+      # element just renders without it. Both fail invisibly, so the design
+      # system is checked explicitly rather than left to the build log.
+      - name: Check design system
+        run: npm run check:tokens
+
       - name: Resolve deploy paths
         run: |
           # A project site is served from https://<owner>.github.io/<repo>/,

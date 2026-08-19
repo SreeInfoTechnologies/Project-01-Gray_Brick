@@ -53,7 +53,7 @@ export default function Contact() {
         ]}
       />
 
-      <section className="bg-gb-white py-16 sm:py-20 lg:py-28">
+      <section className="bg-gb-charcoal py-16 sm:py-20 lg:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">

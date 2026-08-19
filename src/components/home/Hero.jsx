@@ -20,7 +20,7 @@ import aisleWide from '@/assets/images/hero-aisle-wide.webp'
  */
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-gb-graphite">
+    <section className="relative isolate overflow-hidden bg-gb-black">
       <div
         className="gb-gridlines pointer-events-none absolute inset-0 z-0 opacity-60"
         aria-hidden="true"
@@ -29,12 +29,12 @@ export function Hero() {
       <Container className="relative z-10">
         <div className="grid lg:grid-cols-2">
           <div className="gb-intro flex flex-col justify-center gap-6 py-16 sm:py-20 lg:min-h-[82svh] lg:gap-7 lg:py-24 lg:pr-14">
-            <Eyebrow tone="light">Warehousing &amp; logistics infrastructure</Eyebrow>
+            <Eyebrow>Warehousing &amp; logistics infrastructure</Eyebrow>
 
             {/* The rule the rest of the panel hangs from. */}
-            <span className="block h-px w-full bg-gb-line-dark-strong" aria-hidden="true" />
+            <span className="block h-px w-full bg-gb-line-strong" aria-hidden="true" />
 
-            <h1 className="text-display text-gb-white">
+            <h1 className="text-display text-gb-silver-light">
               Warehouse space that fits the way you operate.
             </h1>
 
@@ -63,7 +63,7 @@ export function Hero() {
           <img
             src={aisleWide}
             alt="Stocked racking running the length of a warehouse aisle"
-            className="gb-kenburns h-full w-full object-cover"
+            className="gb-photo gb-photo--backdrop gb-kenburns h-full w-full object-cover"
             fetchPriority="high"
             decoding="sync"
           />
@@ -72,7 +72,7 @@ export function Hero() {
         {/* Feathered seam so the panel meets the photograph without a hard edge. */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 hidden w-28 bg-gradient-to-r from-gb-graphite to-transparent lg:block"
+          className="pointer-events-none absolute inset-y-0 left-0 hidden w-28 bg-gradient-to-r from-gb-black to-transparent lg:block"
         />
 
         {/* The transparent header crosses this image from lg up, and the top of
@@ -80,7 +80,7 @@ export function Hero() {
             nav links fall below 2:1 against it. */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 hidden h-36 bg-gradient-to-b from-gb-graphite via-gb-graphite/70 to-transparent lg:block"
+          className="pointer-events-none absolute inset-x-0 top-0 hidden h-36 bg-gradient-to-b from-gb-black via-gb-black/70 to-transparent lg:block"
         />
       </div>
     </section>

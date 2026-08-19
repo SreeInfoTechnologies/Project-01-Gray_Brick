@@ -6,35 +6,71 @@
    consumes the same custom properties via var(--color-gb-*), so there is
    never a second, drifting copy of the palette.
    --------------------------------------------------------------------------- */
-@theme {
-  /* Neutrals: the 85% of the page */
-  --color-gb-graphite: #111111;
-  --color-gb-charcoal: #181818;
-  --color-gb-dark: #292929;
-  --color-gb-industrial: #4d4d4d;
-  --color-gb-concrete: #6d6c6c;
-  /* Tertiary text on dark surfaces, because gb-concrete only reaches 3.6:1 on
-     graphite; this clears 4.5:1 on graphite, charcoal and dark alike. */
-  --color-gb-concrete-light: #909090;
-  --color-gb-silver: #b5b5b5;
-  --color-gb-silver-light: #d5d5d5;
-  --color-gb-white: #f7f7f5;
-  --color-gb-pure: #ffffff;
+/* `static` matters: by default Tailwind only emits the theme variables that a
+   generated utility happens to reference. The semantic aliases below are
+   consumed from SCSS via var() and never as a class, so without `static` they
+   are dropped from the bundle and every rule using them silently falls back to
+   the inherited value. */
+@theme static {
+  /* ---- Core neutral ramp -------------------------------------------------
+     Sampled from the logo artwork itself (luminance-bucketed average of the
+     source JPEG), not invented. Measured -> shipped:
+       #0d0d0b -> black      #191917 -> charcoal    #282828 -> graphite
+       #393939 -> concrete   #585858 -> steel       #a8a8a9 -> silver
+       #d8d8d9 -> silver-light
+     Values are nudged to an even step and a hair off pure-neutral so large
+     dark fields read as graphite rather than as a dead gray. */
+  --color-gb-black: #0d0e0f; /* page ground, footer */
+  --color-gb-charcoal: #171819; /* section surface */
+  --color-gb-graphite: #242526; /* card surface */
+  --color-gb-slate: #2e2f30; /* raised / hover surface */
+  --color-gb-concrete: #3b3c3d; /* borders, dividers */
+  --color-gb-steel: #5a5c5d; /* strong borders, disabled glyphs */
 
-  /* Brand gold: accent only, ~5% of surface area */
-  --color-gb-gold: #b19260;
-  --color-gb-gold-light: #c5a56f;
-  --color-gb-gold-dark: #80683f;
-  --color-gb-gold-soft: #d5bc91;
+  /* Text ramp. Every value below clears 4.5:1 on black, charcoal AND graphite,
+     so a text token can never be moved between surfaces and quietly fail.
+     silver-dark is the floor at 4.55:1 on graphite; nothing dimmer is a text
+     colour in this system. */
+  --color-gb-silver-dark: #8a8c8d; /* muted / tertiary */
+  --color-gb-silver: #a9aaab; /* secondary */
+  --color-gb-silver-light: #d1d1cf; /* primary body + headings */
+  --color-gb-white: #f2f2f0; /* deliberate max contrast, used sparingly */
 
-  /* Hairlines: the architectural grid detailing */
-  --color-gb-line-dark: rgb(255 255 255 / 0.12);
-  --color-gb-line-dark-strong: rgb(255 255 255 / 0.22);
-  --color-gb-line-light: rgb(17 17 17 / 0.12);
-  --color-gb-line-light-strong: rgb(17 17 17 / 0.24);
+  /* ---- Brand gold --------------------------------------------------------
+     Measured from the logo's chromatic pixels: #b29361 / #c8a771 / #886e45.
+     gold-dark is 3.29:1 on graphite, so it is a FILL and BORDER token only.
+     Never set it as a text colour on a dark surface. */
+  --color-gb-gold: #b19260; /* accent, 5.23:1 on graphite */
+  --color-gb-gold-light: #c5a56f; /* hover, 6.57:1 on graphite */
+  --color-gb-gold-dark: #8b7045; /* fills, borders, gradient stop */
+  --color-gb-gold-soft: #dbbb84; /* gold text that must read as text */
 
-  /* Feedback: brick red, dark enough to clear 4.5:1 on both light surfaces */
-  --color-gb-error: #b04a36;
+  /* ---- Hairlines ---------------------------------------------------------
+     Alpha rather than solid so a rule composites correctly whether it sits on
+     charcoal, on a card, or directly on photography. */
+  --color-gb-line: rgb(209 209 207 / 0.11);
+  --color-gb-line-strong: rgb(209 209 207 / 0.2);
+  --color-gb-line-gold: rgb(177 146 96 / 0.42);
+
+  /* ---- Semantic roles ----------------------------------------------------
+     Components should reach for these, not the raw ramp above, whenever the
+     colour carries a meaning rather than a specific design decision. */
+  --color-gb-surface-page: var(--color-gb-black);
+  --color-gb-surface: var(--color-gb-charcoal);
+  --color-gb-surface-card: var(--color-gb-graphite);
+  --color-gb-surface-raised: var(--color-gb-slate);
+  --color-gb-border: var(--color-gb-concrete);
+  --color-gb-text: var(--color-gb-silver-light);
+  --color-gb-text-secondary: var(--color-gb-silver);
+  --color-gb-text-muted: var(--color-gb-silver-dark);
+  --color-gb-text-inverse: var(--color-gb-black); /* on gold / on light fills */
+  --color-gb-accent: var(--color-gb-gold);
+  --color-gb-accent-hover: var(--color-gb-gold-light);
+
+  /* Feedback. The old brick red was tuned for white surfaces and only reaches
+     2.9:1 on charcoal; this one clears AA on every dark surface we ship. */
+  --color-gb-error: #e0705a;
+  --color-gb-error-surface: #2a1a17;
 
   /* Type */
   --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
@@ -75,10 +111,14 @@
   --radius-gb: 3px;
   --radius-gb-lg: 6px;
 
-  /* Restrained elevation */
-  --shadow-gb-card: 0 1px 2px rgb(17 17 17 / 0.05), 0 8px 24px -14px rgb(17 17 17 / 0.22);
-  --shadow-gb-lift: 0 2px 4px rgb(17 17 17 / 0.06), 0 22px 48px -22px rgb(17 17 17 / 0.34);
-  --shadow-gb-panel: 0 30px 70px -40px rgb(0 0 0 / 0.75);
+  /* Elevation. On a dark ground a light-surface shadow is invisible, so these
+     are deep and near-black; separation comes mostly from the border. */
+  --shadow-gb-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 28px -16px rgb(0 0 0 / 0.65);
+  --shadow-gb-lift: 0 2px 6px rgb(0 0 0 / 0.45), 0 26px 54px -24px rgb(0 0 0 / 0.8);
+  --shadow-gb-panel: 0 30px 70px -40px rgb(0 0 0 / 0.85);
+  /* The one sanctioned coloured shadow: a restrained gold halo for the primary
+     CTA only. Anything more becomes a neon site. */
+  --shadow-gb-gold: 0 10px 30px -14px rgb(177 146 96 / 0.5);
 
   /* Motion */
   --ease-gb: cubic-bezier(0.22, 1, 0.36, 1);
@@ -90,5 +130,5 @@
 
 /* Utility-layer helpers that are genuinely reusable across pages. */
 @utility gb-hairline-x {
-  border-inline-start: 1px solid var(--color-gb-line-dark);
+  border-inline-start: 1px solid var(--color-gb-line);
 }

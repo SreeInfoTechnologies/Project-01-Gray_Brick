@@ -20,14 +20,12 @@ export function SectionHeading({
   title,
   lead,
   action,
-  tone = 'dark',
   align = 'left',
   size = 'default',
   as: Tag = 'h2',
   className,
   titleClassName,
 }) {
-  const onDark = tone === 'light'
   const centered = align === 'center'
 
   return (
@@ -41,7 +39,7 @@ export function SectionHeading({
       <div className={cn('flex flex-col gap-4', centered ? 'items-center' : 'max-w-3xl')}>
         {eyebrow ? (
           <Reveal variant="fade">
-            <Eyebrow tone={tone} index={index}>{eyebrow}</Eyebrow>
+            <Eyebrow index={index}>{eyebrow}</Eyebrow>
           </Reveal>
         ) : null}
 
@@ -50,7 +48,7 @@ export function SectionHeading({
           text={title}
           className={cn(
             titleSizes[size],
-            onDark ? 'text-gb-white' : 'text-gb-graphite',
+            'text-gb-silver-light',
             titleClassName,
           )}
         />
@@ -61,7 +59,7 @@ export function SectionHeading({
               className={cn(
                 'text-lead gb-measure',
                 centered && 'mx-auto',
-                onDark ? 'text-gb-silver' : 'text-gb-industrial',
+                'text-gb-silver',
               )}
             >
               {lead}

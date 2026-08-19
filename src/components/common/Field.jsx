@@ -2,33 +2,33 @@ import { Icon } from './Icon'
 import { cn } from '@/lib/cn'
 
 const controlBase =
-  'w-full rounded-gb-sm border bg-gb-pure px-4 text-[0.9375rem] text-gb-graphite ' +
-  'placeholder:text-gb-concrete transition-colors duration-200 ' +
-  'hover:border-gb-concrete focus:border-gb-graphite focus:outline-2 focus:outline-offset-2 focus:outline-gb-gold ' +
-  'disabled:cursor-not-allowed disabled:bg-gb-white disabled:text-gb-concrete'
+  'w-full rounded-gb-sm border bg-gb-graphite px-4 text-[0.9375rem] text-gb-silver-light ' +
+  'placeholder:text-gb-silver-dark transition-colors duration-200 ' +
+  'hover:border-gb-steel focus:border-gb-gold focus:outline-2 focus:outline-offset-2 focus:outline-gb-gold ' +
+  'disabled:cursor-not-allowed disabled:bg-gb-charcoal disabled:text-gb-silver-dark'
 
 const stateClasses = (error) =>
-  error ? 'border-gb-error hover:border-gb-error' : 'border-gb-line-light-strong'
+  error ? 'border-gb-error hover:border-gb-error' : 'border-gb-line-strong'
 
 function FieldShell({ id, label, hint, error, required, hideOptional, className, children }) {
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      <label htmlFor={id} className="text-meta uppercase text-gb-industrial">
+      <label htmlFor={id} className="text-meta uppercase text-gb-silver">
         {label}
         {required ? (
-          <span className="ml-1 text-gb-gold-dark" aria-hidden="true">
+          <span className="ml-1 text-gb-gold" aria-hidden="true">
             *
           </span>
         ) : null}
         {!required && !hideOptional ? (
-          <span className="ml-1.5 normal-case tracking-normal text-gb-concrete">(optional)</span>
+          <span className="ml-1.5 normal-case tracking-normal text-gb-silver-dark">(optional)</span>
         ) : null}
       </label>
 
       {children}
 
       {hint && !error ? (
-        <p id={`${id}-hint`} className="text-[0.8125rem] leading-snug text-gb-concrete">
+        <p id={`${id}-hint`} className="text-[0.8125rem] leading-snug text-gb-silver-dark">
           {hint}
         </p>
       ) : null}
@@ -142,7 +142,7 @@ export function SelectField({
         </select>
         <Icon
           name="chevronDown"
-          className="pointer-events-none absolute top-1/2 right-4 h-4 w-4 -translate-y-1/2 text-gb-concrete"
+          className="pointer-events-none absolute top-1/2 right-4 h-4 w-4 -translate-y-1/2 text-gb-silver-dark"
         />
       </div>
     </FieldShell>

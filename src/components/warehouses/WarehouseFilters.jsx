@@ -62,8 +62,8 @@ export function WarehouseFilters({ filters, onChange, onClear, resultCount, tota
           {loading ? (
             <Skeleton className="h-4 w-32" />
           ) : (
-            <p aria-live="polite" className="text-[0.8125rem] text-gb-industrial">
-              <span className="font-semibold text-gb-graphite">{resultCount}</span>
+            <p aria-live="polite" className="text-[0.8125rem] text-gb-silver">
+              <span className="font-semibold text-gb-silver-light">{resultCount}</span>
               {' of '}
               {totalCount} facilities
             </p>
@@ -84,11 +84,11 @@ export function WarehouseFilters({ filters, onChange, onClear, resultCount, tota
               <button
                 type="button"
                 onClick={() => onChange(key, '')}
-                className="flex items-center gap-2 rounded-gb-sm border border-gb-line-light-strong bg-gb-pure py-1.5 pr-2.5 pl-3 text-[0.8125rem] text-gb-graphite transition-colors duration-200 hover:border-gb-graphite"
+                className="flex items-center gap-2 rounded-gb-sm border border-gb-line-strong bg-gb-graphite py-1.5 pr-2.5 pl-3 text-[0.8125rem] text-gb-silver-light transition-colors duration-200 hover:border-gb-concrete"
               >
-                <span className="text-gb-concrete">{chipLabels[key]}:</span>
+                <span className="text-gb-silver-dark">{chipLabels[key]}:</span>
                 {labelFor(chipSources[key], filters[key])}
-                <Icon name="close" className="h-3.5 w-3.5 text-gb-concrete" />
+                <Icon name="close" className="h-3.5 w-3.5 text-gb-silver-dark" />
                 <span className="sr-only">Remove this filter</span>
               </button>
             </li>

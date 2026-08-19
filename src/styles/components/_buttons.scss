@@ -29,8 +29,8 @@
   }
 
   .gb-btn--gold::before { background-color: var(--color-gb-gold); }
-  .gb-btn--dark::before { background-color: var(--color-gb-graphite); }
-  .gb-btn--light::before { background-color: var(--color-gb-white); }
+  .gb-btn--gold-light::before { background-color: var(--color-gb-gold-light); }
+  .gb-btn--dark::before { background-color: var(--color-gb-black); }
 
   @media (prefers-reduced-motion: reduce) {
     .gb-btn::before { transition: none; }

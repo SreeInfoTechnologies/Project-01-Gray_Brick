@@ -38,13 +38,12 @@ export default function Solutions() {
           key={solution.id}
           solution={solution}
           reversed={index % 2 === 1}
-          tone={index % 2 === 1 ? 'dark' : 'light'}
         />
       ))}
 
       <ProcessFlow />
 
-      <section className="bg-gb-white py-20 sm:py-24 lg:py-28">
+      <section className="bg-gb-charcoal py-20 sm:py-24 lg:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">

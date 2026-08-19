@@ -4,7 +4,7 @@ import { cn } from '@/lib/cn'
 export function Skeleton({ className }) {
   return (
     <span
-      className={cn('gb-shimmer block rounded-gb-sm bg-gb-silver-light/70', className)}
+      className={cn('gb-shimmer block rounded-gb-sm bg-gb-slate', className)}
       aria-hidden="true"
     />
   )

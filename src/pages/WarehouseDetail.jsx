@@ -33,10 +33,9 @@ function NotAvailable() {
         description="The facility you are looking for is no longer listed. Browse the current Gray Brick Infra warehousing inventory."
         path="/warehouses"
       />
-      <div className="bg-gb-graphite pt-32 pb-20 lg:pt-44 lg:pb-28">
+      <div className="bg-gb-black pt-32 pb-20 lg:pt-44 lg:pb-28">
         <Container size="narrow">
           <EmptyState
-            tone="light"
             icon="warehouse"
             title="That facility is no longer listed"
             description="It may have been taken up, or the link may be out of date. The current list is on the warehouses page. Or tell us what you need and we will look for you."
@@ -59,10 +58,9 @@ function NotAvailable() {
 
 function LoadFailed({ onRetry }) {
   return (
-    <div className="bg-gb-graphite pt-32 pb-20 lg:pt-44 lg:pb-28">
+    <div className="bg-gb-black pt-32 pb-20 lg:pt-44 lg:pb-28">
       <Container size="narrow">
         <EmptyState
-          tone="light"
           icon="alert"
           title="We couldn't load this facility right now"
           description="Please try again in a moment. Or send us your requirement and we will share the details directly."
@@ -107,11 +105,11 @@ export default function WarehouseDetail() {
       />
 
       {/* Masthead */}
-      <section className="relative isolate overflow-hidden bg-gb-graphite">
+      <section className="relative isolate overflow-hidden bg-gb-black">
         <img
           src={warehouse.image}
           alt={warehouse.imageAlt}
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
+          className="gb-photo gb-photo--backdrop absolute inset-0 -z-20 h-full w-full object-cover"
           fetchPriority="high"
           decoding="sync"
         />
@@ -130,11 +128,11 @@ export default function WarehouseDetail() {
 
           <div className="flex flex-col gap-6">
             <Reveal variant="fade">
-              <Eyebrow tone="light">{typeLabel}</Eyebrow>
+              <Eyebrow>{typeLabel}</Eyebrow>
             </Reveal>
 
             <Reveal>
-              <h1 className="text-display max-w-4xl text-gb-white">{warehouse.name}</h1>
+              <h1 className="text-display max-w-4xl text-gb-silver-light">{warehouse.name}</h1>
             </Reveal>
 
             <Reveal variant="fade" delay={1}>
@@ -160,7 +158,7 @@ export default function WarehouseDetail() {
       </section>
 
       {/* Overview + key features */}
-      <section className="bg-gb-white py-18 sm:py-20 lg:py-28">
+      <section className="bg-gb-charcoal py-18 sm:py-20 lg:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="flex flex-col gap-6 lg:col-span-7">
@@ -168,26 +166,26 @@ export default function WarehouseDetail() {
                 <Eyebrow>Overview</Eyebrow>
               </Reveal>
               <Reveal>
-                <h2 className="text-display-sm text-gb-graphite">
+                <h2 className="text-display-sm text-gb-silver-light">
                   Is this the right space for your operation?
                 </h2>
               </Reveal>
               {warehouse.overview.map((paragraph, index) => (
                 <Reveal key={paragraph.slice(0, 24)} delay={index + 1}>
-                  <p className="text-lead gb-measure text-gb-industrial">{paragraph}</p>
+                  <p className="text-lead gb-measure text-gb-silver">{paragraph}</p>
                 </Reveal>
               ))}
             </div>
 
             <div className="lg:col-span-5">
               <Reveal variant="fade">
-                <div className="gb-ticks border border-gb-line-light bg-gb-pure p-6 sm:p-8">
-                  <h2 className="text-eyebrow uppercase text-gb-gold-dark">Key features</h2>
+                <div className="gb-ticks gb-card p-6 sm:p-8">
+                  <h2 className="text-eyebrow uppercase text-gb-gold">Key features</h2>
                   <ul className="mt-6 flex flex-col gap-4">
                     {warehouse.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-3">
-                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold-dark" />
-                        <span className="text-[0.9375rem] leading-relaxed text-gb-industrial">
+                        <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
+                        <span className="text-[0.9375rem] leading-relaxed text-gb-silver">
                           {feature}
                         </span>
                       </li>
@@ -201,7 +199,7 @@ export default function WarehouseDetail() {
       </section>
 
       {/* Specifications */}
-      <section className="border-y border-gb-line-light bg-gb-pure py-18 sm:py-20 lg:py-24">
+      <section className="border-y border-gb-line bg-gb-black py-18 sm:py-20 lg:py-24">
         <Container>
           <SectionHeading
             eyebrow="Specifications"
@@ -216,7 +214,7 @@ export default function WarehouseDetail() {
       </section>
 
       {/* Location */}
-      <section className="bg-gb-white py-18 sm:py-20 lg:py-24">
+      <section className="bg-gb-charcoal py-18 sm:py-20 lg:py-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
@@ -230,35 +228,35 @@ export default function WarehouseDetail() {
 
             <div className="lg:col-span-7">
               <Reveal variant="fade">
-                <dl className="grid gap-px border border-gb-line-light bg-gb-line-light sm:grid-cols-2">
-                  <div className="bg-gb-pure p-5">
-                    <dt className="text-meta uppercase text-gb-concrete">Area</dt>
-                    <dd className="mt-2 text-[0.9375rem] font-semibold text-gb-graphite">
+                <dl className="grid gap-px border border-gb-line bg-gb-concrete sm:grid-cols-2">
+                  <div className="bg-gb-graphite p-5">
+                    <dt className="text-meta uppercase text-gb-silver-dark">Area</dt>
+                    <dd className="mt-2 text-[0.9375rem] font-semibold text-gb-silver-light">
                       {location?.label ?? 'Not listed'}
                     </dd>
                   </div>
-                  <div className="bg-gb-pure p-5">
-                    <dt className="text-meta uppercase text-gb-concrete">Corridor</dt>
-                    <dd className="mt-2 text-[0.9375rem] font-semibold text-gb-graphite">
+                  <div className="bg-gb-graphite p-5">
+                    <dt className="text-meta uppercase text-gb-silver-dark">Corridor</dt>
+                    <dd className="mt-2 text-[0.9375rem] font-semibold text-gb-silver-light">
                       {location?.corridor ?? 'Not listed'}
                     </dd>
                   </div>
-                  <div className="bg-gb-pure p-5">
-                    <dt className="text-meta uppercase text-gb-concrete">City</dt>
-                    <dd className="mt-2 text-[0.9375rem] font-semibold text-gb-graphite">
+                  <div className="bg-gb-graphite p-5">
+                    <dt className="text-meta uppercase text-gb-silver-dark">City</dt>
+                    <dd className="mt-2 text-[0.9375rem] font-semibold text-gb-silver-light">
                       Bengaluru, Karnataka
                     </dd>
                   </div>
-                  <div className="bg-gb-pure p-5">
-                    <dt className="text-meta uppercase text-gb-concrete">Site address</dt>
-                    <dd className="mt-2 text-[0.9375rem] text-gb-concrete italic">
+                  <div className="bg-gb-graphite p-5">
+                    <dt className="text-meta uppercase text-gb-silver-dark">Site address</dt>
+                    <dd className="mt-2 text-[0.9375rem] text-gb-silver-dark italic">
                       Shared on enquiry
                     </dd>
                   </div>
                 </dl>
 
-                <p className="mt-5 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-gb-concrete">
-                  <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold-dark" />
+                <p className="mt-5 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-gb-silver-dark">
+                  <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
                   <span>
                     We share exact site addresses once a requirement is registered, so a visit can
                     be arranged with the facility team rather than turning up unannounced.
@@ -271,7 +269,7 @@ export default function WarehouseDetail() {
       </section>
 
       {/* Gallery */}
-      <section className="border-t border-gb-line-light bg-gb-pure py-18 sm:py-20 lg:py-24">
+      <section className="border-t border-gb-line bg-gb-black py-18 sm:py-20 lg:py-24">
         <Container>
           <SectionHeading size="sm" eyebrow="Gallery" title="Inside and around the facility" />
           <Reveal variant="fade" className="mt-10 lg:mt-12">
@@ -281,7 +279,7 @@ export default function WarehouseDetail() {
       </section>
 
       {/* Enquiry */}
-      <section id="enquiry" className="scroll-mt-28 bg-gb-white py-18 sm:py-20 lg:py-28">
+      <section id="enquiry" className="scroll-mt-28 bg-gb-charcoal py-18 sm:py-20 lg:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
@@ -307,7 +305,7 @@ export default function WarehouseDetail() {
 
       {/* Related */}
       {related.length > 0 ? (
-        <section className="border-t border-gb-line-light bg-gb-pure py-18 sm:py-20 lg:py-24">
+        <section className="border-t border-gb-line bg-gb-black py-18 sm:py-20 lg:py-24">
           <Container>
             <SectionHeading
               eyebrow="Related facilities"
@@ -316,7 +314,7 @@ export default function WarehouseDetail() {
               action={
                 <Link
                   to="/warehouses"
-                  className="gb-arrow-host flex items-center gap-2 text-[0.8125rem] font-semibold text-gb-graphite transition-colors duration-200 hover:text-gb-gold-dark"
+                  className="gb-arrow-host flex items-center gap-2 text-[0.8125rem] font-semibold text-gb-silver-light transition-colors duration-200 hover:text-gb-gold"
                 >
                   View all facilities
                   <Icon name="arrowRight" className="gb-arrow h-4 w-4" />

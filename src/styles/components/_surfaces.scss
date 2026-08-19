@@ -1,0 +1,99 @@
+// ---------------------------------------------------------------------------
+// Surfaces, material and photographic grade.
+//
+// The tokens in tailwind.css say what a colour IS; the semantic aliases there
+// (--color-gb-surface-card, --color-gb-text, --color-gb-border, …) say what it
+// MEANS. That mapping deliberately lives on the tokens rather than on a parallel
+// set of classes, because a utility-first codebase consumes tokens directly.
+//
+// Only two roles are also classes, and only because they remove real
+// repetition: `.gb-page` and `.gb-card`, the latter replacing the same
+// border-plus-graphite trio that had been written out at ten call sites.
+// ---------------------------------------------------------------------------
+
+@layer components {
+  // -- Surfaces -------------------------------------------------------------
+  // Page ground. The darkest value; the footer shares it so the page bottom
+  // reads as one continuous field.
+  .gb-page {
+    background-color: var(--color-gb-surface-page);
+    color: var(--color-gb-text);
+  }
+
+  // Card surface: one step up again, always paired with a border because on a
+  // dark ground a 14-unit luminance step alone is too weak an edge.
+  .gb-card {
+    background-color: var(--color-gb-surface-card);
+    border: 1px solid var(--color-gb-border);
+  }
+
+  // -- Material texture -----------------------------------------------------
+  // Large flat fields of #0d0e0f read as a dead void on a good monitor. These
+  // give them a surface without giving them a pattern: both sit far below the
+  // threshold where you would call it "a texture", and are there to be felt
+  // rather than seen.
+  //
+  // Painted as a positioned overlay with no negative z-index, matching how
+  // .gb-gridlines already works. A negative z-index here would need the host to
+  // avoid creating a stacking context, which is not something a utility class
+  // can promise.
+  .gb-concrete {
+    position: relative;
+  }
+
+  .gb-concrete::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgb(255 255 255 / 0.012) 0 1px,
+      transparent 1px 7px
+    );
+  }
+
+  // A brick course, at the scale of actual masonry. The mark is a brick and the
+  // splash opens on a brick wall; this carries that through to the page itself.
+  .gb-brick {
+    position: relative;
+  }
+
+  .gb-brick::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.016) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.016) 1px, transparent 1px);
+    background-size: 128px 44px;
+  }
+}
+
+@layer components {
+  // -- Photographic grade ---------------------------------------------------
+  // Stock warehousing and freight photography arrives in whatever colour the
+  // photographer shot it: the rail and port frames in particular are a hard
+  // cyan that belongs to no part of this palette and reads as another
+  // company's site sitting inside ours.
+  //
+  // Rather than filtering hard enough to look unreal, this pulls saturation
+  // back and adds a small warm shift, so blues settle toward steel and the
+  // ambers already in frame lean toward the brand gold. Values were chosen by
+  // grading every image in src/assets/images and measuring the result: at these
+  // settings all but one drop under 14% of pixels in the cyan band, while the
+  // warehouse interiors keep enough saturation to still read as photographs.
+  .gb-photo {
+    filter: saturate(0.5) sepia(0.3) contrast(1.06) brightness(0.96);
+  }
+
+  // Full-bleed imagery sitting behind text, under a scrim. Measuring a graded
+  // page hero showed 58% of its pixels still landing in the cyan band, which is
+  // enough for the page to read as someone else's brand at a glance. These
+  // frames are already darkened by the scrim and carry no detail the reader is
+  // asked to study, so they take a firmer grade than card photography does.
+  .gb-photo--backdrop {
+    filter: saturate(0.34) sepia(0.34) contrast(1.08) brightness(0.9);
+  }
+}

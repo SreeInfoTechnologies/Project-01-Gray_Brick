@@ -24,13 +24,13 @@ export function CTASection({
   const parallaxRef = useParallax(60, motion)
 
   return (
-    <section className="relative isolate overflow-hidden bg-gb-graphite">
+    <section className="relative isolate overflow-hidden bg-gb-black">
       <img
         ref={parallaxRef}
         src={ctaImage}
         alt=""
         aria-hidden="true"
-        className="gb-parallax absolute inset-x-0 -top-[10%] -z-20 h-[120%] w-full object-cover opacity-55"
+        className="gb-photo gb-photo--backdrop gb-parallax absolute inset-x-0 -top-[10%] -z-20 h-[120%] w-full object-cover opacity-55"
         loading="lazy"
         decoding="async"
       />
@@ -40,10 +40,10 @@ export function CTASection({
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
           <div className="flex max-w-2xl flex-col gap-5">
             <Reveal variant="fade">
-              <Eyebrow tone="light">{eyebrow}</Eyebrow>
+              <Eyebrow>{eyebrow}</Eyebrow>
             </Reveal>
             <Reveal>
-              <h2 className="text-display text-gb-white">{title}</h2>
+              <h2 className="text-display text-gb-silver-light">{title}</h2>
             </Reveal>
             <Reveal delay={1}>
               <p className="text-lead gb-measure text-gb-silver-light">{description}</p>

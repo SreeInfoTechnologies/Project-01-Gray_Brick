@@ -289,8 +289,8 @@ export const warehouses = [
       'Suits distribution operations',
     ],
     suitableFor: ['Distribution'],
-    image: railFreight,
-    imageAlt: 'Container freight movement of the type planned at the Doddaballapur hub',
+    image: containerTruck,
+    imageAlt: 'Container-bodied goods vehicle of the kind the Doddaballapur hub is planned around',
     gallery: [
       { src: railFreight, alt: 'Container freight train alongside stacked containers' },
       { src: railWagons, alt: 'Freight wagons standing in the rail yard' },

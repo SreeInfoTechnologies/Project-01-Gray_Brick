@@ -7,8 +7,7 @@ import { cn } from '@/lib/cn'
  * visible spine: the reader can see where they are in the sequence without
  * anything having to move.
  */
-export function Eyebrow({ children, index, tone = 'dark', className }) {
-  const onDark = tone === 'light'
+export function Eyebrow({ children, index, className }) {
 
   return (
     // items-start (not center) so the gold rule stays level with the first
@@ -18,7 +17,7 @@ export function Eyebrow({ children, index, tone = 'dark', className }) {
         <span
           className={cn(
             'text-eyebrow tabular-nums',
-            onDark ? 'text-gb-gold' : 'text-gb-gold-dark',
+            'text-gb-gold',
           )}
         >
           {index}
@@ -27,7 +26,7 @@ export function Eyebrow({ children, index, tone = 'dark', className }) {
 
       <span className="mt-[0.5em] h-px w-7 shrink-0 bg-gb-gold sm:w-9" aria-hidden="true" />
 
-      <span className={cn('text-eyebrow uppercase', onDark ? 'text-gb-silver' : 'text-gb-industrial')}>
+      <span className={cn('text-eyebrow uppercase', 'text-gb-silver')}>
         {children}
       </span>
     </span>

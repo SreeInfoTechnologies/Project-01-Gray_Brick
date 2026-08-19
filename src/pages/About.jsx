@@ -84,7 +84,7 @@ export default function About() {
       />
 
       {/* Who we are */}
-      <section className="bg-gb-white py-18 sm:py-20 lg:py-28">
+      <section className="bg-gb-charcoal py-18 sm:py-20 lg:py-28">
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="flex flex-col gap-6 lg:col-span-6">
@@ -93,13 +93,13 @@ export default function About() {
               </Reveal>
 
               <Reveal>
-                <h2 className="text-display text-gb-graphite">
+                <h2 className="text-display text-gb-silver-light">
                   A warehousing partner, not a landlord
                 </h2>
               </Reveal>
 
               <Reveal delay={1}>
-                <p className="text-lead gb-measure text-gb-industrial">
+                <p className="text-lead gb-measure text-gb-silver">
                   We help businesses find warehouse space that fits how they work. That means
                   ready-to-move and built-to-suit facilities, fulfillment and distribution space,
                   and help with the parts of the process that usually get left to the occupier.
@@ -107,7 +107,7 @@ export default function About() {
               </Reveal>
 
               <Reveal delay={2}>
-                <p className="gb-measure text-[0.9375rem] leading-relaxed text-gb-industrial">
+                <p className="gb-measure text-[0.9375rem] leading-relaxed text-gb-silver">
                   We are based in Bengaluru and work across the industrial corridors that serve
                   the city. That focus is deliberate. Knowing how a corridor connects, how vehicles
                   move through it and what it is like at seven in the morning is worth more to an
@@ -139,14 +139,13 @@ export default function About() {
       <Leadership />
 
       {/* Philosophy */}
-      <section className="relative isolate overflow-hidden bg-gb-graphite py-20 sm:py-24 lg:py-32">
+      <section className="relative isolate overflow-hidden bg-gb-charcoal py-20 sm:py-24 lg:py-32">
         <div className="gb-gridlines absolute inset-0 -z-10 opacity-60" aria-hidden="true" />
 
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
               <SectionHeading
-                tone="light"
                 eyebrow="Philosophy"
                 title="The shed is the easy part"
               />
@@ -183,7 +182,7 @@ export default function About() {
       </section>
 
       {/* Approach */}
-      <section className="bg-gb-pure py-18 sm:py-20 lg:py-28">
+      <section className="bg-gb-black py-18 sm:py-20 lg:py-28">
         <Container>
           <SectionHeading
             eyebrow="Approach"
@@ -191,16 +190,16 @@ export default function About() {
             lead="Four stages, in the same order every time. There is nothing clever about it. It is just done properly."
           />
 
-          <ol className="gb-stagger mt-12 grid gap-px border border-gb-line-light bg-gb-line-light sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+          <ol className="gb-stagger mt-12 grid gap-px border border-gb-line bg-gb-concrete sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
             {approach.map((item) => (
-              <Reveal as="li" key={item.step} className="flex flex-col gap-4 bg-gb-pure p-6 lg:p-8">
-                <span className="text-[0.6875rem] font-semibold tracking-[0.18em] text-gb-gold-dark">
+              <Reveal as="li" key={item.step} className="flex flex-col gap-4 bg-gb-graphite p-6 lg:p-8">
+                <span className="text-[0.6875rem] font-semibold tracking-[0.18em] text-gb-gold">
                   {item.step}
                 </span>
-                <h3 className="text-lg leading-snug font-bold tracking-tight text-gb-graphite">
+                <h3 className="text-lg leading-snug font-bold tracking-tight text-gb-silver-light">
                   {item.title}
                 </h3>
-                <p className="text-[0.875rem] leading-relaxed text-gb-concrete">{item.body}</p>
+                <p className="text-[0.875rem] leading-relaxed text-gb-silver-dark">{item.body}</p>
               </Reveal>
             ))}
           </ol>
@@ -208,7 +207,7 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="bg-gb-white py-18 sm:py-20 lg:py-28">
+      <section className="bg-gb-charcoal py-18 sm:py-20 lg:py-28">
         <Container>
           <SectionHeading eyebrow="Values" title="What we hold ourselves to" />
 
@@ -217,13 +216,13 @@ export default function About() {
               <Reveal
                 as="li"
                 key={value.title}
-                className="gb-ticks flex flex-col gap-4 border border-gb-line-light bg-gb-pure p-6 sm:p-8"
+                className="gb-ticks flex flex-col gap-4 gb-card p-6 sm:p-8"
               >
-                <span className="flex h-10 w-10 items-center justify-center border border-gb-line-light text-gb-gold-dark">
+                <span className="flex h-10 w-10 items-center justify-center border border-gb-line text-gb-gold">
                   <Icon name={value.icon} className="h-4.5 w-4.5" />
                 </span>
-                <h3 className="text-display-sm text-gb-graphite">{value.title}</h3>
-                <p className="text-[0.9375rem] leading-relaxed text-gb-industrial">{value.body}</p>
+                <h3 className="text-display-sm text-gb-silver-light">{value.title}</h3>
+                <p className="text-[0.9375rem] leading-relaxed text-gb-silver">{value.body}</p>
               </Reveal>
             ))}
           </ul>
@@ -231,7 +230,7 @@ export default function About() {
       </section>
 
       {/* Office */}
-      <section className="border-t border-gb-line-light bg-gb-pure py-16 sm:py-20">
+      <section className="border-t border-gb-line bg-gb-black py-16 sm:py-20">
         <Container>
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex flex-col gap-5">
@@ -239,7 +238,7 @@ export default function About() {
                 <Eyebrow>Where we are</Eyebrow>
               </Reveal>
               <Reveal>
-                <address className="text-display-sm text-gb-graphite not-italic">
+                <address className="text-display-sm text-gb-silver-light not-italic">
                   {addressLines.map((line) => (
                     <span key={line} className="block">
                       {line}

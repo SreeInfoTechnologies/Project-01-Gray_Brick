@@ -17,7 +17,7 @@ export function Leadership() {
   const { name, title, message } = company.leadership
 
   return (
-    <section className="border-t border-gb-line-light bg-gb-pure py-16 sm:py-20 lg:py-24">
+    <section className="border-t border-gb-line bg-gb-black py-16 sm:py-20 lg:py-24">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
           <Reveal variant="clip" className="lg:col-span-4">
@@ -25,7 +25,7 @@ export function Leadership() {
               src={portrait}
               alt={`${name}, ${title} of ${company.legalName}`}
               ratio="4/5"
-              className="gb-ticks rounded-gb-sm border border-gb-line-light"
+              className="gb-ticks rounded-gb-sm border border-gb-line"
             />
           </Reveal>
 
@@ -35,22 +35,22 @@ export function Leadership() {
             </Reveal>
 
             <Reveal>
-              <h2 className="text-display text-gb-graphite">{name}</h2>
+              <h2 className="text-display text-gb-silver-light">{name}</h2>
             </Reveal>
 
             <Reveal delay={1} className="flex items-center gap-3">
               <span className="h-px w-9 shrink-0 bg-gb-gold" aria-hidden="true" />
-              <span className="text-meta uppercase text-gb-gold-dark">{title}</span>
+              <span className="text-meta uppercase text-gb-gold">{title}</span>
             </Reveal>
 
             {message ? (
               <Reveal delay={2}>
-                <p className="text-lead gb-measure text-gb-industrial">{message}</p>
+                <p className="text-lead gb-measure text-gb-silver">{message}</p>
               </Reveal>
             ) : null}
 
-            <Reveal variant="fade" delay={2} className="mt-2 border-t border-gb-line-light pt-5">
-              <p className="text-[0.9375rem] leading-relaxed text-gb-concrete">
+            <Reveal variant="fade" delay={2} className="mt-2 border-t border-gb-line pt-5">
+              <p className="text-[0.9375rem] leading-relaxed text-gb-silver-dark">
                 {company.legalName}
                 <span className="mx-2 text-gb-silver" aria-hidden="true">
                   /

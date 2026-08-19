@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'animations';
+@use 'components/surfaces';
 @use 'components/layout';
 @use 'components/buttons';
 
@@ -30,8 +31,8 @@
 
   body {
     margin: 0;
-    background-color: var(--color-gb-white);
-    color: var(--color-gb-graphite);
+    background-color: var(--color-gb-surface-page);
+    color: var(--color-gb-text);
     font-family: var(--font-sans);
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
@@ -69,13 +70,40 @@
 
   ::selection {
     background-color: var(--color-gb-gold);
-    color: var(--color-gb-graphite);
+    color: var(--color-gb-black);
+  }
+
+  // The scrollbar is a full-height strip of UI; left at the OS default it is
+  // the one bright element on an otherwise dark page.
+  * {
+    scrollbar-color: var(--color-gb-steel) var(--color-gb-black);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-gb-black);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-gb-concrete);
+    border: 2px solid var(--color-gb-black);
+    border-radius: 99px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-gb-steel);
   }
 
   // Native controls inherit the brand rather than the OS.
   :root {
     accent-color: var(--color-gb-gold);
-    color-scheme: light;
+    // Tells the browser to render native controls, form autofill and the
+    // scrollbar against a dark ground instead of a light one.
+    color-scheme: dark;
   }
 }
 
@@ -89,7 +117,7 @@
     transform: translateY(-200%);
     padding: 0.75rem 1.25rem;
     background-color: var(--color-gb-graphite);
-    color: var(--color-gb-white);
+    color: var(--color-gb-silver-light);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -128,7 +156,7 @@
     pointer-events: none;
     background-image: linear-gradient(
       to right,
-      var(--color-gb-line-dark) 0 1px,
+      var(--color-gb-line) 0 1px,
       transparent 1px 100%
     );
     background-size: 25% 100%;
@@ -142,31 +170,31 @@
     pointer-events: none;
     background:
       // Top band: the fixed header sits on this, so it is never optional.
-      linear-gradient(to bottom, rgb(9 9 9 / 0.78) 0%, rgb(9 9 9 / 0.42) 12%, transparent 26%),
+      linear-gradient(to bottom, rgb(13 14 15 / 0.78) 0%, rgb(13 14 15 / 0.42) 12%, transparent 26%),
       linear-gradient(
         to right,
-        rgb(9 9 9 / 0.82) 0%,
-        rgb(9 9 9 / 0.6) 40%,
-        rgb(9 9 9 / 0.22) 74%,
-        rgb(9 9 9 / 0.3) 100%
+        rgb(13 14 15 / 0.82) 0%,
+        rgb(13 14 15 / 0.6) 40%,
+        rgb(13 14 15 / 0.22) 74%,
+        rgb(13 14 15 / 0.3) 100%
       ),
-      linear-gradient(to top, rgb(9 9 9 / 0.62) 0%, transparent 48%);
+      linear-gradient(to top, rgb(13 14 15 / 0.62) 0%, transparent 48%);
   }
 
   .gb-scrim--even::before {
     background:
-      linear-gradient(to bottom, rgb(9 9 9 / 0.8) 0%, rgb(9 9 9 / 0.44) 12%, transparent 26%),
-      linear-gradient(to top, rgb(9 9 9 / 0.86) 0%, rgb(9 9 9 / 0.5) 46%, rgb(9 9 9 / 0.34) 100%);
+      linear-gradient(to bottom, rgb(13 14 15 / 0.8) 0%, rgb(13 14 15 / 0.44) 12%, transparent 26%),
+      linear-gradient(to top, rgb(13 14 15 / 0.86) 0%, rgb(13 14 15 / 0.5) 46%, rgb(13 14 15 / 0.34) 100%);
   }
 
   // Lighter veil for sections where a solid panel already carries the content,
   // so the photograph behind it stays readable instead of going to mud.
   .gb-scrim--soft::before {
     background:
-      linear-gradient(to bottom, rgb(9 9 9 / 0.84) 0%, rgb(9 9 9 / 0.46) 12%, rgb(9 9 9 / 0.22) 26%),
+      linear-gradient(to bottom, rgb(13 14 15 / 0.84) 0%, rgb(13 14 15 / 0.46) 12%, rgb(13 14 15 / 0.22) 26%),
       // Weighted toward the text side so the copy stays legible while the
       // photograph is still readable on the open side of the frame.
-      linear-gradient(to right, rgb(9 9 9 / 0.7) 0%, rgb(9 9 9 / 0.52) 48%, rgb(9 9 9 / 0.3) 100%);
+      linear-gradient(to right, rgb(13 14 15 / 0.7) 0%, rgb(13 14 15 / 0.52) 48%, rgb(13 14 15 / 0.3) 100%);
   }
 
   // -- Editorial helpers ----------------------------------------------------

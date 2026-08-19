@@ -14,12 +14,11 @@ import { supplyFlow } from '@/data/solutions'
  */
 export function ProcessFlow() {
   return (
-    <section className="relative isolate bg-gb-graphite py-20 sm:py-24 lg:py-32">
+    <section className="relative isolate bg-gb-black py-20 sm:py-24 lg:py-32">
       <div className="gb-gridlines absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
 
       <Container>
         <SectionHeading
-          tone="light"
           eyebrow="How it connects"
           title="One flow, four stages"
           lead="Storage, order handling and dispatch are rarely separate problems. Facilities work best when they are planned as a single path from the inbound gate to the outbound one."
@@ -41,13 +40,13 @@ export function ProcessFlow() {
                 <span className="relative flex shrink-0 flex-col items-center lg:block">
                   <span
                     aria-hidden="true"
-                    className="mt-1 block h-3.5 w-3.5 rotate-45 border border-gb-gold bg-gb-graphite transition-[background-color,transform] duration-500 ease-[var(--ease-gb)] group-hover:scale-125 group-hover:bg-gb-gold"
+                    className="mt-1 block h-3.5 w-3.5 rotate-45 border border-gb-gold bg-gb-black transition-[background-color,transform] duration-500 ease-[var(--ease-gb)] group-hover:scale-125 group-hover:bg-gb-gold"
                   />
                   {/* Vertical connector for the stacked layout */}
                   {index < supplyFlow.length - 1 ? (
                     <span
                       aria-hidden="true"
-                      className="mt-2 w-px flex-1 bg-gb-line-dark lg:hidden"
+                      className="mt-2 w-px flex-1 bg-gb-line lg:hidden"
                     />
                   ) : null}
                 </span>
@@ -57,7 +56,7 @@ export function ProcessFlow() {
                     {String(index + 1).padStart(2, '0')}
                   </span>
 
-                  <h3 className="mt-3 text-xl font-bold tracking-tight text-gb-white transition-colors duration-300 group-hover:text-gb-gold-light sm:text-2xl">
+                  <h3 className="mt-3 text-xl font-bold tracking-tight text-gb-silver-light transition-colors duration-300 group-hover:text-gb-gold-light sm:text-2xl">
                     {stage.label}
                   </h3>
 
@@ -70,7 +69,7 @@ export function ProcessFlow() {
                   <Icon
                     name="arrowRight"
                     aria-hidden="true"
-                    className="absolute top-0 -right-4 hidden h-4 w-4 text-gb-concrete-light lg:block"
+                    className="absolute top-0 -right-4 hidden h-4 w-4 text-gb-silver-dark lg:block"
                   />
                 ) : null}
               </Reveal>

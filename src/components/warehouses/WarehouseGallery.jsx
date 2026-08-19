@@ -17,7 +17,7 @@ export function WarehouseGallery({ images, name }) {
         src={active.src}
         alt={active.alt}
         ratio="16/9"
-        className="rounded-gb-sm border border-gb-line-light"
+        className="rounded-gb-sm border border-gb-line"
       />
 
       <ul className="grid grid-cols-4 gap-3 sm:gap-4">
