@@ -2,5 +2,5 @@
 User-agent: *
 Allow: /
 
-# Add an absolute Sitemap line here once the production domain is confirmed:
-# Sitemap: https://your-domain.example/sitemap.xml
+# The absolute Sitemap: line is appended at build time, from the origin the
+# build was given. See the static-routes plugin in vite.config.js.

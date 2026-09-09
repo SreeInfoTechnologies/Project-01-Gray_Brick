@@ -31,8 +31,8 @@ npm run lint      # eslint, including jsx-a11y and the no-inline-styles rule
 
 ## Before this goes live
 
-Three content items are deliberately left empty rather than filled with invented data.
-All three are single-line changes.
+Four content items are deliberately left empty rather than filled with invented data.
+Each is a single-line change.
 
 ### 1. Phone and email (`src/data/company.js`)
 
@@ -61,17 +61,12 @@ VITE_ENQUIRY_ENDPOINT=https://example.com/api/enquiries
 The request is a `POST` with a JSON body containing the form fields plus `submittedAt` and,
 on facility pages, `facility`. See `src/lib/enquiry.js`.
 
-Optionally also set `VITE_SITE_URL=https://graybrickinfra.com` so canonical and Open Graph
-URLs are absolute in the build rather than derived from `window.location`.
+`VITE_SITE_URL` does not need setting here: CI resolves it from `public/CNAME`,
+and a local build falls back to `window.location` for canonical and Open Graph
+URLs. `sitemap.xml` and the absolute `Sitemap:` line in `robots.txt` are emitted
+from that same origin at build time.
 
-### 3. Sitemap and robots (`public/robots.txt`)
-
-`robots.txt` ships allowing full crawling. Once the production domain is
-confirmed, add the absolute `Sitemap:` line to it and publish a `sitemap.xml`
-covering the eight static routes plus one URL per facility. Setting
-`VITE_SITE_URL` at the same time makes canonical and Open Graph URLs absolute.
-
-### 4. Leadership designation (`src/data/company.js`)
+### 3. Leadership designation (`src/data/company.js`)
 
 The About page carries a leadership block: portrait, name and title.
 
@@ -97,7 +92,7 @@ Once the title is confirmed it is also worth adding him to the `LocalBusiness`
 structured data in `StructuredData.jsx` as `founder` or `employee`, whichever
 is accurate.
 
-### 5. Social profile URLs (`src/data/company.js`)
+### 4. Social profile URLs (`src/data/company.js`)
 
 The footer and mobile drawer now render LinkedIn, Instagram, X, Facebook and
 YouTube icons. **Each `href` is currently the platform's home page, not Gray
@@ -304,7 +299,7 @@ Pushing to `main` builds and publishes to GitHub Pages via
 `.github/workflows/deploy.yml`. Pull requests run the same lint, build and
 verify steps without deploying.
 
-**Live:** https://sreeinfotechnologies.github.io/Project-01-Gray_Brick/
+**Live:** https://graybrickinfra.in/
 
 ```
 npm run ci        # exactly what the workflow runs
@@ -316,10 +311,11 @@ npm run verify:build
 `public/CNAME` is the single source of truth. Pages reads it out of the
 artifact to bind the domain, and `deploy.yml` reads the same file to set
 `VITE_BASE_PATH` and `VITE_SITE_URL`. While the file is absent the site stays a
-project site on the sub-path above, so adding it is the whole switch:
+project site at `https://<owner>.github.io/<repo>/`, so adding it is the whole
+switch:
 
 ```
-echo "example.com" > public/CNAME
+echo "graybrickinfra.in" > public/CNAME   # already committed
 ```
 
 That matters because a custom domain serves from the root of its own host. A

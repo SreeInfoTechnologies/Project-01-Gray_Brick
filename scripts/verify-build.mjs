@@ -56,6 +56,36 @@ for (const ref of local) {
   must(ref.startsWith(base), `asset "${ref}" does not start with base "${base}"`)
 }
 
+// A sitemap is only written when the build had an absolute origin, so it is
+// only required under the same condition.
+const siteUrl = (process.env.VITE_SITE_URL || '').replace(/\/$/, '')
+if (siteUrl) {
+  const sitemap = join(DIST, 'sitemap.xml')
+  must(existsSync(sitemap), 'sitemap.xml missing even though VITE_SITE_URL was set')
+  if (existsSync(sitemap)) {
+    const xml = readFileSync(sitemap, 'utf8')
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
+    // One per route plus the homepage. A drifting count means the route list
+    // and the sitemap have stopped agreeing, which is invisible in a browser.
+    must(
+      locs.length === routes.length + 1,
+      `sitemap lists ${locs.length} urls; expected ${routes.length + 1}`,
+    )
+    for (const loc of locs) {
+      must(loc.startsWith(`${siteUrl}/`), `sitemap url "${loc}" is not under "${siteUrl}"`)
+    }
+  }
+
+  const robots = join(DIST, 'robots.txt')
+  must(existsSync(robots), 'robots.txt missing from the build')
+  if (existsSync(robots)) {
+    must(
+      readFileSync(robots, 'utf8').includes(`Sitemap: ${siteUrl}`),
+      'robots.txt carries no absolute Sitemap: line',
+    )
+  }
+}
+
 // Dev-only entry must not survive into a build.
 must(!html.includes('/src/main.jsx'), 'index.html still points at the dev entry /src/main.jsx')
 

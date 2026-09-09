@@ -59,6 +59,35 @@ function staticRoutes() {
       writeFileSync(`${dist}/404.html`, html)
 
       this.info?.(`emitted ${routes.length} static routes + 404.html`)
+
+      // A sitemap needs absolute URLs, so it can only be written when the
+      // build was given an origin. Emitting one regardless would produce an
+      // invalid file, and a robots.txt pointing at a sitemap that was never
+      // written is worse than a robots.txt with no Sitemap: line at all.
+      const siteUrl = (process.env.VITE_SITE_URL || '').replace(/\/$/, '')
+      if (!siteUrl) return
+
+      const prefix = `${siteUrl}${base.replace(/\/$/, '')}`
+      const lastmod = new Date().toISOString().slice(0, 10)
+      const urls = ['', ...routes]
+        .map((route) => `  <url>\n    <loc>${prefix}/${route}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`)
+        .join('\n')
+
+      writeFileSync(
+        `${dist}/sitemap.xml`,
+        `<?xml version="1.0" encoding="UTF-8"?>\n` +
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+      )
+
+      // Appended at build time rather than committed, so the domain lives in
+      // exactly one place: public/CNAME, which CI resolves into VITE_SITE_URL.
+      const robots = `${dist}/robots.txt`
+      if (existsSync(robots)) {
+        const current = readFileSync(robots, 'utf8').trimEnd()
+        writeFileSync(robots, `${current}\n\nSitemap: ${prefix}/sitemap.xml\n`)
+      }
+
+      this.info?.(`emitted sitemap.xml (${routes.length + 1} urls) for ${prefix}/`)
     },
   }
 }
