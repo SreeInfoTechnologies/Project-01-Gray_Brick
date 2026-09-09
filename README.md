@@ -311,6 +311,42 @@ npm run ci        # exactly what the workflow runs
 npm run verify:build
 ```
 
+### Custom domain
+
+`public/CNAME` is the single source of truth. Pages reads it out of the
+artifact to bind the domain, and `deploy.yml` reads the same file to set
+`VITE_BASE_PATH` and `VITE_SITE_URL`. While the file is absent the site stays a
+project site on the sub-path above, so adding it is the whole switch:
+
+```
+echo "example.com" > public/CNAME
+```
+
+That matters because a custom domain serves from the root of its own host. A
+build still carrying the project sub-path stamps `/Project-01-Gray_Brick/` onto
+every asset URL, which is a 404 at the domain root: a white page, with DNS
+looking perfectly correct.
+
+DNS at the registrar. All four A records are needed — they are redundant edge
+servers, not alternatives:
+
+| Type  | Name  | Value                            |
+| ----- | ----- | -------------------------------- |
+| A     | `@`   | `185.199.108.153`                |
+| A     | `@`   | `185.199.109.153`                |
+| A     | `@`   | `185.199.110.153`                |
+| A     | `@`   | `185.199.111.153`                |
+| CNAME | `www` | `sreeinfotechnologies.github.io` |
+
+The CNAME target is the **repository owner**, lowercased — not the repository,
+and not the account that pushed. Delete the registrar's parked `A @` record and
+its default `CNAME www → @` first, along with any domain forwarding, which
+silently overrides DNS.
+
+Then Settings → Pages → Custom domain → the apex, and tick Enforce HTTPS once
+the certificate has been issued. GitHub redirects `www` to the apex on its own,
+so the apex stays the single canonical host.
+
 ### Why this needs more than "upload dist"
 
 The app is a client-rendered SPA served from a project sub-path, and Pages has
