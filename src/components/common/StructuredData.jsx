@@ -20,6 +20,13 @@ export function StructuredData() {
       addressCountry: 'IN',
     },
     areaServed: 'Bengaluru, Karnataka, India',
+    // Confirmed designation, so he is emitted as the organisation's founder
+    // rather than as a generic employee.
+    founder: {
+      '@type': 'Person',
+      name: company.founder.name,
+      jobTitle: company.founder.title,
+    },
     knowsAbout: [
       'Ready-to-move warehouses',
       'Built-to-suit warehouses',

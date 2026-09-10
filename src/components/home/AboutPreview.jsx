@@ -4,8 +4,8 @@ import { Eyebrow } from '@/components/common/Eyebrow'
 import { Icon } from '@/components/common/Icon'
 import { ImageFrame } from '@/components/common/ImageFrame'
 import { Reveal } from '@/components/common/Reveal'
-import primaryImage from '@/assets/images/facility-interior-bright.webp'
-import secondaryImage from '@/assets/images/truck-at-facility-portrait.webp'
+import primaryImage from '@/assets/images/gb-floor-ready.webp'
+import secondaryImage from '@/assets/images/gb-frontage-portrait.webp'
 
 const pillars = [
   {
@@ -37,7 +37,7 @@ export function AboutPreview() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col gap-7 lg:col-span-6 lg:pt-2">
             <Reveal variant="fade">
-              <Eyebrow index="07">Why Gray Brick</Eyebrow>
+              <Eyebrow index="05">Why Gray Brick</Eyebrow>
             </Reveal>
 
             <Reveal>
@@ -76,7 +76,7 @@ export function AboutPreview() {
               <Reveal variant="clip">
                 <ImageFrame
                   src={primaryImage}
-                  alt="Interior of a completed warehouse with a clear, column-free floor"
+                  alt="The Horamavu floor: a clear span in sealed red-oxide finish, no internal columns"
                   ratio="4/3"
                   className="rounded-gb-sm"
                 />
@@ -92,7 +92,7 @@ export function AboutPreview() {
               >
                 <ImageFrame
                   src={secondaryImage}
-                  alt="Goods carrier positioned at the loading door of a warehousing facility"
+                  alt="Roller-shuttered frontage of a recently completed Gray Brick unit"
                   ratio="4/5"
                   className="rounded-gb-sm border-4 border-gb-concrete"
                 />

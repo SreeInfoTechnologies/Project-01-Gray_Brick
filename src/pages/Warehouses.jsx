@@ -11,8 +11,8 @@ import { Reveal } from '@/components/common/Reveal'
 import { Seo } from '@/components/common/Seo'
 import { WarehouseCard, WarehouseCardSkeleton } from '@/components/warehouses/WarehouseCard'
 import { WarehouseFilters } from '@/components/warehouses/WarehouseFilters'
-import heroImage from '@/assets/images/facility-exterior-dusk.webp'
-import { businessRequirements, labelFor, locations, spaceBands } from '@/data/warehouses'
+import heroImage from '@/assets/images/gb-forecourt-wide.webp'
+import { businessRequirements, coverageAreas, labelFor, spaceBands } from '@/data/warehouses'
 import { useFilteredWarehouses } from '@/hooks/useWarehouses'
 
 const FILTER_KEYS = ['location', 'type', 'availability']
@@ -36,7 +36,7 @@ export default function Warehouses() {
   )
 
   const { status, results, total, retry } = useFilteredWarehouses(filters)
-  const corridorCount = locations.length
+  const coverageCount = coverageAreas.length
 
   const setFilter = useCallback(
     (key, value) => {
@@ -70,23 +70,23 @@ export default function Warehouses() {
     <>
       <Seo
         title="Warehouses in Bengaluru"
-        description="Ready-to-move, built-to-suit, fulfillment and distribution facilities across the Bengaluru corridors. Nelamangala, Hoskote, Bommasandra, Whitefield, Peenya and more."
+        description="Gray Brick Infra warehousing in Bengaluru: a working fulfillment facility on 100 Feet Road, HRBR Layout, Kalyan Nagar, and ready-to-move space on Narayana Reddy Layout Road, Horamavu. We also source space across the wider city and its corridors."
         path="/warehouses"
       />
 
       <PageHero
         eyebrow="Facilities"
         title="Warehouses in and around Bengaluru"
-        lead="Filter by corridor and facility type, or skip it and tell us the requirement. We will shortlist what actually fits."
+        lead="Two facilities on the north-east side of Bengaluru, both photographed. Filter them by location or type, or skip it and tell us the requirement — a fair bit of what we place is sourced rather than held."
         image={heroImage}
-        imageAlt="Warehousing units across an industrial estate at dusk"
+        imageAlt="The Gray Brick facility at Horamavu, with its covered loading opening and paved forecourt"
         breadcrumbs={[
           { label: 'Home', to: '/' },
           { label: 'Warehouses' },
         ]}
         rail={[
           { icon: 'warehouse', label: `${total} facilities listed` },
-          { icon: 'pin', label: `${corridorCount} Bengaluru corridors` },
+          { icon: 'pin', label: `Sourcing across ${coverageCount} Bengaluru areas` },
           { icon: 'ruler', label: 'Specifications on evaluation' },
         ]}
       />
@@ -183,7 +183,7 @@ export default function Warehouses() {
               <EmptyState
                 icon="search"
                 title="No facilities match those requirements yet"
-                description="Try a nearby corridor or a different facility type. Or tell us what you need and we will look for you. A fair bit of what we place never reaches this page."
+                description="Try the other facility, or clear the filters. Better still, tell us what you need and we will source it — a fair bit of what we place never reaches this page."
                 action={
                   <div className="flex flex-col gap-3 sm:flex-row">
                     <Button variant="outline" onClick={clearFilters}>
@@ -221,7 +221,7 @@ export default function Warehouses() {
 
       <CTASection
         title="Not seeing the right fit?"
-        description="Our list moves faster than any page can. Tell us the corridor, the scale and how the space will be used, and we will come back with what is available now."
+        description="Our list moves faster than any page can. Tell us the area, the scale and how the space will be used, and we will come back with what is available now."
         primaryLabel="Tell us what you need"
         secondaryLabel="See our solutions"
         secondaryTo="/solutions"

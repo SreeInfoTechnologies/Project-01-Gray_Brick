@@ -8,9 +8,9 @@ import { SectionHeading } from '@/components/common/SectionHeading'
 import { Seo } from '@/components/common/Seo'
 import { ContactDetails } from '@/components/contact/ContactDetails'
 import { EnquiryForm } from '@/components/contact/EnquiryForm'
-import heroImage from '@/assets/images/facade-roofline.webp'
+import heroImage from '@/assets/images/gb-frontage-dusk.webp'
 import { company } from '@/data/company'
-import { businessRequirements, locations, spaceBands } from '@/data/warehouses'
+import { businessRequirements, enquiryAreas, spaceBands } from '@/data/warehouses'
 
 const isValid = (options, value) => options.some((option) => option.value === value)
 
@@ -25,7 +25,7 @@ export default function Contact() {
     const requirement = searchParams.get('requirement') ?? ''
 
     return {
-      location: isValid(locations, location) ? location : '',
+      location: isValid(enquiryAreas, location) ? location : '',
       space: isValid(spaceBands, space) ? space : '',
       requirement: isValid(businessRequirements, requirement) ? requirement : '',
     }
@@ -44,7 +44,7 @@ export default function Contact() {
         title="Looking for the right warehouse in Bengaluru?"
         lead="Tell us where you want to operate, how much space you need and what the operation involves. We will help you work out the right option."
         image={heroImage}
-        imageAlt="Roofline and cladding of a warehousing facility against an open sky"
+        imageAlt="Roller-shuttered frontage of a Gray Brick unit, photographed in the evening"
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Contact' }]}
         rail={[
           { icon: 'pin', label: '852, 7th A Main, Banaswadi' },

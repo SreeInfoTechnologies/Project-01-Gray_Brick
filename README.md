@@ -66,31 +66,44 @@ and a local build falls back to `window.location` for canonical and Open Graph
 URLs. `sitemap.xml` and the absolute `Sitemap:` line in `robots.txt` are emitted
 from that same origin at build time.
 
-### 3. Leadership designation (`src/data/company.js`)
+### 3. Founder block (`src/data/company.js`)
 
-The About page carries a leadership block: portrait, name and title.
+The About page carries a founder section: portrait, name, designation, a short
+third-person introduction, an attributed statement and a specification strip.
 
 ```js
-leadership: {
+founder: {
   name: 'B Y Jayanth Reddy',
-  title: 'Chief Executive Officer',   // <- confirm this
-  message: null,
+  title: 'Founder & Director',
+  intro: '…',      // third-person, sits above the statement
+  message: '…',    // <- attributed to him by name; read it before it ships
+  facts: [
+    { label: 'Qualification', value: 'MBA, Finance' },
+    { label: 'Based in', value: 'Bengaluru, Karnataka' },
+    { label: 'Focus', value: 'Warehousing & industrial space' },
+  ],
 },
 ```
 
-**Confirm the designation.** The supplied portrait was named
-`Ceo-Gray-Brick.png`, so Chief Executive Officer is used. In an Indian private
-limited company, Managing Director and Director are distinct roles, so if that
-is the correct title change this one string. It also feeds the image alt text.
+**`message` is a draft, not a transcript.** It is rendered inside a
+`<blockquote>` with his name under it, so a reader takes it as his own words.
+It was written to be edited: change it to whatever he would actually say, or
+set it to `null` and the statement block disappears without leaving a gap.
 
-`message` is null on purpose. A sentence in his own words would carry real
-weight in that space, but writing one for him would mean attributing invented
-words to a named real person. Add it and the paragraph renders; leave it and
-the block shows name and title only.
+`title` feeds three places at once — the line under his name, the portrait's
+alt text, and the `founder` Person in the `LocalBusiness` structured data in
+`StructuredData.jsx`. In an Indian private limited company, Managing Director
+and Director are distinct roles, so if the appointment on the ROC filings says
+Managing Director, change this one string.
 
-Once the title is confirmed it is also worth adding him to the `LocalBusiness`
-structured data in `StructuredData.jsx` as `founder` or `employee`, whichever
-is accurate.
+`facts` renders as a hairline grid of up to three columns and adapts to the
+number of rows. An empty array removes the strip. Nothing in it is inferred —
+add a row only for something the company has confirmed.
+
+The portrait is `src/assets/images/founder-portrait.webp`, Gray Brick's own
+studio photograph (supplied as `Ceo-Gray-Brick.png`). It is shown as shot, with
+a name plate across its foot. Replacing the photograph needs no code change;
+keep it a 4:5 portrait crop.
 
 ### 4. Social profile URLs (`src/data/company.js`)
 
@@ -139,19 +152,22 @@ publish it unchanged? If yes, it is not specific enough yet.
 ### Honesty
 
 The site states capabilities, never metrics. There are no invented warehouse counts, areas,
-clear heights, certifications, client names, logos, testimonials, years of operation or
-performance figures anywhere in the codebase, and no personal identification information.
+clear heights, certifications, testimonials, years of operation or performance figures
+anywhere in the codebase.
 
-**There is no customer logo strip and no testimonials.** Both were deliberately left out.
-Gray Brick has not published a verified customer list, and a fabricated one is the fastest way
-to lose a serious enquiry. The homepage proves relevance by naming the *sectors* it is built
-for instead. When real, publicly approvable customer relationships exist, `TrustBand.jsx` is
-the component to extend, and the heading should describe the actual relationship (tenant,
-operating partner, customer) rather than a vague "Trusted by".
+**Partners are real and confirmed.** Swiggy, Blinkit, Bistro and Amazon are listed in
+`src/data/partners.js` because Gray Brick confirmed each relationship. Their logos are the
+companies' published marks from Wikimedia Commons, shown unmodified on light tiles by
+`PartnerLogos.jsx`; Bistro is set as a wordmark until its logo file is supplied. Add a partner
+only once the relationship is confirmed. There are no testimonials.
 
-- `src/data/warehouses.js` is **placeholder inventory**. Facilities are described by real
-  Bengaluru industrial corridors, and every measurable field resolves to the shared
-  `ON_REQUEST` constant, which the UI renders as *"Available on request"* in a muted style.
+- `src/data/warehouses.js` holds the **two real facilities**: HRBR Layout on 100 Feet Road
+  (560043) and Horamavu on Narayana Reddy Layout Road (560113), with full postal addresses.
+  Physical details are only those visible in the photographs; every measurable field resolves
+  to the shared `ON_REQUEST` constant, rendered as *"Available on request"*.
+- `coverageAreas` in the same file lists areas Gray Brick sources space in but does not hold.
+  It is kept apart from `locations` on purpose, so a sourcing area never reads as a facility.
+  The enquiry form offers both.
 - Replacing it with live data means changing one function: `loadWarehouses()` in
   `src/hooks/useWarehouses.js`. Every consumer already handles loading, error, empty-inventory
   and no-results states.
@@ -160,18 +176,17 @@ operating partner, customer) rather than a vague "Trusted by".
 
 ## Imagery
 
-`src/assets/images/` holds 22 Unsplash-licensed photographs, converted to WebP and sized for
-their largest on-screen use (≈3.7M total, no single page loading more than a fraction of it).
+Every photograph is Gray Brick's own: its two facilities, shot on site. There is no stock
+photography, and none should be added.
 
-They were selected for an **Indian** context: Eicher and Tata goods carriers, Indian Railways
-container freight, an Indian container port, stacked crates, and industrial elevations of the
-kind found on the Bengaluru corridors. Photographs carrying obvious non-Indian cues (European
-solar-roof logistics parks, US trailer yards, snow-covered industrial estates) were
-deliberately excluded. The remaining warehouse interiors (racking, clear floors, steel trusses)
-carry no geographic markers at all, which is why they sit comfortably alongside the rest.
+`src/assets/images/gb-*.webp` are WebP conversions of the supplied originals, each cut to the
+crop its slot needs (≈1.3 MB in total). Landscape files are used only in landscape frames and
+the portrait cuts (`*-tall`, `*-portrait`) only where the frame is portrait, so no photograph is
+ever cropped down to a sliver.
 
-**Replace them with Gray Brick's own facility photography when it is available:** keep the
-filenames and every reference updates itself.
+`gb-forecourt-branded-*.webp` is the Horamavu photograph with the Gray Brick logo composited
+onto the gable as mounted signage, made from `src/assets/brand/gray-brick-logo.svg`. It is used
+in the homepage hero only; everywhere else the unbranded photograph appears.
 
 ## The loading splash
 
@@ -291,7 +306,7 @@ CSS custom properties so no element carries an inline transform.
 
 One layout trap worth knowing: a section with `overflow: hidden` becomes the
 scroll container for any `position: sticky` descendant, which then silently
-stops sticking. The corridor band is deliberately un-clipped for that reason.
+stops sticking. The legal pages' contents column relies on its section staying un-clipped.
 
 ## Deployment
 
@@ -488,28 +503,10 @@ the interaction instead.
 
 ### Photography
 
-Stock warehousing and freight photography arrives in whatever colour it was shot in, and
-several of the rail and port frames are a hard cyan that belongs to no part of this palette.
-Two grades pull them into the brand, both applied through `ImageFrame` or directly on the
-backdrop `<img>`:
-
-- `.gb-photo` — card and editorial imagery. Mild, so the photograph stays realistic.
-- `.gb-photo--backdrop` — full-bleed frames sitting behind text under a scrim. Firmer,
-  because they carry no detail the reader is asked to study.
-
-The grades were chosen by running every file in `src/assets/images` through the filter matrix
-and measuring the result, not by taste. Under the card grade all but one image drops below
-14% of pixels in the cyan band while the warehouse interiors keep enough saturation to still
-read as photographs; under the backdrop grade the Solutions hero goes from 0.394 mean
-saturation and 58% cyan to 0.119 and 22%.
-
-One photograph resisted any grade a realistic image can take: `rail-container-freight.webp`
-is teal to the bone and still measured 50% cyan at settings that flattened everything else.
-It stays in the galleries, where it is one frame of four, and the Doddaballapur card now
-fronts `container-truck-dusk.webp` instead. Note that `container-yard.webp` was the obvious
-neutral swap but carries prominent Hapag-Lloyd and Evergreen markings; incidental in a
-gallery thumbnail, but fronting a facility card it starts to read as a stated client
-relationship, which this site does not claim.
+Photographs are shown as taken. `.gb-photo` and `.gb-photo--backdrop` remain as hooks but
+apply no filter: the grades that used to live there were tuned to mute cyan stock freight
+imagery, and on real daylight photographs they turned a blue sky and a grey building brown.
+Legibility over a photograph comes from the scrim, never from grading the photograph.
 
 ### Navigation
 

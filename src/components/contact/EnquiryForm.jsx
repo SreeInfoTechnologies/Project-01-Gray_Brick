@@ -4,7 +4,7 @@ import { Button } from '@/components/common/Button'
 import { SelectField, TextAreaField, TextField } from '@/components/common/Field'
 import { Icon } from '@/components/common/Icon'
 import { addressLines } from '@/data/company'
-import { businessRequirements, locations, spaceBands } from '@/data/warehouses'
+import { businessRequirements, enquiryAreas, spaceBands } from '@/data/warehouses'
 import { submitEnquiry } from '@/lib/enquiry'
 import { hasErrors, validateForm } from '@/lib/validation'
 import { cn } from '@/lib/cn'
@@ -187,8 +187,8 @@ export function EnquiryForm({ defaults = {}, facility = null, submitLabel = 'Req
         <SelectField
           id="location"
           label="Where do you need space?"
-          placeholder="Any corridor"
-          options={locations.map((item) => ({ value: item.value, label: item.label }))}
+          placeholder="Any area"
+          options={enquiryAreas}
           value={values.location}
           onChange={update('location')}
           error={errors.location}

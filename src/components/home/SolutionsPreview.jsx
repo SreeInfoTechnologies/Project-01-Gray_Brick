@@ -13,7 +13,7 @@ export function SolutionsPreview() {
       <Container>
         <SectionHeading
           eyebrow="What we provide"
-          index="03"
+          index="04"
           title="Four ways to take space with Gray Brick"
           lead="You might need to be running next month. You might need something built around your process. Either way, it starts with the same conversation."
           action={

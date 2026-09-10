@@ -51,21 +51,28 @@ export const company = {
 
   workingHours: 'Monday to Saturday, 9:30 am to 6:30 pm IST',
 
-  // Leadership. Name and portrait supplied by Gray Brick.
+  // Founder. Name, portrait, designation and qualification supplied by Gray
+  // Brick. Nothing here is inferred.
   //
-  // TODO(gray-brick): confirm the designation. The supplied portrait file was
-  // named Ceo-Gray-Brick.png, so Chief Executive Officer is used here. If the
-  // correct title is Managing Director, Founder or Director, change this one
-  // string and it updates on the page and in the image alt text.
-  //
-  // `message` is deliberately null. A sentence in his own words would carry
-  // real weight here, but writing one for him would be putting words in a real
-  // person's mouth. Add it and the paragraph appears; leave it and the block
-  // renders name and title only.
-  leadership: {
+  // `message` is a draft written for review, not a transcribed quote. It is
+  // attributed on the page, so it must read the way he would say it — change
+  // the wording freely, and if it should not appear at all, set it to null and
+  // the block renders without a statement.
+  founder: {
     name: 'B Y Jayanth Reddy',
-    title: 'Chief Executive Officer',
-    message: null,
+    title: 'Founder & Director',
+    // Third-person framing paragraph above the statement.
+    intro:
+      'Jayanth started Gray Brick Infra to make industrial space a decision a business can take with confidence. His background is in finance, and it shapes how the company reads a building: as an operating cost that runs for the length of the lease, rather than a rent figure agreed once and forgotten.',
+    message:
+      'I came to warehousing from finance, and it was the numbers that convinced me. Rent is the line everyone negotiates hard, but the cost of the wrong building turns up everywhere else — in labour, in vehicle turnaround, in stock nobody can find. Gray Brick exists so that decision gets made properly the first time.',
+    // Rendered as a specification strip beside the portrait. Add or remove
+    // rows freely; the grid adapts to the count.
+    facts: [
+      { label: 'Qualification', value: 'MBA, Finance' },
+      { label: 'Based in', value: 'Bengaluru, Karnataka' },
+      { label: 'Focus', value: 'Warehousing & industrial space' },
+    ],
   },
 }
 

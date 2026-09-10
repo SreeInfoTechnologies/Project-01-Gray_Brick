@@ -7,7 +7,7 @@ import { PageHero } from '@/components/common/PageHero'
 import { Reveal } from '@/components/common/Reveal'
 import { SectionHeading } from '@/components/common/SectionHeading'
 import { Seo } from '@/components/common/Seo'
-import heroImage from '@/assets/images/rail-container-freight.webp'
+import heroImage from '@/assets/images/gb-floor-ready-wide.webp'
 import { solutionFaqs, solutions } from '@/data/solutions'
 
 export default function Solutions() {
@@ -24,12 +24,12 @@ export default function Solutions() {
         title="Warehousing that fits the operation"
         lead="Five ways we help businesses in Bengaluru get storage, order handling and distribution working, from a finished building you can take over now to one developed around your process."
         image={heroImage}
-        imageAlt="Container freight train in a rail yard alongside stacked containers"
+        imageAlt="The full width of the completed Horamavu floor, empty and ready for racking"
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Solutions' }]}
         rail={[
           { icon: 'warehouse', label: `${solutions.length} ways to take space` },
           { icon: 'network', label: 'Support through handover' },
-          { icon: 'pin', label: 'Bengaluru corridors' },
+          { icon: 'pin', label: 'Bengaluru city & corridors' },
         ]}
       />
 

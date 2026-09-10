@@ -6,12 +6,13 @@ import { Icon } from '@/components/common/Icon'
 import { ImageFrame } from '@/components/common/ImageFrame'
 import { PageHero } from '@/components/common/PageHero'
 import { Reveal } from '@/components/common/Reveal'
+import { PartnerLogos } from '@/components/common/PartnerLogos'
 import { SectionHeading } from '@/components/common/SectionHeading'
 import { Seo } from '@/components/common/Seo'
-import { Leadership } from '@/components/about/Leadership'
-import heroImage from '@/assets/images/container-truck-dusk.webp'
-import storyImage from '@/assets/images/hall-steel-trusses.webp'
-import approachImage from '@/assets/images/industrial-facade.webp'
+import { Founder } from '@/components/about/Founder'
+import heroImage from '@/assets/images/gb-frontage-dusk.webp'
+import storyImage from '@/assets/images/gb-mezzanine-fmcg.webp'
+import approachImage from '@/assets/images/gb-forecourt-wide.webp'
 import { addressLines, directionsUrl } from '@/data/company'
 
 const values = [
@@ -74,7 +75,7 @@ export default function About() {
         title="Warehousing is part of the operation, not just the property"
         lead="The right warehouse decides how stock is held, how a team works through a shift, how goods move and how well the business serves its customers. We focus on space that is practical for real operations."
         image={heroImage}
-        imageAlt="Container-bodied goods vehicle at an industrial facility at dusk"
+        imageAlt="Roller-shuttered frontage of a recently completed Gray Brick unit at dusk"
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'About' }]}
         rail={[
           { icon: 'pin', label: 'Banaswadi, Bengaluru North' },
@@ -120,13 +121,21 @@ export default function About() {
                   See our facilities
                 </Button>
               </Reveal>
+
+              {/* Client proof, compact: here the names support the paragraph
+                  above rather than making the argument on their own, so the
+                  tiles are shorter than the homepage strip. */}
+              <Reveal variant="fade" delay={3} className="mt-6 border-t border-gb-line pt-6">
+                <p className="text-eyebrow text-gb-silver-dark uppercase">Our partners</p>
+              </Reveal>
+              <PartnerLogos compact className="mt-3" />
             </div>
 
             <div className="lg:col-span-6">
               <Reveal variant="clip">
                 <ImageFrame
                   src={storyImage}
-                  alt="Steel-framed warehouse hall with clear-span roof structure"
+                  alt="The HRBR Layout facility in use: cartoned stock on the mezzanine and across the floor"
                   ratio="4/3"
                   className="rounded-gb-sm"
                 />
@@ -136,7 +145,7 @@ export default function About() {
         </Container>
       </section>
 
-      <Leadership />
+      <Founder />
 
       {/* Philosophy */}
       <section className="relative isolate overflow-hidden bg-gb-charcoal py-20 sm:py-24 lg:py-32">
@@ -171,7 +180,7 @@ export default function About() {
               <Reveal variant="fade" delay={3} className="mt-2">
                 <ImageFrame
                   src={approachImage}
-                  alt="Cladding and screen detail across a modern industrial elevation"
+                  alt="Gable front and paved forecourt of the Horamavu facility"
                   ratio="21/9"
                   className="rounded-gb-sm"
                 />
