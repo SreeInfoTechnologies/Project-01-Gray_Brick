@@ -1,29 +1,28 @@
-import interiorOpen from '@/assets/images/facility-interior-open.webp'
-import interiorBright from '@/assets/images/facility-interior-bright.webp'
-import interiorColumns from '@/assets/images/facility-interior-columns.webp'
-import exteriorDusk from '@/assets/images/facility-exterior-dusk.webp'
-import industrialFacade from '@/assets/images/industrial-facade.webp'
-import facadeRoof from '@/assets/images/facade-roofline.webp'
-import hallTrusses from '@/assets/images/hall-steel-trusses.webp'
-import truckAtFacility from '@/assets/images/truck-at-facility.webp'
-import truckHighway from '@/assets/images/truck-highway.webp'
-import containerTruck from '@/assets/images/container-truck-dusk.webp'
-import containerYard from '@/assets/images/container-yard.webp'
-import railFreight from '@/assets/images/rail-container-freight.webp'
-import railWagons from '@/assets/images/rail-wagons.webp'
-import rackingAisle from '@/assets/images/racking-aisle.webp'
-import rackingInventory from '@/assets/images/racking-inventory.webp'
-import rackingSteel from '@/assets/images/racking-steel-empty.webp'
-import cratesStacked from '@/assets/images/crates-stacked.webp'
-import palletsStacked from '@/assets/images/pallets-stacked.webp'
+import forecourtWide from '@/assets/images/gb-forecourt-wide.webp'
+import frontageDusk from '@/assets/images/gb-frontage-dusk.webp'
+import floorReady from '@/assets/images/gb-floor-ready.webp'
+import floorReadyWide from '@/assets/images/gb-floor-ready-wide.webp'
+import mezzanineStocked from '@/assets/images/gb-mezzanine-stocked.webp'
+import mezzanineFmcg from '@/assets/images/gb-mezzanine-fmcg.webp'
+import streetLoading from '@/assets/images/gb-street-loading.webp'
+import streetBay from '@/assets/images/gb-street-bay.webp'
 
 // ---------------------------------------------------------------------------
-// PLACEHOLDER INVENTORY.
+// REAL INVENTORY.
 //
-// These records describe the *kind* of facility Gray Brick works with across
-// the Bengaluru industrial corridors. They carry no measured areas, clear
-// heights, dock counts or dates, because none have been supplied. Every
-// measurable field resolves to ON_REQUEST and the UI labels it as such.
+// Two facilities, both photographed. Every address, and every physical detail
+// described below, is either supplied by Gray Brick or visible in the
+// photographs attached to the record — the red-oxide floor finish, the steel
+// truss roof, the storage mezzanine, the paved forecourt, the roller shutters.
+//
+// What is NOT here is anything measured. Built-up area, clear height, dock
+// counts, floor loading and power provision resolve to ON_REQUEST, because no
+// one has measured them for publication. Filling those in is a data change, not
+// a code change.
+//
+// Areas Gray Brick sources across but does not itself hold are in
+// `coverageAreas` below. They are deliberately separate from `locations`, which
+// only ever contains places where a real facility stands.
 //
 // Replacing this file with a CMS or API response is the only change required:
 // `useWarehouses()` in src/hooks/useWarehouses.js is the single consumer, and
@@ -45,15 +44,62 @@ export const availabilityOptions = [
   { value: 'planned', label: 'In planning' },
 ]
 
+/**
+ * Places where Gray Brick holds a facility. One entry per real building, so a
+ * location filter can never return an empty result for a place we listed.
+ *
+ * `address` is the full postal address and is what the directions link and the
+ * structured data resolve against. `corridor` is the short form shown beside
+ * the name in listings.
+ */
 export const locations = [
-  { value: 'nelamangala', label: 'Nelamangala', corridor: 'NH-48 · Tumkur Road' },
-  { value: 'hoskote', label: 'Hoskote', corridor: 'NH-75 · Old Madras Road' },
-  { value: 'bommasandra', label: 'Bommasandra', corridor: 'NH-44 · Hosur Road' },
-  { value: 'whitefield', label: 'Soukya Road, Whitefield', corridor: 'Budigere Cross corridor' },
-  { value: 'dabaspet', label: 'Dabaspet', corridor: 'NH-48 · Bengaluru to Tumakuru' },
-  { value: 'attibele', label: 'Attibele', corridor: 'NH-44 · Bengaluru to Hosur' },
-  { value: 'doddaballapur', label: 'Doddaballapur', corridor: 'Bengaluru North · airport corridor' },
-  { value: 'peenya', label: 'Peenya', corridor: 'Peenya Industrial Area' },
+  {
+    value: 'hrbr-layout',
+    label: 'HRBR Layout, Kalyan Nagar',
+    corridor: '100 Feet Road · Bengaluru North-East',
+    address:
+      '100 Feet Rd, HRBR Layout 1st Block, Bapunagar, HRBR Layout, Kalyan Nagar, Bengaluru, Karnataka 560043',
+  },
+  {
+    value: 'horamavu',
+    label: 'Horamavu',
+    corridor: 'Narayana Reddy Layout Road · Bengaluru East',
+    address: 'Narayana Reddy Layout Rd, Horamavu, Bengaluru, Karnataka 560113',
+  },
+]
+
+/**
+ * Areas Gray Brick sources space across, as distinct from the facilities it
+ * holds. Nothing here claims a building: these are the parts of Bengaluru the
+ * team works in when a requirement does not fit either of the two facilities.
+ */
+export const coverageAreas = [
+  { value: 'kalyan-nagar', label: 'Kalyan Nagar & Banaswadi', note: 'Bengaluru North-East, in-city' },
+  { value: 'hennur', label: 'Horamavu & Hennur', note: 'Outer Ring Road, east' },
+  { value: 'kr-puram', label: 'K R Puram & Whitefield', note: 'Old Madras Road corridor' },
+  { value: 'hoskote', label: 'Hoskote', note: 'NH-75, east of the city' },
+  { value: 'peenya', label: 'Peenya & Yeshwanthpur', note: 'Established industrial belt' },
+  { value: 'nelamangala', label: 'Nelamangala & Dabaspet', note: 'NH-48, Tumakuru corridor' },
+  { value: 'bommasandra', label: 'Bommasandra & Attibele', note: 'NH-44, Hosur corridor' },
+  { value: 'doddaballapur', label: 'Doddaballapur', note: 'Airport corridor, north' },
+]
+
+/**
+ * Options for the "where do you need space?" question on the enquiry form.
+ *
+ * This is a wider list than `locations` on purpose. `locations` filters our own
+ * inventory, so it may only contain places we hold a building. The form is
+ * capturing what the VISITOR wants, and someone who needs Peenya must be able
+ * to say Peenya rather than being funnelled into one of our two facilities.
+ *
+ * Areas that duplicate a facility's own location are dropped, so the list never
+ * offers the same place twice under two labels.
+ */
+export const enquiryAreas = [
+  ...locations.map(({ value, label }) => ({ value, label })),
+  ...coverageAreas
+    .filter((area) => !locations.some((l) => l.value === area.value))
+    .map(({ value, label }) => ({ value, label })),
 ]
 
 /**
@@ -76,256 +122,115 @@ export const businessRequirements = [
   { value: 'undecided', label: 'Not decided yet' },
 ]
 
-const specTemplate = (type, connectivity) => [
+/**
+ * Specification strip. `observed` rows are things the photographs show and the
+ * team has confirmed; everything measurable stays ON_REQUEST until it has been
+ * measured for publication.
+ */
+const specTemplate = (type, connectivity, observed = []) => [
   { label: 'Facility type', value: type },
-  { label: 'Road connectivity', value: connectivity },
+  { label: 'Location', value: connectivity },
+  ...observed,
   { label: 'Built-up area', value: ON_REQUEST },
   { label: 'Clear height', value: ON_REQUEST },
-  { label: 'Loading infrastructure', value: ON_REQUEST },
-  { label: 'Flooring', value: ON_REQUEST },
   { label: 'Power provision', value: ON_REQUEST },
-  { label: 'Parking and circulation', value: ON_REQUEST },
 ]
 
 export const warehouses = [
   {
-    slug: 'nelamangala-logistics-park',
-    name: 'Nelamangala Logistics Park',
-    location: 'nelamangala',
-    type: 'ready-to-move',
-    availability: 'available',
-    summary:
-      'Completed space on the Tumkur Road corridor, ready to take over as it is.',
-    overview: [
-      'This is a finished building on the Nelamangala stretch of NH-48, one of the corridors most Bengaluru businesses use to move goods in and out from the north-west. It is handed over in a state where you can start racking rather than waiting on construction.',
-      'The floor is kept clear of unnecessary obstruction, and loading runs along one elevation, so inbound and outbound can be separated as volumes grow.',
-    ],
-    features: [
-      'Clear floor, ready for racking',
-      'Loading along a single elevation',
-      'Vehicle movement kept off the storage floor',
-      'Straight onto the NH-48 corridor',
-      'Space to stage inbound and outbound',
-      'Works for storage or distribution use',
-    ],
-    suitableFor: ['Storage', 'Distribution'],
-    image: interiorOpen,
-    imageAlt: 'Open interior floor of the Nelamangala warehouse ready for occupation',
-    gallery: [
-      { src: interiorOpen, alt: 'Clear storage floor with column-free spans' },
-      { src: exteriorDusk, alt: 'Warehouse units across the estate at dusk' },
-      { src: truckAtFacility, alt: 'Goods carrier positioned at the loading door' },
-      { src: hallTrusses, alt: 'Steel truss roof structure over the storage floor' },
-    ],
-  },
-  {
-    slug: 'hoskote-distribution-facility',
-    name: 'Hoskote Distribution Facility',
-    location: 'hoskote',
-    type: 'distribution',
-    availability: 'available',
-    summary:
-      'Dock-forward facility on Old Madras Road, built around daily vehicle movement.',
-    overview: [
-      'On the Hoskote stretch of NH-75, this one is arranged for movement rather than long-hold storage. Docks run along the main elevation with staging depth behind them, so consignments can be built and sent out without blocking the floor.',
-      'The yard is planned for freight vehicles, which is what keeps turnaround predictable when inbound and outbound land in the same window.',
-    ],
-    features: [
-      'Dock-forward layout for continuous flow',
-      'Staging depth behind the dock line',
-      'Yard sized for freight vehicle movement',
-      'Inbound and outbound kept apart',
-      'Direct access to the NH-75 corridor',
-      'Suits distribution and cross-dock work',
-    ],
-    suitableFor: ['Distribution', 'Storage'],
-    image: truckAtFacility,
-    imageAlt: 'Goods carrier at the loading door of the Hoskote distribution facility',
-    gallery: [
-      { src: truckAtFacility, alt: 'Goods carrier loading at the facility' },
-      { src: truckHighway, alt: 'Covered freight vehicle on the highway corridor' },
-      { src: containerYard, alt: 'Containers staged in the yard' },
-      { src: containerTruck, alt: 'Container-bodied vehicle waiting at the facility' },
-    ],
-  },
-  {
-    slug: 'bommasandra-fulfillment-center',
-    name: 'Bommasandra Fulfillment Center',
-    location: 'bommasandra',
+    slug: 'hrbr-layout-100-feet-road',
+    name: 'HRBR Layout Facility, 100 Feet Road',
+    location: 'hrbr-layout',
     type: 'fulfillment',
     availability: 'limited',
     summary:
-      'Order-handling space on the Hosur Road corridor, south of the city.',
+      'A working in-city facility on 100 Feet Road, running daily order volume out to riders.',
     overview: [
-      'A facility on the Bommasandra stretch of NH-44, set up for order-level work rather than bulk storage alone. The floor supports a split between reserve stock and an active pick face, with room for packing and dispatch staging.',
-      'There is a separate lane for returns and reprocessing, so reverse flow does not end up cutting across outbound during a busy shift.',
+      'This one sits directly on 100 Feet Road in HRBR Layout 1st Block, which is about as close to Bengaluru\'s north-east demand as a warehouse gets. It is a working building, not an empty shell: it handles daily order volume for quick-commerce and FMCG operations, and rider vehicles load straight off the road frontage.',
+      'Storage is on two levels. A steel mezzanine carries palletised and cartoned reserve stock, and the ground floor is kept as the active face, so picking happens without anyone climbing over bulk. Being in-city is the whole point here — the trip to the customer is short enough to run tight delivery windows.',
     ],
     features: [
-      'Reserve stock separated from the pick face',
-      'Room for picking, packing and dispatch',
-      'Dedicated returns and reprocessing lane',
-      'Headroom for festive and peak volumes',
-      'On the NH-44 southern corridor',
-      'Suits e-commerce and retail fulfillment',
+      'Direct frontage onto 100 Feet Road',
+      'Steel storage mezzanine over the ground floor',
+      'Reserve stock above, active pick face below',
+      'Loads straight onto rider and light goods vehicles',
+      'Inside the demand zone it serves, not outside it',
+      'Set up for quick commerce and FMCG distribution',
     ],
-    suitableFor: ['Fulfillment', 'Storage'],
-    image: rackingInventory,
-    imageAlt: 'Racking bays holding inventory at the Bommasandra fulfillment center',
+    observedSpecs: [
+      { label: 'Storage arrangement', value: 'Ground floor plus steel mezzanine' },
+      { label: 'Loading', value: 'Road-frontage loading bay' },
+      { label: 'Current use', value: 'Quick commerce and FMCG distribution' },
+    ],
+    suitableFor: ['Fulfillment', 'Distribution'],
+    image: streetLoading,
+    imageAlt:
+      'Road frontage of the HRBR Layout facility on 100 Feet Road, with rider vehicles at the loading bay and stock on pallets inside',
     gallery: [
-      { src: rackingInventory, alt: 'Palletised inventory across multi-level racking' },
-      { src: rackingAisle, alt: 'Pick face aisle running the depth of the building' },
-      { src: interiorColumns, alt: 'Storage floor with structural columns and high bay lighting' },
-      { src: cratesStacked, alt: 'Crates staged for pick, pack and dispatch' },
+      {
+        src: streetLoading,
+        alt: 'Loading bay open onto 100 Feet Road with rider vehicles alongside',
+      },
+      {
+        src: mezzanineStocked,
+        alt: 'Steel mezzanine carrying cartoned reserve stock above the picking floor',
+      },
+      {
+        src: mezzanineFmcg,
+        alt: 'Wide view of the storage floor and mezzanine under the steel truss roof',
+      },
+      {
+        src: streetBay,
+        alt: 'The loading bay itself: stock on pallets inside the opening, rider vehicles drawn up alongside',
+      },
     ],
   },
   {
-    slug: 'soukya-road-warehouse',
-    name: 'Soukya Road Warehouse',
-    location: 'whitefield',
+    slug: 'horamavu-narayana-reddy-layout',
+    name: 'Horamavu Facility, Narayana Reddy Layout Road',
+    location: 'horamavu',
     type: 'ready-to-move',
     availability: 'available',
     summary:
-      'Completed space on the east side of Bengaluru, near Budigere Cross.',
+      'Newly completed space on Narayana Reddy Layout Road, handed over ready to rack.',
     overview: [
-      'A finished warehouse on Soukya Road, for businesses that need to stay on the eastern side of the city rather than move out to an outer corridor. It is ready to occupy.',
-      'The floor plate suits general storage and light order handling, with loading arranged so a single operation can run inbound and outbound through the same elevation.',
+      'A recently finished building on Narayana Reddy Layout Road in Horamavu, on the eastern side of the city. It is handed over complete — the floor is laid and sealed in red-oxide finish, the steel truss roof is up, and high-bay lighting and ceiling fans are already installed. What is left to do is racking.',
+      'The floor is a clear span with no columns interrupting it, which is what makes a racking layout worth planning properly rather than working around obstructions. Outside, a paved forecourt gives goods vehicles room to turn and stage without backing onto the road.',
     ],
     features: [
-      'Ready to occupy',
-      'Floor plate suited to general storage',
-      'Loading on one elevation',
-      'Close to eastern Bengaluru demand',
-      'On-site space for vehicle staging',
-      'Suits storage and light fulfillment',
+      'Clear-span floor, no internal columns',
+      'Sealed red-oxide floor finish, laid and ready',
+      'Steel truss roof with high-bay lighting installed',
+      'Paved forecourt for vehicle turning and staging',
+      'Loading at the covered front opening',
+      'Available to occupy as it stands',
     ],
-    suitableFor: ['Storage', 'Fulfillment'],
-    image: interiorBright,
-    imageAlt: 'Bright, empty warehouse floor at the Soukya Road facility',
+    observedSpecs: [
+      { label: 'Floor', value: 'Clear span, sealed red-oxide finish' },
+      { label: 'Roof', value: 'Steel truss with high-bay lighting' },
+      { label: 'Loading', value: 'Covered front opening onto a paved forecourt' },
+    ],
+    suitableFor: ['Storage', 'Distribution', 'Fulfillment'],
+    image: forecourtWide,
+    imageAlt:
+      'Front elevation of the Horamavu facility, with its covered loading opening and paved forecourt',
     gallery: [
-      { src: interiorBright, alt: 'Empty warehouse floor with reflective flooring' },
-      { src: facadeRoof, alt: 'Roofline and cladding of the warehouse building' },
-      { src: industrialFacade, alt: 'Elevation and cladding detail of the building' },
-      { src: rackingSteel, alt: 'Steel racking installed within the storage floor' },
-    ],
-  },
-  {
-    slug: 'dabaspet-built-to-suit-campus',
-    name: 'Dabaspet Built-to-Suit Campus',
-    location: 'dabaspet',
-    type: 'built-to-suit',
-    availability: 'planned',
-    summary:
-      'Development site on the Tumakuru corridor, available to build to requirement.',
-    overview: [
-      'A site on the Dabaspet stretch of NH-48 that can be developed around a specific operation. Clear height, dock configuration, floor loading and circulation are set against your requirement instead of being fixed in advance.',
-      'Because it is planned rather than built, the programme is agreed with the occupier and handover can be phased to match how you intend to start.',
-    ],
-    features: [
-      'Developed around a defined requirement',
-      'Clear height and docks to specification',
-      'Handover phased against your plan',
-      'Room to expand on the same site',
-      'On the NH-48 northern corridor',
-      'Suits long-term, committed occupation',
-    ],
-    suitableFor: ['Built-to-suit', 'Distribution'],
-    image: industrialFacade,
-    imageAlt: 'Modern industrial elevation of the type developed at the Dabaspet campus',
-    gallery: [
-      { src: industrialFacade, alt: 'Industrial building elevation and cladding' },
-      { src: hallTrusses, alt: 'Structural steel frame during the fit-out stage' },
-      { src: facadeRoof, alt: 'Cladding and roofline detail' },
-      { src: containerTruck, alt: 'Container-bodied vehicle at the site entrance' },
-    ],
-  },
-  {
-    slug: 'attibele-storage-facility',
-    name: 'Attibele Storage Facility',
-    location: 'attibele',
-    type: 'ready-to-move',
-    availability: 'limited',
-    summary:
-      'Storage-led space near the Karnataka and Tamil Nadu border, on the Hosur corridor.',
-    overview: [
-      'A completed facility at Attibele on NH-44, positioned for operations moving goods between Bengaluru and the Hosur industrial belt. The building favours bulk storage with straightforward vehicle access.',
-      'It suits businesses holding buffer stock close to both a manufacturing base and the city, without committing to a full distribution footprint.',
-    ],
-    features: [
-      'Storage-led floor plate',
-      'Straightforward vehicle access',
-      'Sits between Bengaluru and Hosur',
-      'Good for buffer and overflow stock',
-      'Direct access to the NH-44 corridor',
-      'Available to occupy now',
-    ],
-    suitableFor: ['Storage'],
-    image: hallTrusses,
-    imageAlt: 'Steel-framed storage hall at the Attibele facility',
-    gallery: [
-      { src: hallTrusses, alt: 'Steel-framed hall with clear span roof' },
-      { src: interiorColumns, alt: 'Storage floor with structural columns' },
-      { src: exteriorDusk, alt: 'Facility exterior with vehicle apron at dusk' },
-      { src: palletsStacked, alt: 'Pallets staged alongside the storage floor' },
-    ],
-  },
-  {
-    slug: 'doddaballapur-distribution-hub',
-    name: 'Doddaballapur Distribution Hub',
-    location: 'doddaballapur',
-    type: 'distribution',
-    availability: 'planned',
-    summary:
-      'Planned distribution facility on the northern airport corridor.',
-    overview: [
-      'Planned for the Doddaballapur corridor in Bengaluru North, for operations that need to sit on the airport side of the city while keeping road access to the wider region.',
-      'The layout is being planned around vehicle throughput, with dock capacity and staging depth agreed before construction rather than retrofitted once it is too late to change.',
-    ],
-    features: [
-      'Planned around vehicle throughput',
-      'Dock capacity agreed before construction',
-      'Northern corridor and airport-side access',
-      'Staging depth planned behind the docks',
-      'Handover can be phased',
-      'Suits distribution operations',
-    ],
-    suitableFor: ['Distribution'],
-    image: containerTruck,
-    imageAlt: 'Container-bodied goods vehicle of the kind the Doddaballapur hub is planned around',
-    gallery: [
-      { src: railFreight, alt: 'Container freight train alongside stacked containers' },
-      { src: railWagons, alt: 'Freight wagons standing in the rail yard' },
-      { src: truckHighway, alt: 'Goods vehicle on the northern corridor' },
-      { src: containerYard, alt: 'Containers staged for onward movement' },
-    ],
-  },
-  {
-    slug: 'peenya-industrial-warehouse',
-    name: 'Peenya Industrial Warehouse',
-    location: 'peenya',
-    type: 'ready-to-move',
-    availability: 'available',
-    summary:
-      'In-city warehousing inside the Peenya belt, close to manufacturing units.',
-    overview: [
-      'A completed warehouse inside the Peenya industrial area, which keeps stock near manufacturing units and near the city rather than out on a corridor. It suits operations that need short internal transfers.',
-      'It works for raw material and finished goods buffering for businesses producing nearby, with access onto the Tumkur Road corridor when goods need to go out.',
-    ],
-    features: [
-      'Inside an established industrial belt',
-      'Short transfer distances to nearby units',
-      'Good for raw material and finished goods buffering',
-      'Access onto the Tumkur Road corridor',
-      'Available to occupy now',
-      'Practical for in-city distribution',
-    ],
-    suitableFor: ['Storage', 'Manufacturing support'],
-    image: interiorColumns,
-    imageAlt: 'Interior of the Peenya industrial warehouse with structural columns',
-    gallery: [
-      { src: interiorColumns, alt: 'Warehouse interior with columns and high bay lighting' },
-      { src: rackingAisle, alt: 'Racking aisle within the storage floor' },
-      { src: facadeRoof, alt: 'Building roofline and cladding' },
-      { src: interiorOpen, alt: 'Clear floor area ready for racking' },
+      {
+        src: forecourtWide,
+        alt: 'Gable front and paved forecourt of the Horamavu facility, stock on pallets inside the opening',
+      },
+      {
+        src: floorReady,
+        alt: 'Clear-span floor in sealed red-oxide finish under the steel truss roof',
+      },
+      {
+        src: floorReadyWide,
+        alt: 'Full width of the empty storage floor, ready for racking',
+      },
+      {
+        src: frontageDusk,
+        alt: 'Two-level frontage with roller shutters, photographed in the evening',
+      },
     ],
   },
 ]
@@ -337,7 +242,19 @@ export const labelFor = (options, value) =>
 
 export const locationFor = (value) => locations.find((l) => l.value === value)
 
-/** Facilities in the same corridor, or of the same type, excluding the current one. */
+/**
+ * Google's documented Maps URL API against the facility's own postal address.
+ * No API key and no invented place ID: it resolves the way a search on
+ * maps.google.com would.
+ */
+export const directionsFor = (warehouse) => {
+  const address = locationFor(warehouse?.location)?.address
+  return address
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+    : null
+}
+
+/** Facilities in the same area, or of the same type, excluding the current one. */
 export const relatedWarehouses = (warehouse, list = warehouses, limit = 3) => {
   if (!warehouse) return []
   const scored = list
@@ -351,4 +268,8 @@ export const relatedWarehouses = (warehouse, list = warehouses, limit = 3) => {
 }
 
 export const buildSpecifications = (warehouse) =>
-  specTemplate(labelFor(warehouseTypes, warehouse.type), locationFor(warehouse.location)?.corridor ?? ON_REQUEST)
+  specTemplate(
+    labelFor(warehouseTypes, warehouse.type),
+    locationFor(warehouse.location)?.corridor ?? ON_REQUEST,
+    warehouse.observedSpecs ?? [],
+  )

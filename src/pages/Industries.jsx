@@ -4,7 +4,7 @@ import { PageHero } from '@/components/common/PageHero'
 import { Reveal } from '@/components/common/Reveal'
 import { Seo } from '@/components/common/Seo'
 import { IndustryCard } from '@/components/industries/IndustryCard'
-import heroImage from '@/assets/images/racking-aisle.webp'
+import heroImage from '@/assets/images/gb-mezzanine-fmcg.webp'
 import { industries } from '@/data/industries'
 
 export default function Industries() {
@@ -21,7 +21,7 @@ export default function Industries() {
         title="Different sectors, different floors"
         lead="A parts store and a quick-commerce operation can take identical buildings and still need completely different things from them. These are the patterns we plan around."
         image={heroImage}
-        imageAlt="Long racking aisle stacked with inventory inside a working warehouse"
+        imageAlt="Cartoned stock across the mezzanine and floor of the working HRBR Layout facility"
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Industries' }]}
         rail={[
           { icon: 'layers', label: `${industries.length} sectors` },

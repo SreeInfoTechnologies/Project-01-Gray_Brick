@@ -1,15 +1,19 @@
-import ecomImg from '@/assets/images/racking-inventory.webp'
-import retailImg from '@/assets/images/racking-aisle.webp'
-import fmcgImg from '@/assets/images/pallets-stacked.webp'
-import mfgImg from '@/assets/images/facility-interior-columns.webp'
-import autoImg from '@/assets/images/racking-steel-empty.webp'
-import logiImg from '@/assets/images/truck-highway.webp'
-import goodsImg from '@/assets/images/crates-stacked.webp'
-import quickImg from '@/assets/images/truck-at-facility.webp'
+// Each sector is illustrated by whichever of Gray Brick's own two facilities
+// shows what that sector needs: quick commerce gets the 100 Feet Road frontage
+// with rider vehicles at it, FMCG the cartoned mezzanine, manufacturing the
+// empty clear-span floor. No two cards that sit side by side share a frame.
+import ecomImg from '@/assets/images/gb-mezzanine-fmcg.webp'
+import quickImg from '@/assets/images/gb-street-loading.webp'
+import retailImg from '@/assets/images/gb-frontage-dusk.webp'
+import fmcgImg from '@/assets/images/gb-mezzanine-stocked.webp'
+import mfgImg from '@/assets/images/gb-floor-ready.webp'
+import autoImg from '@/assets/images/gb-forecourt-wide.webp'
+import logiImg from '@/assets/images/gb-street-bay.webp'
+import goodsImg from '@/assets/images/gb-floor-ready-wide.webp'
 
-// What each sector actually needs from a warehouse. No customer names, logos or
-// engagement claims. Gray Brick has not published any, and inventing them would
-// be the fastest way to lose an enquiry.
+// What each sector actually needs from a warehouse. Sector requirements only —
+// the confirmed partner list lives in src/data/partners.js and is rendered through
+// PartnerLogos. No engagement claims are attached to a sector here.
 
 export const industries = [
   {
@@ -21,7 +25,7 @@ export const industries = [
       'Inventory has to move quickly and consistently. The pick face decides the day, so space is arranged with fast-moving stock near dispatch, reserve stock behind it, and a returns lane that does not get in the way of outbound.',
     needs: ['High SKU counts', 'Peak-season headroom', 'Returns processing', 'Late dispatch cut-offs'],
     image: ecomImg,
-    imageAlt: 'Racking holding picked stock in an e-commerce fulfillment facility',
+    imageAlt: 'Cartoned stock across the mezzanine and picking floor at the HRBR Layout facility',
   },
   {
     id: 'quick-commerce',
@@ -32,7 +36,7 @@ export const industries = [
       'Fast-moving operations depend on being near the customer zones they serve. What matters is a location that shortens the trip, a floor that can be re-zoned as the assortment changes, and access that works outside normal business hours.',
     needs: ['Proximity to demand', 'Frequent inventory movement', 'Re-zonable floor', 'Access outside office hours'],
     image: quickImg,
-    imageAlt: 'Goods vehicle loading at a facility for onward local delivery',
+    imageAlt: 'Rider vehicles loading at the 100 Feet Road frontage, inside the demand zone they serve',
   },
   {
     id: 'retail',
@@ -43,7 +47,7 @@ export const industries = [
       'Retail networks need stock staged against delivery routes rather than parked in bulk. Space is arranged for consolidation, route-wise staging and dispatch windows that repeat the same way every week.',
     needs: ['Route-wise staging', 'Consolidation space', 'Predictable replenishment', 'Seasonal overflow'],
     image: retailImg,
-    imageAlt: 'Wide racking aisle holding retail stock ready for replenishment',
+    imageAlt: 'Roller-shuttered frontage of a recently completed Gray Brick unit',
   },
   {
     id: 'fmcg',
@@ -54,7 +58,7 @@ export const industries = [
       'Fast-moving goods reward layouts that cut travel distance and protect rotation. Palletised bulk sits behind an active pick face, and dock capacity has to be sized for inbound and outbound happening at the same time.',
     needs: ['Pallet-in, pallet-out flow', 'Stock rotation discipline', 'Continuous dock activity', 'Bulk plus pick face'],
     image: fmcgImg,
-    imageAlt: 'Pallets staged outside a warehouse facility',
+    imageAlt: 'Palletised and cartoned fast-moving goods stacked across the storage floor',
   },
   {
     id: 'manufacturing',
@@ -65,7 +69,7 @@ export const industries = [
       'Production runs better when input and output buffers sit off the shop floor. A warehouse near the plant absorbs inbound batches and holds finished goods until they are called forward, which keeps the line from being used as storage.',
     needs: ['Raw material buffer', 'Finished goods holding', 'Proximity to the plant', 'Heavy floor loading'],
     image: mfgImg,
-    imageAlt: 'Industrial warehouse interior with structural columns and high clear height',
+    imageAlt: 'Clear-span floor at the Horamavu facility, free of internal columns',
   },
   {
     id: 'automotive',
@@ -76,7 +80,7 @@ export const industries = [
       'Aftermarket and line-side supply both come down to finding a part quickly. Racking profiles, bin-level storage and controlled access matter far more here than raw floor area.',
     needs: ['Bin-level storage', 'Mixed racking profiles', 'Controlled access', 'Service-level dispatch'],
     image: autoImg,
-    imageAlt: 'Steel racking configured for parts and spares storage',
+    imageAlt: 'Front elevation of the Horamavu facility, with its covered loading opening and paved forecourt',
   },
   {
     id: 'logistics',
@@ -87,7 +91,7 @@ export const industries = [
       'Third-party operators need a floor that can be partitioned by client without rebuilding the shell, and enough yard to keep vehicles moving through the day. Tenure flexibility usually matters as much as the space itself.',
     needs: ['Partitionable floor', 'Yard and turnaround space', 'Dock capacity', 'Flexible tenure'],
     image: logiImg,
-    imageAlt: 'Goods carrier moving containerised freight along a highway',
+    imageAlt: 'Loading bay on 100 Feet Road, with stock on pallets and rider vehicles drawn up alongside',
   },
   {
     id: 'consumer-goods',
@@ -98,7 +102,7 @@ export const industries = [
       'Consumer goods rarely turn up in neat, pallet-sized boxes. Facilities need to take mixed formats, protect higher-value stock, and leave room for kitting or bundling before dispatch.',
     needs: ['Mixed-format storage', 'Protected stock areas', 'Kitting and bundling space', 'Damage-controlled handling'],
     image: goodsImg,
-    imageAlt: 'Stacked crates holding packaged consumer goods ready for dispatch',
+    imageAlt: 'Full width of the empty clear-span floor, room to lay out mixed-format storage',
   },
 ]
 

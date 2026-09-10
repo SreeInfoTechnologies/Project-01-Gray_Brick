@@ -32,7 +32,7 @@ export function WarehouseFilters({ filters, onChange, onClear, resultCount, tota
           hideOptional
           id="filter-location"
           label="Where do you need space?"
-          placeholder="All corridors"
+          placeholder="All locations"
           options={locations.map((item) => ({ value: item.value, label: item.label }))}
           value={filters.location}
           onChange={update('location')}

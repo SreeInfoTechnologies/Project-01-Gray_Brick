@@ -7,7 +7,7 @@ import { locations, warehouseTypes } from './warehouses'
 // entry below maps to a real route in App.jsx.
 //
 // The header submenus are DERIVED from the data that already drives the pages
-// they point at, so a new solution, industry, facility type or corridor shows
+// they point at, so a new solution, industry, facility type or location shows
 // up in the navigation without anyone remembering to add it twice. The
 // warehouse links use ?type= and ?location=, which the listing page already
 // reads and reflects in its filter controls.
@@ -28,7 +28,7 @@ const typeLinks = warehouseTypes.map((type) => ({
   to: `/warehouses?type=${type.value}`,
 }))
 
-const corridorLinks = locations.map((location) => ({
+const locationLinks = locations.map((location) => ({
   label: location.label,
   to: `/warehouses?location=${location.value}`,
   hint: location.corridor,
@@ -42,7 +42,7 @@ export const primaryNav = [
     menu: {
       groups: [
         { title: 'By facility type', links: typeLinks },
-        { title: 'By corridor', links: corridorLinks, columns: 2 },
+        { title: 'By location', links: locationLinks },
       ],
       footer: { label: 'See every facility', to: '/warehouses' },
     },

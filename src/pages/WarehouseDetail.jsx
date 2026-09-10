@@ -18,6 +18,7 @@ import { WarehouseGallery } from '@/components/warehouses/WarehouseGallery'
 import { WarehouseSpecs } from '@/components/warehouses/WarehouseSpecs'
 import {
   availabilityOptions,
+  directionsFor,
   labelFor,
   locationFor,
   relatedWarehouses,
@@ -93,6 +94,7 @@ export default function WarehouseDetail() {
   const location = locationFor(warehouse.location)
   const typeLabel = labelFor(warehouseTypes, warehouse.type)
   const availabilityLabel = labelFor(availabilityOptions, warehouse.availability)
+  const directions = directionsFor(warehouse)
   const related = relatedWarehouses(warehouse, data)
 
   return (
@@ -148,10 +150,25 @@ export default function WarehouseDetail() {
               </ul>
             </Reveal>
 
+            {location?.address ? (
+              <Reveal variant="fade" delay={2}>
+                <address className="gb-measure-tight text-[0.875rem] leading-relaxed text-gb-silver not-italic">
+                  {location.address}
+                </address>
+              </Reveal>
+            ) : null}
+
             <Reveal variant="fade" delay={2} className="mt-2">
-              <Button href="#enquiry" variant="gold" size="lg" withArrow>
-                Check availability
-              </Button>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Button href="#enquiry" variant="gold" size="lg" withArrow>
+                  Check availability
+                </Button>
+                {directions ? (
+                  <Button href={directions} variant="outlineLight" size="lg">
+                    Open in Maps
+                  </Button>
+                ) : null}
+              </div>
             </Reveal>
           </div>
         </Container>
@@ -222,7 +239,7 @@ export default function WarehouseDetail() {
                 eyebrow="Location"
                 size="sm"
                 title="Where this facility sits"
-                lead="Connectivity usually decides whether a facility works. Here is how this one sits."
+                lead="Connectivity usually decides whether a facility works. This is where this one is."
               />
             </div>
 
@@ -249,19 +266,25 @@ export default function WarehouseDetail() {
                   </div>
                   <div className="bg-gb-graphite p-5">
                     <dt className="text-meta uppercase text-gb-silver-dark">Site address</dt>
-                    <dd className="mt-2 text-[0.9375rem] text-gb-silver-dark italic">
-                      Shared on enquiry
+                    <dd className="mt-2 text-[0.9375rem] leading-relaxed font-semibold text-gb-silver-light">
+                      {location?.address ?? 'Shared on enquiry'}
                     </dd>
                   </div>
                 </dl>
 
-                <p className="mt-5 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-gb-silver-dark">
-                  <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
-                  <span>
-                    We share exact site addresses once a requirement is registered, so a visit can
-                    be arranged with the facility team rather than turning up unannounced.
-                  </span>
-                </p>
+                <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="flex items-start gap-2 text-[0.8125rem] leading-relaxed text-gb-silver-dark">
+                    <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
+                    <span>
+                      Visits are arranged with the facility team, so tell us when you plan to come.
+                    </span>
+                  </p>
+                  {directions ? (
+                    <Button href={directions} variant="secondary" size="sm">
+                      Open in Maps
+                    </Button>
+                  ) : null}
+                </div>
               </Reveal>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { Button } from './Button'
 import { Container } from './Container'
 import { Eyebrow } from './Eyebrow'
 import { Reveal } from './Reveal'
-import ctaImage from '@/assets/images/container-port.webp'
+import ctaImage from '@/assets/images/gb-forecourt-wide.webp'
 
 /**
  * The final conversion point before the footer. It appears on every page, so

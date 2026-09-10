@@ -4,7 +4,7 @@ import { Eyebrow } from '@/components/common/Eyebrow'
 import { Reveal } from '@/components/common/Reveal'
 import { Seo } from '@/components/common/Seo'
 import { primaryNav } from '@/data/navigation'
-import backdrop from '@/assets/images/hall-steel-trusses.webp'
+import backdrop from '@/assets/images/gb-floor-ready.webp'
 
 export default function NotFound() {
   return (

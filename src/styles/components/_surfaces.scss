@@ -72,28 +72,15 @@
 }
 
 @layer components {
-  // -- Photographic grade ---------------------------------------------------
-  // Stock warehousing and freight photography arrives in whatever colour the
-  // photographer shot it: the rail and port frames in particular are a hard
-  // cyan that belongs to no part of this palette and reads as another
-  // company's site sitting inside ours.
-  //
-  // Rather than filtering hard enough to look unreal, this pulls saturation
-  // back and adds a small warm shift, so blues settle toward steel and the
-  // ambers already in frame lean toward the brand gold. Values were chosen by
-  // grading every image in src/assets/images and measuring the result: at these
-  // settings all but one drop under 14% of pixels in the cyan band, while the
-  // warehouse interiors keep enough saturation to still read as photographs.
-  .gb-photo {
-    filter: saturate(0.5) sepia(0.3) contrast(1.06) brightness(0.96);
-  }
-
-  // Full-bleed imagery sitting behind text, under a scrim. Measuring a graded
-  // page hero showed 58% of its pixels still landing in the cyan band, which is
-  // enough for the page to read as someone else's brand at a glance. These
-  // frames are already darkened by the scrim and carry no detail the reader is
-  // asked to study, so they take a firmer grade than card photography does.
+  // -- Photography -----------------------------------------------------------
+  // Every photograph on the site is Gray Brick's own: its facilities at
+  // HRBR Layout and Horamavu, shot in daylight. They are shown as taken. The
+  // grade that used to sit here (saturate 0.5, sepia 0.3) was tuned to mute
+  // cyan stock freight imagery; on real photographs it turned a blue sky and a
+  // grey building into brown, so it is gone. Legibility over a photograph is
+  // the scrim's job, not the photograph's.
+  .gb-photo,
   .gb-photo--backdrop {
-    filter: saturate(0.34) sepia(0.34) contrast(1.08) brightness(0.9);
+    filter: none;
   }
 }

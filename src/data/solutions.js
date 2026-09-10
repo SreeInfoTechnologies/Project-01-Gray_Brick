@@ -1,14 +1,21 @@
-import readyImg from '@/assets/images/facility-interior-open.webp'
-import builtImg from '@/assets/images/industrial-facade.webp'
-import fulfilImg from '@/assets/images/racking-inventory.webp'
-import distImg from '@/assets/images/truck-at-facility.webp'
-import chainImg from '@/assets/images/container-yard.webp'
+// Photographs of Gray Brick's own two facilities. Each solution is illustrated
+// by the building that actually demonstrates it — the empty Horamavu floor for
+// ready-to-move, the newly finished frontage for built-to-suit, the stocked
+// HRBR mezzanine for fulfillment, the 100 Feet Road loading bay for
+// distribution. No stock photography.
+import readyImg from '@/assets/images/gb-floor-ready.webp'
+import builtImg from '@/assets/images/gb-frontage-dusk.webp'
+import fulfilImg from '@/assets/images/gb-mezzanine-fmcg.webp'
+import distImg from '@/assets/images/gb-street-loading.webp'
+import chainImg from '@/assets/images/gb-forecourt-wide.webp'
 
-import readyWide from '@/assets/images/facility-interior-bright.webp'
-import builtWide from '@/assets/images/container-truck-dusk.webp'
-import fulfilWide from '@/assets/images/racking-aisle.webp'
-import distWide from '@/assets/images/truck-highway.webp'
-import chainWide from '@/assets/images/rail-wagons.webp'
+// Every file below is landscape on purpose: SolutionSection renders the wide
+// slot in a 3/2 frame, and a portrait source there would be cropped to a band.
+import readyWide from '@/assets/images/gb-floor-ready-wide.webp'
+import builtWide from '@/assets/images/gb-forecourt-wide.webp'
+import fulfilWide from '@/assets/images/gb-mezzanine-stocked.webp'
+import distWide from '@/assets/images/gb-street-bay.webp'
+import chainWide from '@/assets/images/gb-floor-ready.webp'
 
 // Capability descriptions only. No areas, counts, timelines or performance
 // claims: those belong to a facility record or a conversation with the team.
@@ -31,8 +38,8 @@ export const solutions = [
     ],
     image: readyImg,
     wideImage: readyWide,
-    imageAlt: 'Completed warehouse floor, empty and ready for racking',
-    wideImageAlt: 'Wide view of a finished warehouse interior before fit-out',
+    imageAlt: 'The completed Horamavu floor in sealed red-oxide finish, empty and ready for racking',
+    wideImageAlt: 'Full width of the finished Horamavu storage floor before fit-out',
   },
   {
     id: 'built-to-suit',
@@ -51,8 +58,8 @@ export const solutions = [
     ],
     image: builtImg,
     wideImage: builtWide,
-    imageAlt: 'Elevation of a modern industrial building under development',
-    wideImageAlt: 'Container vehicle at an industrial facility at dusk',
+    imageAlt: 'Newly completed two-level frontage with roller shutters at a Gray Brick facility',
+    wideImageAlt: 'Gable front and paved forecourt of a completed Gray Brick facility',
   },
   {
     id: 'fulfillment',
@@ -71,8 +78,8 @@ export const solutions = [
     ],
     image: fulfilImg,
     wideImage: fulfilWide,
-    imageAlt: 'Racking holding picked and palletised stock in a fulfillment facility',
-    wideImageAlt: 'Pick aisle running the depth of a working warehouse',
+    imageAlt: 'Stocked mezzanine and picking floor at the HRBR Layout facility',
+    wideImageAlt: 'Cartoned reserve stock on the mezzanine above the active pick face',
   },
   {
     id: 'distribution',
@@ -91,8 +98,8 @@ export const solutions = [
     ],
     image: distImg,
     wideImage: distWide,
-    imageAlt: 'Goods carrier loading at a distribution facility',
-    wideImageAlt: 'Goods vehicle moving freight along a highway corridor',
+    imageAlt: 'Rider vehicles loading at the 100 Feet Road frontage of the HRBR Layout facility',
+    wideImageAlt: 'The 100 Feet Road loading bay, with stock on pallets and rider vehicles alongside',
   },
   {
     id: 'supply-chain',
@@ -111,8 +118,8 @@ export const solutions = [
     ],
     image: chainImg,
     wideImage: chainWide,
-    imageAlt: 'Containers staged in a yard before onward movement',
-    wideImageAlt: 'Freight wagons standing in a rail yard',
+    imageAlt: 'Gable front and paved forecourt of the Horamavu facility',
+    wideImageAlt: 'The completed Horamavu floor under its steel truss roof, ready to be laid out',
   },
 ]
 
@@ -170,7 +177,7 @@ export const solutionFaqs = [
   {
     question: 'Which parts of Bengaluru do you cover?',
     answer:
-      'We work the industrial corridors that serve the city. Nelamangala and Dabaspet on NH-48, Hoskote on NH-75, Bommasandra and Attibele on NH-44, Soukya Road towards Whitefield, Doddaballapur on the northern airport corridor, and the Peenya belt inside the city.',
+      'Our own facilities are on the north-east side of the city, at HRBR Layout on 100 Feet Road and at Horamavu on Narayana Reddy Layout Road. Beyond those we source across Kalyan Nagar and Banaswadi, Hennur, K R Puram and Whitefield, Hoskote, the Peenya belt, and the NH-48, NH-44 and airport corridors.',
   },
   {
     question: 'We have not finalised our requirement yet. Is it too early to talk?',
