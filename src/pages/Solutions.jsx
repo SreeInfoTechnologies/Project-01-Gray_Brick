@@ -9,14 +9,19 @@ import { SectionHeading } from '@/components/common/SectionHeading'
 import { Seo } from '@/components/common/Seo'
 import heroImage from '@/assets/images/gb-floor-ready-wide.webp'
 import { solutionFaqs, solutions } from '@/data/solutions'
+import { faqNode, serviceListNode } from '@/lib/schema'
 
 export default function Solutions() {
   return (
     <>
       <Seo
-        title="Warehousing &amp; Fulfillment Solutions"
-        description="Ready-to-move and built-to-suit warehouses, fulfillment centers, distribution facilities and supply chain support for businesses operating in and around Bengaluru."
+        title="Warehousing Solutions in Bengaluru"
+        description="Ready-to-move and built-to-suit warehouses, fulfillment centers, distribution centers and supply chain support for businesses in and around Bengaluru (Bangalore)."
         path="/solutions"
+        mainEntity={serviceListNode()}
+        schema={[faqNode('/solutions', solutionFaqs)]}
+        image="/og/solutions.jpg"
+        imageAlt="Gray Brick Infra warehousing solutions: ready-to-move, built-to-suit, fulfillment and distribution"
       />
 
       <PageHero

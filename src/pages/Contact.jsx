@@ -11,6 +11,7 @@ import { EnquiryForm } from '@/components/contact/EnquiryForm'
 import heroImage from '@/assets/images/gb-frontage-dusk.webp'
 import { company } from '@/data/company'
 import { businessRequirements, enquiryAreas, spaceBands } from '@/data/warehouses'
+import { ids } from '@/lib/schema'
 
 const isValid = (options, value) => options.some((option) => option.value === value)
 
@@ -34,9 +35,14 @@ export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact Gray Brick Infra"
-        description="Talk to Gray Brick Infra about warehouse space in and around Bengaluru. Ready-to-move, built-to-suit, fulfillment and distribution. Office at Subbaiahnapalya, Banaswadi, Bengaluru North 560043."
+        exact
+        title="Contact Gray Brick Infra | Warehouse Enquiries in Bengaluru"
+        description="Enquire about warehouse space in Bengaluru (Bangalore) with Gray Brick Infra. Office at 852, 7th A Main, Banaswadi, Bengaluru 560043, open Monday to Saturday."
         path="/contact"
+        pageType="ContactPage"
+        mainEntity={{ '@id': ids.organization() }}
+        image="/og/contact.jpg"
+        imageAlt="Contact Gray Brick Infra about warehouse space in Bengaluru"
       />
 
       <PageHero

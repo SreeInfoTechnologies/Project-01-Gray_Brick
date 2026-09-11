@@ -12,6 +12,13 @@ import App from './App.jsx'
 // custom domain it is `/`. React Router wants it without the trailing slash.
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
+// Every route ships prerendered (scripts/prerender.mjs): its <head> tags and
+// its markup are already in the HTML, for crawlers and for link previews. From
+// here React owns both. The prerendered head tags are dropped so React's own
+// are the only ones, and createRoot replaces the prerendered markup with the
+// live tree.
+document.head.querySelectorAll('[data-prerender]').forEach((node) => node.remove())
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter basename={basename}>

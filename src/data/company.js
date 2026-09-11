@@ -10,7 +10,12 @@
 
 export const company = {
   legalName: 'Gray Brick Infra Pvt. Ltd.',
+  // The name used in running text, page titles and as the search-result site
+  // name. `alternateName` lists the other ways people write it, so a search
+  // for any of them resolves to this organisation.
+  name: 'Gray Brick Infra',
   shortName: 'Gray Brick',
+  alternateName: ['Gray Brick', 'GrayBrick Infra', 'Gray Brick Infra Private Limited'],
   wordmark: { primary: 'GRAY BRICK', secondary: 'INFRA PVT LTD' },
 
   positioning:
@@ -50,6 +55,13 @@ export const company = {
   ],
 
   workingHours: 'Monday to Saturday, 9:30 am to 6:30 pm IST',
+  // The same hours in machine-readable form, for the structured data. Keep the
+  // two in step: this one is what search engines show as opening hours.
+  openingHours: {
+    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    opens: '09:30',
+    closes: '18:30',
+  },
 
   // Founder. Name, portrait, designation and qualification supplied by Gray
   // Brick. Nothing here is inferred.
@@ -105,3 +117,17 @@ export const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${
 
 export const hasPhone = Boolean(company.contact.phone)
 export const hasEmail = Boolean(company.contact.email)
+
+/**
+ * Social entries that point at a real profile rather than a platform's home
+ * page. Only these are published as `sameAs` in the structured data: a
+ * `sameAs` of https://www.linkedin.com/ would tell search engines this company
+ * IS LinkedIn, which is worse than saying nothing.
+ */
+export const socialProfiles = company.social.filter(({ href }) => {
+  try {
+    return new URL(href).pathname.replace(/\/+$/, '') !== ''
+  } catch {
+    return false
+  }
+})

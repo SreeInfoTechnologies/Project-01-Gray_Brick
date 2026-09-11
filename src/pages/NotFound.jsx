@@ -13,6 +13,7 @@ export default function NotFound() {
         title="Page Not Found"
         description="That page is not here. Browse warehouse space, solutions and facilities from Gray Brick Infra in Bengaluru."
         path="/404"
+        noindex
       />
 
       <section className="relative isolate flex min-h-[70svh] items-center overflow-hidden bg-gb-black">

@@ -8,6 +8,16 @@ import { warehouses as inventory } from '@/data/warehouses'
 const LATENCY_MS = 420
 let cache = null
 
+/**
+ * Fill the cache before the first render. The build's prerender step calls
+ * this so that the HTML shipped for /warehouses and each facility page carries
+ * the real listing, not the loading skeleton. The browser does not call it: it
+ * boots through the same loading path a real API would need.
+ */
+export function seedWarehouses(data = inventory) {
+  cache = data
+}
+
 function loadWarehouses() {
   if (cache) return Promise.resolve(cache)
   return new Promise((resolve) => {

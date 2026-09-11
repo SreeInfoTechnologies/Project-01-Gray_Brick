@@ -12,8 +12,15 @@ import { Seo } from '@/components/common/Seo'
 import { WarehouseCard, WarehouseCardSkeleton } from '@/components/warehouses/WarehouseCard'
 import { WarehouseFilters } from '@/components/warehouses/WarehouseFilters'
 import heroImage from '@/assets/images/gb-forecourt-wide.webp'
-import { businessRequirements, coverageAreas, labelFor, spaceBands } from '@/data/warehouses'
+import {
+  businessRequirements,
+  coverageAreas,
+  warehouses as inventory,
+  labelFor,
+  spaceBands,
+} from '@/data/warehouses'
 import { useFilteredWarehouses } from '@/hooks/useWarehouses'
+import { facilityListNode } from '@/lib/schema'
 
 const FILTER_KEYS = ['location', 'type', 'availability']
 const CARRIED_KEYS = ['space', 'requirement']
@@ -69,9 +76,13 @@ export default function Warehouses() {
   return (
     <>
       <Seo
-        title="Warehouses in Bengaluru"
-        description="Gray Brick Infra warehousing in Bengaluru: a working fulfillment facility on 100 Feet Road, HRBR Layout, Kalyan Nagar, and ready-to-move space on Narayana Reddy Layout Road, Horamavu. We also source space across the wider city and its corridors."
+        title="Warehouses for Rent in Bengaluru"
+        description="Warehouses for rent and lease in Bengaluru (Bangalore): a fulfillment facility on 100 Feet Road, HRBR Layout, and ready-to-move space in Horamavu. More sourced across the city."
         path="/warehouses"
+        pageType="CollectionPage"
+        mainEntity={facilityListNode(inventory)}
+        image="/og/warehouses.jpg"
+        imageAlt="Gray Brick Infra warehouses in and around Bengaluru"
       />
 
       <PageHero

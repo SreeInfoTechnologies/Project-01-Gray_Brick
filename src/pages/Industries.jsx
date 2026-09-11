@@ -11,9 +11,11 @@ export default function Industries() {
   return (
     <>
       <Seo
-        title="Industries We Work With"
-        description="What e-commerce, quick commerce, retail, FMCG, manufacturing, automotive, logistics and consumer goods operations each need from a warehouse in Bengaluru."
+        title="Warehousing for E-Commerce, FMCG & Retail"
+        description="What e-commerce, quick commerce, retail, FMCG, manufacturing, automotive, 3PL and consumer goods operations each need from a warehouse in Bengaluru."
         path="/industries"
+        image="/og/industries.jpg"
+        imageAlt="Warehousing for e-commerce, quick commerce, FMCG, retail and manufacturing in Bengaluru"
       />
 
       <PageHero
