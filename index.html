@@ -3,14 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#0d0e0f" />
-    <meta name="color-scheme" content="light" />
-    <title>Gray Brick Infra | Warehousing Solutions in Bengaluru</title>
+    <!--
+      Page title, description, canonical, share card and structured data are
+      per-route and written in at build time by scripts/prerender.mjs, straight
+      after the viewport tag. The two below are fallbacks for `vite dev` and are
+      removed from every prerendered page.
+    -->
+    <title>Gray Brick Infra | Warehouse Space for Lease in Bengaluru</title>
     <meta
       name="description"
-      content="Gray Brick Infra Pvt. Ltd. provides ready-to-move and built-to-suit warehousing, fulfillment centers and distribution facilities in and around Bengaluru."
+      content="Ready-to-move and built-to-suit warehouse space in Bengaluru (Bangalore) from Gray Brick Infra: facilities at HRBR Layout and Horamavu for storage, fulfilment and distribution."
     />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0d0e0f" />
+    <meta name="color-scheme" content="light" />
+    <meta name="application-name" content="Gray Brick Infra" />
+    <meta name="apple-mobile-web-app-title" content="Gray Brick" />
+    <meta name="author" content="Gray Brick Infra Pvt. Ltd." />
+    <meta name="geo.region" content="IN-KA" />
+    <meta name="geo.placename" content="Bengaluru" />
+    <meta name="format-detection" content="telephone=no" />
 
     <!--
       LOADER: critical styles are inline on purpose.
@@ -230,11 +246,14 @@
       }
     </style>
 
-    <!-- Without JavaScript nothing can dismiss the splash, so it must not exist. -->
+    <!-- Without JavaScript nothing can dismiss the splash, so it must not exist.
+         The prerendered page underneath is then the whole site; its photos
+         fade in on a load handler that will never run, so they are shown. -->
     <noscript>
       <style>
         .gbl-root { display: none; }
         html.gbl-loading, html.gbl-loading body { overflow: auto; }
+        .gb-photo { opacity: 1 !important; }
       </style>
     </noscript>
   </head>
@@ -337,15 +356,9 @@
       <div class="gbl-glint" aria-hidden="true"></div>
     </div>
 
+    <!-- Filled with the prerendered page at build time (scripts/prerender.mjs),
+         so it reads without JavaScript. -->
     <div id="root"></div>
-
-    <noscript>
-      <p>
-        Gray Brick Infra Pvt. Ltd. Ready-to-move and built-to-suit warehousing, fulfillment and
-        distribution facilities. This site needs JavaScript enabled. Our office is at 852, 7th A
-        Main, Opp. Syndicate Bank Road, Subbaiahnapalya, Banaswadi, Bengaluru North 560043.
-      </p>
-    </noscript>
 
     <script>
       /* Loader controller. Inline so it runs before the bundle and can always

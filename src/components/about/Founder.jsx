@@ -26,8 +26,11 @@ export function Founder() {
 
   return (
     <section
+      // The founder's Person node in the structured data uses this anchor as
+      // its URL (/about/#founder), so it must stay stable.
+      id="founder"
       aria-labelledby="founder-heading"
-      className="gb-concrete relative border-y border-gb-line bg-gb-black py-18 sm:py-20 lg:py-28"
+      className="gb-concrete relative scroll-mt-20 border-y border-gb-line bg-gb-black py-18 sm:py-20 lg:py-28"
     >
       <Container>
         <div className="grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-16">

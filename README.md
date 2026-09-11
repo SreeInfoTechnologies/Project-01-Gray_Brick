@@ -14,7 +14,7 @@ warehousing, fulfillment centers, distribution centers and end-to-end supply cha
 | Styling    | Tailwind CSS v4 utilities + SCSS for effects and theme tokens |
 | Routing    | React Router 7                                                 |
 | Fonts      | Inter Variable, self-hosted via `@fontsource-variable/inter`  |
-| Metadata   | React 19 native document metadata (no helmet dependency)      |
+| Metadata   | React 19 native document metadata, prerendered per route      |
 | Animation  | In-house IntersectionObserver + CSS system (no GSAP/Framer)   |
 
 ## Getting started
@@ -22,9 +22,10 @@ warehousing, fulfillment centers, distribution centers and end-to-end supply cha
 ```bash
 npm install
 npm run dev       # http://localhost:5173
-npm run build     # production build into dist/
+npm run build     # production build into dist/, every route prerendered
 npm run preview   # serve the production build
 npm run lint      # eslint, including jsx-a11y and the no-inline-styles rule
+npm run build:brand   # regenerate share cards and icons (needs Chrome; output is committed)
 ```
 
 ---
@@ -121,6 +122,10 @@ social: [
 
 An empty array hides the block entirely. The same list feeds the `sameAs`
 property in the structured data, so fixing it here fixes it everywhere.
+Entries that still point at a platform's home page are left out of `sameAs`
+(`socialProfiles` in `company.js`): telling search engines the company is
+`linkedin.com` would be worse than saying nothing. They start counting the
+moment a real profile URL goes in.
 
 ---
 
@@ -368,7 +373,7 @@ no rewrite rules. Three things follow from that, all handled in
 | --- | --- |
 | Assets resolve against the domain root | `base` comes from `VITE_BASE_PATH`; CI derives it from the repo name |
 | Router thinks it is at the root | `BrowserRouter basename` reads `import.meta.env.BASE_URL` |
-| A refresh on `/warehouses/<slug>` has no file behind it | A real `index.html` is emitted per route, so Pages returns **200** |
+| A refresh on `/warehouses/<slug>` has no file behind it | Every route is prerendered to its own `index.html`, so Pages returns **200** |
 
 The last one is the one that matters. The usual fix is a `404.html` copy of
 `index.html`: the SPA boots and renders the right route, but Pages serves it
@@ -376,7 +381,9 @@ with a **404 status**, which is a poor trade for a site carrying per-page
 canonicals and structured data. So every route the router serves gets its own
 file and a 200, and `404.html` is kept for what it actually means, a path that
 does not exist. Facility routes are enumerated from `warehouses.js`, so adding
-a facility adds its page automatically.
+a facility adds its page automatically. See
+[Search, AI answers and link previews](#search-ai-answers-and-link-previews)
+for what goes into those files.
 
 `.nojekyll` ships in `public/` because Pages otherwise runs Jekyll over the
 output and strips paths it treats as private.
@@ -400,6 +407,107 @@ Hashed assets under `/assets/` are safe to cache immutably; the HTML is not.
 only look at the domain root, which belongs to the organisation account. A
 custom domain fixes this properly and is worth doing before any real SEO push.
 
+## Search, AI answers and link previews
+
+Everything below is generated from `src/data`, so a data change updates the
+pages, the metadata, the structured data and the AI-readable summaries
+together. None of it can be edited out of step by hand.
+
+### Prerendering
+
+`npm run build` runs three steps:
+
+```
+vite build                                   # the client app, as before
+vite build --ssr src/entry-server.jsx        # the same app, built to run in Node
+node scripts/prerender.mjs                   # render every route into dist/
+```
+
+Every route ships as real HTML: its own `<title>`, description, canonical,
+share card, structured data and full body copy, before any JavaScript runs.
+That matters because most AI crawlers (GPTBot, ClaudeBot, PerplexityBot) and
+every link-preview bot (WhatsApp, LinkedIn, Slack, X) do not run JavaScript.
+Before this, all of them saw the homepage's title on every URL and no content
+at all.
+
+The browser then boots the same app over the page. `main.jsx` drops the
+prerendered head tags so React's own are the only ones, and `createRoot`
+replaces the markup with the live tree. Anything that reads browser APIs must
+keep doing so inside effects (as every hook here already does), because the
+prerender runs in Node.
+
+### URLs
+
+GitHub Pages answers `/about` with a **301** to `/about/`. So every URL the
+site publishes about itself (canonical, `og:url`, sitemap, structured data) is
+the trailing-slash form, built by `pageUrl()` in `src/lib/site.js`. A
+canonical that points at a redirect is a conflicting signal, and that is
+exactly what the site shipped before. `verify-build` now fails if a slashless
+URL comes back.
+
+### Structured data
+
+One connected schema.org graph, linked by `@id` (`src/lib/schema.js`):
+
+| Node | Where | What it carries |
+| --- | --- | --- |
+| `LocalBusiness` `/#organization` | every page | legal and alternate names, logo, address, opening hours, areas served, both facilities, the five services, founder |
+| `WebSite` `/#website` | every page | the site name Google shows in results |
+| `Person` `/about/#founder` | every page | name, title, portrait, qualification, employer |
+| `WebPage` / `AboutPage` / `ContactPage` / `CollectionPage` / `ItemPage` | each page | title, description, share image, what the page is about |
+| `BreadcrumbList` | interior pages | emitted by `<Breadcrumbs>` itself, so the visible trail and the declared one cannot differ |
+| `Place` | facility pages | address, map link, photographs, confirmed features |
+| `FAQPage` | home, solutions | the questions and answers shown on the page |
+
+Validate after a deploy with Google's Rich Results Test and the Schema.org
+validator. Note that Google now shows FAQ rich results only for a small set of
+authoritative sites; the FAQ markup is still read by AI answer engines, which is
+why it is here.
+
+### AI search (GEO / AEO)
+
+- **`/llms.txt`** and **`/llms-full.txt`** (`src/lib/llms.js`) follow the
+  [llms.txt](https://llmstxt.org) proposal: a linked Markdown map of the site and
+  a single-page reference with every fact on it. They are written at build time
+  from the same data as the pages.
+- **`robots.txt`** allows search engines and the AI crawlers behind ChatGPT,
+  Claude, Perplexity, Gemini, Apple Intelligence and others by name, so a
+  future blanket rule cannot shut them out without anyone noticing.
+- **The homepage FAQ** (`src/data/faqs.js`) answers the questions people ask
+  an assistant about a company: what it does, where its warehouses are, who
+  founded it, who it works with. Each answer is a complete statement that
+  still reads correctly when quoted on its own.
+- **Copy says "Bengaluru (Bangalore)"** where it counts, because most searches
+  still use the older name.
+
+### Share cards and icons
+
+`npm run build:brand` renders `public/og/*.jpg` (1200 × 630, one per page:
+the About card is the founder's portrait with name and title),
+`public/icons/*.png`, and `public/favicon.ico` from the logo in
+`logoPaths.js` and the photographs in `src/assets/images`. The output is
+committed. Re-run it when the logo, a photograph, the founder's details or a
+page headline changes; the card headlines are listed in the script. A facility
+without an `ogImage` in `warehouses.js` shares with the default card.
+
+### After each deploy
+
+Off-site work that no code can do, in order of impact:
+
+1. **Google Search Console**: verify the domain with a DNS TXT record (it covers
+   `www` and every protocol) and submit `https://graybrickinfra.in/sitemap.xml`.
+2. **Bing Webmaster Tools**: import from Search Console. Bing's index is what
+   ChatGPT search and Copilot draw on.
+3. **Google Business Profile** for the Banaswadi office, with the exact name,
+   address and hours used here, photos of both facilities, and the website
+   link. This is what decides the map pack for "warehouse near me" searches.
+4. **Phone, email and real social profile URLs** in `src/data/company.js`.
+   Each one appears across the site and in the structured data the moment it
+   is filled in.
+5. **Consistent listings**: IndiaMART, JustDial, LinkedIn company page and the
+   partners' vendor pages, all with the same name and address. Every matching
+   mention is a signal to search engines and AI systems alike.
+
 ## Architecture
 
 ```
@@ -408,16 +516,21 @@ src/
   components/
     common/           Button, Container, Icon, ImageFrame, Logo, Seo, Reveal, Field, …
     layout/           Navbar, MobileMenu, Footer, Layout, ScrollToTop
-    home/             Hero, ValueStrip, AboutPreview, SolutionsPreview, WarehouseFinder, …
+    home/             Hero, ValueStrip, AboutPreview, SolutionsPreview, CompanyFaq, …
     warehouses/       WarehouseCard, WarehouseFilters, WarehouseGallery, WarehouseSpecs
     solutions/        SolutionSection, ProcessFlow
     industries/       IndustryCard
     contact/          EnquiryForm, ContactDetails
-  data/               company, navigation, solutions, industries, warehouses
+  data/               company, navigation, solutions, industries, warehouses, partners, faqs
   hooks/              useInView, useScrolled, useLockBodyScroll, useFocusTrap, useWarehouses
-  lib/                cn, enquiry, validation
+  lib/                cn, enquiry, validation, site (URLs), schema (JSON-LD), llms
   pages/              one file per route
   styles/             tailwind.css (tokens), variables.scss, globals.scss, animations.scss
+  entry-server.jsx    prerender entry: routes, render(), sitemap
+scripts/
+  prerender.mjs       writes every route, 404.html, sitemap, robots and llms.txt into dist/
+  verify-build.mjs    structural and SEO checks on dist/, run in CI
+  build-brand-assets.mjs  share cards and icons into public/
 ```
 
 ### Design tokens

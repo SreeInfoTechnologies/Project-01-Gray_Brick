@@ -25,6 +25,7 @@ import {
   warehouseTypes,
 } from '@/data/warehouses'
 import { useWarehouses } from '@/hooks/useWarehouses'
+import { facilityNode, ids } from '@/lib/schema'
 
 function NotAvailable() {
   return (
@@ -33,6 +34,7 @@ function NotAvailable() {
         title="Facility not found"
         description="The facility you are looking for is no longer listed. Browse the current Gray Brick Infra warehousing inventory."
         path="/warehouses"
+        noindex
       />
       <div className="bg-gb-black pt-32 pb-20 lg:pt-44 lg:pb-28">
         <Container size="narrow">
@@ -100,10 +102,14 @@ export default function WarehouseDetail() {
   return (
     <>
       <Seo
-        title={`${warehouse.name}, ${typeLabel}`}
-        description={`${warehouse.summary} ${location ? `Located at ${location.label}, ${location.corridor}.` : ''}`.trim()}
+        title={location ? `Warehouse in ${location.label}, Bengaluru` : warehouse.name}
+        description={`${warehouse.summary} ${typeLabel} space${location ? ` at ${location.label}, Bengaluru` : ''} (${availabilityLabel.toLowerCase()}).`}
         path={`/warehouses/${warehouse.slug}`}
-        type="article"
+        pageType="ItemPage"
+        mainEntity={{ '@id': ids.facility(warehouse.slug) }}
+        schema={[facilityNode(warehouse)]}
+        image={warehouse.ogImage}
+        imageAlt={warehouse.imageAlt}
       />
 
       {/* Masthead */}

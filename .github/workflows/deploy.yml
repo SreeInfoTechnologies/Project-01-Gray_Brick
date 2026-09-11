@@ -75,7 +75,10 @@ jobs:
       # A green build only proves the bundler did not throw. This checks the
       # things that actually break on Pages: the SPA fallback, a file behind
       # every route, asset URLs carrying the deploy base, and the inline splash
-      # still being present with its dismissal guard.
+      # still being present with its dismissal guard. It also checks every
+      # route shipped prerendered with its own title, slash-form canonical,
+      # share card and valid structured data, and that the sitemap and
+      # llms.txt were written.
       - name: Verify build output
         run: npm run verify:build
 

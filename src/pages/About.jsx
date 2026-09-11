@@ -13,7 +13,8 @@ import { Founder } from '@/components/about/Founder'
 import heroImage from '@/assets/images/gb-frontage-dusk.webp'
 import storyImage from '@/assets/images/gb-mezzanine-fmcg.webp'
 import approachImage from '@/assets/images/gb-forecourt-wide.webp'
-import { addressLines, directionsUrl } from '@/data/company'
+import { addressLines, company, directionsUrl } from '@/data/company'
+import { ids } from '@/lib/schema'
 
 const values = [
   {
@@ -65,9 +66,14 @@ export default function About() {
   return (
     <>
       <Seo
-        title="About Gray Brick Infra"
-        description="Gray Brick Infra Pvt. Ltd. helps businesses find and set up warehouse space in and around Bengaluru. Ready-to-move, built-to-suit, fulfillment and distribution."
+        exact
+        title={`About Gray Brick Infra & Founder ${company.founder.name}`}
+        description={`${company.legalName} is a Bengaluru warehousing company founded by ${company.founder.name} (${company.founder.title}), offering ready-to-move and built-to-suit warehouse space.`}
         path="/about"
+        pageType="AboutPage"
+        mainEntity={{ '@id': ids.organization() }}
+        image="/og/about.jpg"
+        imageAlt={`${company.founder.name}, ${company.founder.title} of ${company.legalName}`}
       />
 
       <PageHero
