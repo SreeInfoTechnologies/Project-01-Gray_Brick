@@ -8,6 +8,12 @@ import { footerNav, legalNav } from '@/data/navigation'
 
 const year = new Date().getFullYear()
 
+// The studio that designed and built the site.
+const studioCredit = {
+  name: 'Sree Info Technologies',
+  href: 'https://sreeinfotechnologies.com/',
+}
+
 export function Footer() {
   return (
     <footer className="gb-brick relative border-t border-gb-line bg-gb-black">
@@ -113,18 +119,41 @@ export function Footer() {
         </div>
       </Container>
 
+      {/* Bottom bar. Three parts on one line from lg up: copyright left, the
+          studio credit centred, legal links right. A three-column grid rather
+          than justify-between, so the credit sits on the true centre however
+          wide the other two are. Below lg the three stack, left-aligned. */}
       <div className="border-t border-gb-line">
-        <Container className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[0.8125rem] text-gb-silver-dark">
+        <Container className="grid gap-4 py-6 lg:grid-cols-3 lg:items-center">
+          <p className="text-[0.8125rem] leading-5 text-gb-silver-dark">
             © {year} {company.legalName} All rights reserved.
           </p>
 
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <p className="text-[0.8125rem] leading-5 text-gb-silver-dark lg:justify-self-center">
+            Designed by{' '}
+            {/* rel without noreferrer, so the studio's analytics can see the
+                visit came from this site. */}
+            <a
+              href={studioCredit.href}
+              target="_blank"
+              rel="noopener"
+              className="group/credit inline-flex items-center gap-1 font-medium text-gb-silver transition-colors duration-200 hover:text-gb-gold-soft focus-visible:text-gb-gold-soft"
+            >
+              {studioCredit.name}
+              <Icon
+                name="arrowUpRight"
+                className="h-3 w-3 opacity-60 transition-[opacity,transform] duration-200 group-hover/credit:translate-x-px group-hover/credit:-translate-y-px group-hover/credit:opacity-100"
+              />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          </p>
+
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 lg:justify-self-end">
             {legalNav.map((item) => (
               <li key={item.to}>
                 <Link
                   to={item.to}
-                  className="text-[0.8125rem] text-gb-silver-dark transition-colors duration-200 hover:text-gb-silver-light"
+                  className="block text-[0.8125rem] leading-5 text-gb-silver-dark transition-colors duration-200 hover:text-gb-silver-light"
                 >
                   {item.label}
                 </Link>
