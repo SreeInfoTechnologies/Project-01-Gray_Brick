@@ -2,20 +2,16 @@
 // by the building that actually demonstrates it — the empty Horamavu floor for
 // ready-to-move, the newly finished frontage for built-to-suit, the stocked
 // HRBR mezzanine for fulfillment, the 100 Feet Road loading bay for
-// distribution. No stock photography.
+// distribution, the working HRBR floor for support after handover. No stock
+// photography, and no photograph twice: five solutions, five frames.
+//
+// One photograph per solution serves both the homepage card and the 3/2
+// editorial row on the solutions page, so every file here is landscape.
 import readyImg from '@/assets/images/gb-floor-ready.webp'
 import builtImg from '@/assets/images/gb-frontage-dusk.webp'
-import fulfilImg from '@/assets/images/gb-mezzanine-fmcg.webp'
+import fulfilImg from '@/assets/images/gb-mezzanine-stocked.webp'
 import distImg from '@/assets/images/gb-street-loading.webp'
-import chainImg from '@/assets/images/gb-forecourt-wide.webp'
-
-// Every file below is landscape on purpose: SolutionSection renders the wide
-// slot in a 3/2 frame, and a portrait source there would be cropped to a band.
-import readyWide from '@/assets/images/gb-floor-ready-wide.webp'
-import builtWide from '@/assets/images/gb-forecourt-wide.webp'
-import fulfilWide from '@/assets/images/gb-mezzanine-stocked.webp'
-import distWide from '@/assets/images/gb-street-bay.webp'
-import chainWide from '@/assets/images/gb-floor-ready.webp'
+import chainImg from '@/assets/images/gb-mezzanine-fmcg.webp'
 
 // Capability descriptions only. No areas, counts, timelines or performance
 // claims: those belong to a facility record or a conversation with the team.
@@ -37,9 +33,7 @@ export const solutions = [
       'Useful when a new market has to open on a date',
     ],
     image: readyImg,
-    wideImage: readyWide,
     imageAlt: 'The completed Horamavu floor in sealed red-oxide finish, empty and ready for racking',
-    wideImageAlt: 'Full width of the finished Horamavu storage floor before fit-out',
   },
   {
     id: 'built-to-suit',
@@ -57,9 +51,7 @@ export const solutions = [
       'Room to expand on the same site later',
     ],
     image: builtImg,
-    wideImage: builtWide,
     imageAlt: 'Newly completed two-level frontage with roller shutters at a Gray Brick facility',
-    wideImageAlt: 'Gable front and paved forecourt of a completed Gray Brick facility',
   },
   {
     id: 'fulfillment',
@@ -77,9 +69,7 @@ export const solutions = [
       'Headroom for festive and peak volumes',
     ],
     image: fulfilImg,
-    wideImage: fulfilWide,
-    imageAlt: 'Stocked mezzanine and picking floor at the HRBR Layout facility',
-    wideImageAlt: 'Cartoned reserve stock on the mezzanine above the active pick face',
+    imageAlt: 'Cartoned reserve stock on the HRBR Layout mezzanine, above the active pick face',
   },
   {
     id: 'distribution',
@@ -97,9 +87,7 @@ export const solutions = [
       'Sited on the corridors your trucks already use',
     ],
     image: distImg,
-    wideImage: distWide,
     imageAlt: 'Rider vehicles loading at the 100 Feet Road frontage of the HRBR Layout facility',
-    wideImageAlt: 'The 100 Feet Road loading bay, with stock on pallets and rider vehicles alongside',
   },
   {
     id: 'supply-chain',
@@ -117,9 +105,7 @@ export const solutions = [
       'One point of contact once you are running',
     ],
     image: chainImg,
-    wideImage: chainWide,
-    imageAlt: 'Gable front and paved forecourt of the Horamavu facility',
-    wideImageAlt: 'The completed Horamavu floor under its steel truss roof, ready to be laid out',
+    imageAlt: 'The HRBR Layout floor in operation: cartoned stock across the floor and mezzanine',
   },
 ]
 

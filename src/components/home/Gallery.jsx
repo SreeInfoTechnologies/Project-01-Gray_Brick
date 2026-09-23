@@ -5,13 +5,15 @@ import { cn } from '@/lib/cn'
 import floorReady from '@/assets/images/gb-floor-ready.webp'
 import forecourtWide from '@/assets/images/gb-forecourt-wide.webp'
 import frontageDusk from '@/assets/images/gb-frontage-dusk.webp'
-import mezzanineFmcg from '@/assets/images/gb-mezzanine-fmcg.webp'
 import mezzanineStocked from '@/assets/images/gb-mezzanine-stocked.webp'
-import streetLoading from '@/assets/images/gb-street-loading.webp'
 
-// Every photograph Gray Brick supplied, once each. The first one leads because
-// it is the best of the set: the whole building, the loading opening and the
-// forecourt in one frame.
+// Four frames, one of each kind of space: an exterior, an empty floor, a
+// stocked floor, a second building. The road-frontage shot and the second
+// stocked-floor shot were dropped as near-duplicates of frames already here;
+// both still appear on their facility page and elsewhere on the site.
+//
+// The first one leads because it is the best of the set: the whole building,
+// the loading opening and the forecourt in one frame.
 const shots = [
   {
     src: forecourtWide,
@@ -30,18 +32,8 @@ const shots = [
     alt: 'Steel mezzanine carrying cartoned stock above the picking floor',
   },
   {
-    src: streetLoading,
-    caption: 'HRBR Layout · 100 Feet Road frontage',
-    alt: 'Road frontage with rider vehicles at the loading bay and stock on pallets inside',
-  },
-  {
-    src: mezzanineFmcg,
-    caption: 'HRBR Layout · stocked floor',
-    alt: 'Cartoned fast-moving goods across the floor and mezzanine under the truss roof',
-  },
-  {
     src: frontageDusk,
-    caption: 'Two-level frontage at dusk',
+    caption: 'HRBR Layout · two-level frontage at dusk',
     alt: 'Two-level grey frontage with roller shutters and an external spiral stair, lit in the evening',
   },
 ]
@@ -57,20 +49,21 @@ export function Gallery() {
           lead="Photographed on site, not sourced from a stock library."
         />
 
-        {/* 3-column bento from lg: the lead photograph takes two columns and
-            two rows, two frames stack beside it, and three run beneath. */}
-        <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-4">
+        {/* The lead photograph runs the full width, and the other three sit in
+            a row beneath it from md up. Four frames in this shape leave no
+            frame stranded on a row of its own. */}
+        <div className="mt-12 grid gap-3 md:grid-cols-3 lg:mt-16 lg:gap-4">
           {shots.map((shot) => (
-            <figure
-              key={shot.src}
-              className={cn('relative', shot.feature && 'sm:col-span-2 lg:row-span-2')}
-            >
+            <figure key={shot.src} className={cn('relative', shot.feature && 'md:col-span-3')}>
               <ImageFrame
                 src={shot.src}
                 alt={shot.alt}
                 ratio="auto"
                 zoom
-                className={cn('rounded-gb-sm aspect-[4/3]', shot.feature && 'lg:aspect-auto lg:h-full')}
+                className={cn(
+                  'rounded-gb-sm',
+                  shot.feature ? 'aspect-[16/9] md:aspect-[21/9]' : 'aspect-[4/3]',
+                )}
               />
               <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 rounded-b-gb-sm bg-gradient-to-t from-gb-black/85 to-transparent px-4 pt-12 pb-3.5 text-[0.8125rem] font-medium text-gb-white">
                 {shot.caption}

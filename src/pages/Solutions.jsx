@@ -7,7 +7,7 @@ import { PageHero } from '@/components/common/PageHero'
 import { Reveal } from '@/components/common/Reveal'
 import { SectionHeading } from '@/components/common/SectionHeading'
 import { Seo } from '@/components/common/Seo'
-import heroImage from '@/assets/images/gb-floor-ready-wide.webp'
+import heroImage from '@/assets/images/gb-forecourt-wide.webp'
 import { solutionFaqs, solutions } from '@/data/solutions'
 import { faqNode, serviceListNode } from '@/lib/schema'
 
@@ -29,7 +29,7 @@ export default function Solutions() {
         title="Warehousing that fits the operation"
         lead="Five ways we help businesses in Bengaluru get storage, order handling and distribution working, from a finished building you can take over now to one developed around your process."
         image={heroImage}
-        imageAlt="The full width of the completed Horamavu floor, empty and ready for racking"
+        imageAlt="Front elevation of the Horamavu facility, with its covered loading opening and paved forecourt"
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'Solutions' }]}
         rail={[
           { icon: 'warehouse', label: `${solutions.length} ways to take space` },

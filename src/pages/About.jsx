@@ -10,7 +10,7 @@ import { PartnerLogos } from '@/components/common/PartnerLogos'
 import { SectionHeading } from '@/components/common/SectionHeading'
 import { Seo } from '@/components/common/Seo'
 import { Founder } from '@/components/about/Founder'
-import heroImage from '@/assets/images/gb-frontage-dusk.webp'
+import heroImage from '@/assets/images/gb-street-loading.webp'
 import storyImage from '@/assets/images/gb-mezzanine-fmcg.webp'
 import approachImage from '@/assets/images/gb-forecourt-wide.webp'
 import { addressLines, company, directionsUrl } from '@/data/company'
@@ -81,7 +81,7 @@ export default function About() {
         title="Warehousing is part of the operation, not just the property"
         lead="The right warehouse decides how stock is held, how a team works through a shift, how goods move and how well the business serves its customers. We focus on space that is practical for real operations."
         image={heroImage}
-        imageAlt="Roller-shuttered frontage of a recently completed Gray Brick unit at dusk"
+        imageAlt="The HRBR Layout facility on 100 Feet Road in use, with rider vehicles at the loading bay"
         breadcrumbs={[{ label: 'Home', to: '/' }, { label: 'About' }]}
         rail={[
           { icon: 'pin', label: 'Banaswadi, Bengaluru North' },

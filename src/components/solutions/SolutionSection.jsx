@@ -105,8 +105,8 @@ export function SolutionSection({ solution, reversed = false }) {
           <div className={cn('lg:col-span-6', reversed && 'lg:order-1')}>
             <Reveal variant="clip">
               <ImageFrame
-                src={solution.wideImage}
-                alt={solution.wideImageAlt}
+                src={solution.image}
+                alt={solution.imageAlt}
                 ratio="3/2"
                 className="rounded-gb-sm"
               />

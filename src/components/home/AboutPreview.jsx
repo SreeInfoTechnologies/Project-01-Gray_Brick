@@ -4,8 +4,7 @@ import { Eyebrow } from '@/components/common/Eyebrow'
 import { Icon } from '@/components/common/Icon'
 import { ImageFrame } from '@/components/common/ImageFrame'
 import { Reveal } from '@/components/common/Reveal'
-import primaryImage from '@/assets/images/gb-floor-ready.webp'
-import secondaryImage from '@/assets/images/gb-frontage-portrait.webp'
+import facilityImage from '@/assets/images/gb-mezzanine-fmcg.webp'
 
 const pillars = [
   {
@@ -72,34 +71,18 @@ export function AboutPreview() {
           </div>
 
           <div className="lg:col-span-6">
-            <div className="relative">
-              <Reveal variant="clip">
-                <ImageFrame
-                  src={primaryImage}
-                  alt="The Horamavu floor: a clear span in sealed red-oxide finish, no internal columns"
-                  ratio="4/3"
-                  className="rounded-gb-sm"
-                />
-              </Reveal>
+            {/* One photograph, of a facility in use: the copy beside it is about
+                how goods get in, where they sit and how they get out again. */}
+            <Reveal variant="clip">
+              <ImageFrame
+                src={facilityImage}
+                alt="The HRBR Layout facility in use: cartoned stock across the floor and mezzanine under the truss roof"
+                ratio="4/3"
+                className="rounded-gb-sm"
+              />
+            </Reveal>
 
-              {/* Secondary frame overlaps the primary one from the tablet
-                  breakpoint up; on phones it is dropped rather than stacked, to
-                  keep the section from turning into a column of photographs. */}
-              <Reveal
-                variant="fade"
-                delay={2}
-                className="absolute -bottom-10 -left-6 hidden w-[54%] sm:block lg:-left-10"
-              >
-                <ImageFrame
-                  src={secondaryImage}
-                  alt="Roller-shuttered frontage of a recently completed Gray Brick unit"
-                  ratio="4/5"
-                  className="rounded-gb-sm border-4 border-gb-concrete"
-                />
-              </Reveal>
-            </div>
-
-            <div className="mt-8 border-t border-gb-line pt-6 sm:mt-16 lg:mt-20">
+            <div className="mt-8 border-t border-gb-line pt-6 lg:mt-10">
               <p className="gb-measure-tight text-[0.9375rem] leading-relaxed text-gb-silver">
                 <span className="font-semibold text-gb-silver-light">The shed is the easy part.</span>{' '}
                 What decides whether a facility works is how goods get in, where they sit, and how
