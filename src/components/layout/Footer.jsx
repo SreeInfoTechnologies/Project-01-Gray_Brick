@@ -10,7 +10,7 @@ const year = new Date().getFullYear()
 
 // The studio that designed and built the site.
 const studioCredit = {
-  name: 'Sree Info Technologies',
+  name: 'Sree Info Technologies Pvt. Ltd.',
   href: 'https://sreeinfotechnologies.com/',
 }
 
@@ -119,17 +119,19 @@ export function Footer() {
         </div>
       </Container>
 
-      {/* Bottom bar. Three parts on one line from lg up: copyright left, the
+      {/* Bottom bar. Three parts on one line from xl up: copyright left, the
           studio credit centred, legal links right. A three-column grid rather
           than justify-between, so the credit sits on the true centre however
-          wide the other two are. Below lg the three stack, left-aligned. */}
+          wide the other two are. Not from lg: at 1024px a third of the bar is
+          narrower than the copyright line, which then wraps. Below xl the three
+          stack, left-aligned. */}
       <div className="border-t border-gb-line">
-        <Container className="grid gap-4 py-6 lg:grid-cols-3 lg:items-center">
+        <Container className="grid gap-4 py-6 xl:grid-cols-3 xl:items-center">
           <p className="text-[0.8125rem] leading-5 text-gb-silver-dark">
             © {year} {company.legalName} All rights reserved.
           </p>
 
-          <p className="text-[0.8125rem] leading-5 text-gb-silver-dark lg:justify-self-center">
+          <p className="text-[0.8125rem] leading-5 text-gb-silver-dark xl:justify-self-center">
             Designed by{' '}
             {/* rel without noreferrer, so the studio's analytics can see the
                 visit came from this site. */}
@@ -148,7 +150,7 @@ export function Footer() {
             </a>
           </p>
 
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 lg:justify-self-end">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 xl:justify-self-end">
             {legalNav.map((item) => (
               <li key={item.to}>
                 <Link
