@@ -189,6 +189,11 @@ photograph and nothing stored twice (≈1.1 MB in total). Every file is landscap
 taller than its photograph crops it with `object-fit: cover` and an `object-position` chosen so
 the building stays in view; there are no separate portrait cuts to keep in step.
 
+`src/assets/images/real-images/` holds the six photographs exactly as Gray Brick supplied them.
+Nothing imports them, so they never reach the build. They are kept so that any new crop or
+conversion starts from the full-quality original rather than from a WebP that has already been
+compressed once.
+
 `gb-forecourt-branded-wide.webp` is the Horamavu photograph with the Gray Brick logo composited
 onto the gable as mounted signage, made from `src/assets/brand/gray-brick-logo.svg`. It is used
 for the default share card and the Organization image in the structured data only; on the pages
