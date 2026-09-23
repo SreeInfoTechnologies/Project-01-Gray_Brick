@@ -85,7 +85,7 @@ const cards = [
     eyebrow: 'Warehousing in Bengaluru',
     title: 'Warehouse space that fits the way you operate.',
     lines: ['Ready-to-move and built-to-suit space', 'HRBR Layout · Horamavu · Bengaluru'],
-    image: photo('gb-forecourt-branded-tall.webp'),
+    image: photo('gb-forecourt-branded-wide.webp'),
     focus: '50% 35%',
   },
   {
@@ -110,8 +110,8 @@ const cards = [
     eyebrow: 'Fulfillment Center',
     title: 'HRBR Layout Facility, 100 Feet Road',
     lines: ['Kalyan Nagar · Bengaluru North-East', 'Quick commerce and FMCG distribution'],
-    image: photo('gb-street-loading.webp'),
-    focus: '45% 50%',
+    image: photo('gb-frontage-dusk.webp'),
+    focus: '60% 55%',
   },
   {
     file: 'horamavu-narayana-reddy-layout',

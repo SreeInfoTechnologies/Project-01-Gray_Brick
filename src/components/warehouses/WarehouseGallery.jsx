@@ -20,7 +20,9 @@ export function WarehouseGallery({ images, name }) {
         className="rounded-gb-sm border border-gb-line"
       />
 
-      <ul className="grid grid-cols-4 gap-3 sm:gap-4">
+      {/* One equal column per thumbnail, so three or four photographs both
+          fill the row instead of leaving a hole at the end. */}
+      <ul className="grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] gap-3 sm:gap-4">
         {images.map((image, index) => (
           <li key={image.src}>
             <button

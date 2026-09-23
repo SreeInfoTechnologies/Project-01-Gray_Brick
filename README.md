@@ -184,14 +184,15 @@ only once the relationship is confirmed. There are no testimonials.
 Every photograph is Gray Brick's own: its two facilities, shot on site. There is no stock
 photography, and none should be added.
 
-`src/assets/images/gb-*.webp` are WebP conversions of the supplied originals, each cut to the
-crop its slot needs (≈1.3 MB in total). Landscape files are used only in landscape frames and
-the portrait cuts (`*-tall`, `*-portrait`) only where the frame is portrait, so no photograph is
-ever cropped down to a sliver.
+`src/assets/images/gb-*.webp` are WebP conversions of the supplied originals, one file per
+photograph and nothing stored twice (≈1.1 MB in total). Every file is landscape. A frame that is
+taller than its photograph crops it with `object-fit: cover` and an `object-position` chosen so
+the building stays in view; there are no separate portrait cuts to keep in step.
 
-`gb-forecourt-branded-*.webp` is the Horamavu photograph with the Gray Brick logo composited
+`gb-forecourt-branded-wide.webp` is the Horamavu photograph with the Gray Brick logo composited
 onto the gable as mounted signage, made from `src/assets/brand/gray-brick-logo.svg`. It is used
-in the homepage hero only; everywhere else the unbranded photograph appears.
+for the default share card and the Organization image in the structured data only; on the pages
+themselves the unbranded photograph appears.
 
 ## The loading splash
 
@@ -516,7 +517,7 @@ src/
   components/
     common/           Button, Container, Icon, ImageFrame, Logo, Seo, Reveal, Field, …
     layout/           Navbar, MobileMenu, Footer, Layout, ScrollToTop
-    home/             Hero, ValueStrip, AboutPreview, SolutionsPreview, CompanyFaq, …
+    home/             Hero, Partners, Facilities, Gallery, SolutionsPreview, AboutPreview, CompanyFaq
     warehouses/       WarehouseCard, WarehouseFilters, WarehouseGallery, WarehouseSpecs
     solutions/        SolutionSection, ProcessFlow
     industries/       IndustryCard
@@ -687,5 +688,5 @@ Escape-to-close and body scroll locking, labelled form fields with `aria-invalid
 
 Route-level code splitting, WebP imagery at display size, `loading="lazy"` +
 `decoding="async"` below the fold, `fetchPriority="high"` on the LCP hero, fixed aspect-ratio
-frames so no image can shift layout, a two-crop `<picture>` hero so phones do not download the
-desktop frame, and `scrollbar-gutter: stable` so opening the drawer cannot reflow the page.
+frames so no image can shift layout, and `scrollbar-gutter: stable` so opening the drawer
+cannot reflow the page.

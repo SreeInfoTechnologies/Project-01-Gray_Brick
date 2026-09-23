@@ -15,7 +15,7 @@ import { prerender } from 'react-dom/static'
 import { StaticRouter } from 'react-router-dom'
 
 import App from './App.jsx'
-import brandedFacade from '@/assets/images/gb-forecourt-branded-wide.webp'
+import frontageDusk from '@/assets/images/gb-frontage-dusk.webp'
 import founderPortrait from '@/assets/images/founder-portrait.webp'
 import { solutions } from '@/data/solutions'
 import { warehouses } from '@/data/warehouses'
@@ -32,7 +32,7 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
  * discoverable in image search, attached to the right page.
  */
 export const routes = [
-  { path: '/', images: [brandedFacade, ...warehouses.map((w) => w.image)] },
+  { path: '/', images: [...new Set([frontageDusk, ...warehouses.map((w) => w.image)])] },
   { path: '/warehouses', images: warehouses.map((w) => w.image) },
   ...warehouses.map((w) => ({
     path: `/warehouses/${w.slug}`,

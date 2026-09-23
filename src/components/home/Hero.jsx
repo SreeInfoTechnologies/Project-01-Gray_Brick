@@ -2,36 +2,36 @@ import { Button } from '@/components/common/Button'
 import { Container } from '@/components/common/Container'
 import { Eyebrow } from '@/components/common/Eyebrow'
 import { Icon } from '@/components/common/Icon'
-import brandedTall from '@/assets/images/gb-forecourt-branded-tall.webp'
-import brandedWide from '@/assets/images/gb-forecourt-branded-wide.webp'
+import frontageDusk from '@/assets/images/gb-frontage-dusk.webp'
 import { locations } from '@/data/warehouses'
 
 /**
- * Opening statement, built as a split: the message on solid ground on the
- * left, Gray Brick's Horamavu facility on the right with the company logo
- * mounted on its gable.
+ * Opening statement: the message on the left, a Gray Brick unit on the right,
+ * the two facility addresses across the foot.
  *
- * A split rather than text over a full-bleed photograph because the gable is
- * where the logo sits, and in a full-bleed frame the headline lands exactly on
- * top of it. Here nothing covers the building, the logo or the copy.
+ * The frame is 3:2 and the photograph is 4:3, which is the widest shape that
+ * still shows this building whole — it fills its frame from roofline to ground,
+ * so a wide hero band would cut the roof off the top and the forecourt off the
+ * bottom. Only a little sky and paving is trimmed here.
  *
- * The photograph carries the logo as signage (composited from the brand
- * artwork in src/assets/brand). The same photograph without it is what the
- * gallery and facility pages show.
+ * The photograph is sized in a column rather than run full-width for the same
+ * reason: at the full width of the container a 3:2 frame would stand taller
+ * than the viewport.
+ *
+ * Why gray: the company is Gray Brick, and the logo was photographed on a gray
+ * brick wall. The section takes the concrete surface and the brick texture
+ * rather than the page's black. Text here stays at silver-light or brighter;
+ * silver-dark does not clear AA on this surface.
  *
  * Motion: a one-time entrance on load. Nothing responds to scroll.
  */
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-gb-black">
-      <div
-        className="gb-gridlines pointer-events-none absolute inset-0 z-0 opacity-60"
-        aria-hidden="true"
-      />
-
-      <Container className="relative z-10">
-        <div className="grid lg:grid-cols-2">
-          <div className="gb-intro flex flex-col justify-center gap-6 pt-28 pb-12 sm:pt-32 sm:pb-16 lg:min-h-[90svh] lg:gap-7 lg:py-28 lg:pr-14">
+    <section className="gb-brick relative isolate overflow-hidden bg-gb-concrete">
+      <Container className="relative z-10 pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-36 lg:pb-20">
+        <div className="gb-intro grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+          {/* Message ------------------------------------------------------ */}
+          <div className="flex flex-col gap-6 lg:col-span-5">
             <Eyebrow>Warehousing in Bengaluru</Eyebrow>
 
             <span className="block h-px w-full bg-gb-line-strong" aria-hidden="true" />
@@ -53,54 +53,42 @@ export function Hero() {
                 Talk to Gray Brick
               </Button>
             </div>
-
-            <ul className="mt-4 grid gap-5 border-t border-gb-line pt-6 sm:grid-cols-2 sm:gap-8">
-              {locations.map((location) => (
-                <li key={location.value} className="flex gap-3">
-                  <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
-                  <span className="min-w-0">
-                    <span className="block text-[0.9375rem] font-semibold text-gb-white">
-                      {location.label}
-                    </span>
-                    <span className="mt-1 block text-[0.8125rem] leading-relaxed text-gb-silver">
-                      {location.address}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
+
+          {/* Photograph --------------------------------------------------- */}
+          <figure className="relative overflow-hidden rounded-gb-sm border border-gb-line-strong aspect-[3/2] lg:col-span-7">
+            <img
+              src={frontageDusk}
+              alt="The Gray Brick facility at HRBR Layout, Bengaluru: two levels in grey render, roller shutters to the ground floor, an external spiral stair and the wall lights on at dusk"
+              className="gb-photo gb-kenburns h-full w-full object-cover object-center"
+              fetchPriority="high"
+              decoding="sync"
+            />
+            <figcaption className="absolute bottom-4 left-4 flex items-center gap-2 border border-gb-line-strong bg-gb-black/80 px-3 py-2 text-[0.75rem] font-medium text-gb-white backdrop-blur-sm sm:bottom-5 sm:left-5">
+              <Icon name="pin" className="h-3.5 w-3.5 shrink-0 text-gb-gold" />
+              HRBR Layout facility
+            </figcaption>
+          </figure>
         </div>
+
+        {/* The two facilities. On a site whose whole offer is location, where
+            the buildings are belongs above the fold. */}
+        <ul className="mt-10 grid gap-6 border-t border-gb-line pt-7 sm:grid-cols-2 sm:gap-x-12 lg:mt-14">
+          {locations.map((location) => (
+            <li key={location.value} className="flex gap-3">
+              <Icon name="pin" className="mt-0.5 h-4 w-4 shrink-0 text-gb-gold" />
+              <span className="min-w-0">
+                <span className="block text-[0.9375rem] font-semibold text-gb-white">
+                  {location.label}
+                </span>
+                <span className="mt-1 block text-[0.8125rem] leading-relaxed text-gb-silver-light">
+                  {location.address}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </Container>
-
-      {/* Photograph. A band under the message below lg, the right half of the
-          frame from lg up. The portrait crop is centred on the gable and the
-          loading opening, so the logo is in frame at every width. */}
-      <div className="relative z-0 aspect-[4/3] w-full sm:aspect-[16/10] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-1/2">
-        <picture>
-          <source media="(min-width: 1024px)" srcSet={brandedTall} />
-          <img
-            src={brandedWide}
-            alt="The Gray Brick Infra facility at Horamavu, Bengaluru, with the company logo on its gable and stock on pallets inside the loading opening"
-            className="gb-photo gb-kenburns h-full w-full object-cover object-[50%_35%]"
-            fetchPriority="high"
-            decoding="sync"
-          />
-        </picture>
-
-        {/* Feathered seam so the panel meets the photograph without a hard edge. */}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-gb-black to-transparent lg:block"
-        />
-
-        {/* The transparent header crosses this image from lg up and the top of
-            the frame is open sky, so the nav links get a shaded band. */}
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 hidden h-32 bg-gradient-to-b from-gb-black/80 to-transparent lg:block"
-        />
-      </div>
     </section>
   )
 }
